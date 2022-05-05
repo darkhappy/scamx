@@ -12,11 +12,12 @@ if (!isset($content) || !isset($title)) {
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="theme-color" content="#22c55e">
   <link rel="stylesheet" href="<?= HOME_PATH ?>src/assets/css/dist/styles.css">
-  <title><?= $title ?></title>
+  <title>ScamX<?= empty($title) ? "": " - " . $title ?></title>
 <body class="bg-lime-50">
 <div class="flex flex-col min-h-screen justify-between">
   <?php require __DIR__ . "/components/Header.php"; ?>
-  <div class="grow">
+  <?php require __DIR__ . "/components/Title.php"; ?>
+  <div class="grow p-8">
     <?php require $content; ?>
   </div>
   <?php require __DIR__ . "/components/Footer.php"; ?>

@@ -48,11 +48,10 @@ if (class_exists("\controllers\\" . $controllerName . "Controller")) {
   // Ensure that get still works
   $actionName = isset($parts[1]) ? explode("?", $parts[1])[0] : "index";
 
-  if (method_exists(new $controllerName(), $actionName)) {
-    $controller = new $controllerName();
+  $controller = new $controllerName();
+  if (method_exists($controller, $actionName)) {
     $controller->$actionName();
   } else {
-    $controller = new HomeController();
     $controller->index();
   }
 } else {
