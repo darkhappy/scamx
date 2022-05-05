@@ -10,17 +10,16 @@ if (!isset($content) || !isset($title)) {
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="<?= HOME_PATH ?>assets/css/dist/styles.css">
+  <meta name="theme-color" content="#22c55e">
+  <link rel="stylesheet" href="<?= HOME_PATH ?>src/assets/css/dist/styles.css">
   <title><?= $title ?></title>
-<body class="bg-black text-white">
-<?php require __DIR__ . "/components/Header.php"; ?>
-<div class="flex min-h-screen justify-center items-center">
-  <div class="border-solid border-4 border-white mx-8 p-8 mt-4">
-    <div class="container">
-      <?php require $content; ?>
-    </div>
+<body class="bg-lime-50">
+<div class="flex flex-col min-h-screen justify-between">
+  <?php require __DIR__ . "/components/Header.php"; ?>
+  <div class="grow">
+    <?php require $content; ?>
   </div>
+  <?php require __DIR__ . "/components/Footer.php"; ?>
 </div>
-<?php require __DIR__ . "/components/Footer.php"; ?>
 </body>
 </html>
