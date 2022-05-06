@@ -6,7 +6,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "prettier": "prettier --write '**/*.js' '**/*.php' '**/*.css'",
+    "tailwind": "tailwindcss -i src/assets/css/styles.css -o src/assets/css/dist/styles.css --watch",
+    "prettier": "onchange 'src/**/*.js' 'src/**/*.php' 'src/**/*.php' -e 'src/assets/css/dist'  -- prettier --check --ignore-unknown {{changed}}",
     "prepare": "husky install"
   },
   "author": "darkhappy <darkhappyy@gmail.com>",

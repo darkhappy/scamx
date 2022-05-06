@@ -13,6 +13,12 @@
                 id="username" name="username" type="text">
       </div>
       <div class="mb-3">
+        <label class="block mb-1 font-medium" for="email">Email</label>
+        <input
+                class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="email" name="email" type="email">
+      </div>
+      <div class="mb-3">
         <label class="block mb-1 font-medium" for="password">Mot de passe</label>
         <input
                 class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
