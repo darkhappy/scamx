@@ -14,7 +14,6 @@ spl_autoload_register(function ($className) {
 
 session_start();
 
-/* Database things
 $config = parse_ini_file(__DIR__ . "/config/config.ini");
 $user = $config["user"];
 $pass = $config["pass"];
@@ -22,19 +21,11 @@ $name = $config["name"];
 $host = $config["host"];
 $port = $config["port"];
 
-define(
-  "DATABASE",
-  new PDO("mysql:host=$host;dbname=$name;port=$port", $user, $pass)
-);
-
+define("DATABASE", new PDO("mysql:host=$host;dbname=$name;port=$port", $user, $pass));
 define("HOME_PATH", $config["root"]);
 
 // Migrations
 require __DIR__ . "/migrations/Migration.php";
-
-*/
-
-const HOME_PATH = "/";
 
 $uri = $_SERVER["REQUEST_URI"];
 $uri = substr($uri, strlen(HOME_PATH));
