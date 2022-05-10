@@ -11,7 +11,7 @@ if (!isset($content)) {
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="theme-color" content="#22c55e">
   <link rel="stylesheet" href="<?= HOME_PATH ?>src/assets/css/dist/styles.css">
-  <title>ScamX<?= empty($title) ? "" : " - " . $title ?></title>
+  <title>ScamX<?= empty($title) ? "" : " - $title" ?></title>
 <body class="bg-lime-50">
 <div class="flex flex-col min-h-screen justify-between">
   <?php require __DIR__ . "/components/Header.php"; ?>

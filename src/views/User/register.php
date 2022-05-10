@@ -1,9 +1,5 @@
 <div>
-  <?php if (!empty($errMsg)) { ?>
-    <p class="my-4 text-rose-500">
-      <?= $errMsg ?>
-    </p>
-  <?php } ?>
+  <?php require __DIR__ . "/../components/Message.php"; ?>
   <form method="post">
     <div class="mb-6">
       <div class="mb-3">
