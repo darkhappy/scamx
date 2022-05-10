@@ -4,8 +4,11 @@ namespace models;
 
 class User
 {
-  public $id;
-  public $username;
-  public $email;
-  public $password;
+  public string $id;
+  public string $username;
+  public string $email;
+  public string $password;
+  public string $verifyToken;
+  public int $timeout;
+  public string $authToken;
 }

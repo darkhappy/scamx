@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use controllers\HomeController;
 
@@ -7,12 +8,10 @@ ini_set("display_startup_errors", 1);
 error_reporting(E_ALL);
 
 header("Content-Security-Policy: frame-ancestors none");
-spl_autoload_register(function ($className) {
-  $className = str_replace("\\", DIRECTORY_SEPARATOR, $className);
-  include_once __DIR__ . "/src/" . $className . ".php";
-});
 
-session_start();
+if (!file_exists(__DIR__ . "/config/config.ini")) {
+  die("Config file not found");
+}
 
 $config = parse_ini_file(__DIR__ . "/config/config.ini");
 $user = $config["user"];
@@ -21,7 +20,16 @@ $name = $config["name"];
 $host = $config["host"];
 $port = $config["port"];
 
-define("DATABASE", new PDO("mysql:host=$host;dbname=$name;port=$port", $user, $pass));
+spl_autoload_register(function ($className) {
+  $className = str_replace("\\", DIRECTORY_SEPARATOR, $className);
+  include_once __DIR__ . "/src/$className.php";
+});
+
+session_start();
+define(
+  "DATABASE",
+  new PDO("mysql:host=$host;dbname=$name;port=$port", $user, $pass)
+);
 define("HOME_PATH", $config["root"]);
 
 // Migrations
@@ -35,17 +43,17 @@ $controllerName = $parts[0] !== "" ? ucfirst($parts[0]) : "Home";
 
 if (class_exists("\controllers\\" . $controllerName . "Controller")) {
   $controllerName = "\controllers\\" . $controllerName . "Controller";
-
-  // Ensure that get still works
-  $actionName = isset($parts[1]) ? explode("?", $parts[1])[0] : "index";
-
   $controller = new $controllerName();
-  if (method_exists($controller, $actionName)) {
-    $controller->$actionName();
-  } else {
-    $controller->index();
-  }
 } else {
   $controller = new HomeController();
+}
+
+// Get the action name
+// We also have to keep the get parameters
+$actionName = isset($parts[1]) ? explode("?", $parts[1])[0] : "index";
+
+if (method_exists($controller, $actionName)) {
+  $controller->$actionName();
+} else {
   $controller->index();
 }
