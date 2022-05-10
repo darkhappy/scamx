@@ -4,7 +4,7 @@ namespace repositories;
 
 use models\User;
 
-class UserRepository extends Repository
+class UserRepository
 {
   public static function insert(User $user): void
   {
@@ -30,7 +30,7 @@ class UserRepository extends Repository
   public static function setVerified(?User $user): void
   {
     $query = DATABASE->prepare(
-      "UPDATE users SET verifyToken = NULL, timeout = NULL WHERE id = ?"
+      "UPDATE users SET verifyToken = '', timeout = 0 WHERE id = ?"
     );
     $query->bindValue(1, $user->id);
     $query->execute();

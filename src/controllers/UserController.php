@@ -45,13 +45,14 @@ class UserController extends Controller
 
     // Verify if user exists
     $user = UserRepository::getByUsername($username);
-    if (!$user || password_verify($password, $user->password)) {
+
+    if (!$user || !password_verify($password, $user->password)) {
       Message::set("Invalid username or password.", MessageType::Error);
       return;
     }
 
     // Verify if the user is verified
-    if (isset($user->verifyToken)) {
+    if (!empty($user->verifyToken)) {
       Message::set(
         "Your account is not verified. Please check your email.",
         MessageType::Error
@@ -107,7 +108,7 @@ class UserController extends Controller
     $user = new User();
     $user->username = $username;
     $user->email = $email;
-    $user->password = password_hash($password, PASSWORD_BCRYPT);
+    $user->password = $password;
 
     // Create a token for the user
     Security::generateVerifyToken($user);
@@ -116,10 +117,9 @@ class UserController extends Controller
     UserRepository::insert($user);
 
     Message::set(
-      "Registration successful. Please verify your account in your email.",
-      MessageType::Success
+      "We've sent an email to $email. Please click the link inside your email to verify your account."
     );
-    Session::setUser($user);
+    Security::sendVerifyEmail($user);
     $this->redirect("/user/login");
   }
 
