@@ -56,6 +56,7 @@ class UserController extends Controller
         "Your account is not verified. Please check your email.",
         MessageType::Error
       );
+      return;
     }
 
     // Login the user
