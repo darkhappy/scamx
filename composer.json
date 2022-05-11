@@ -10,6 +10,7 @@
   },
   "require-dev": {
     "codeception/codeception": "*",
+    "codeception/c3": "*",
     "codeception/module-db": "*",
     "codeception/module-phpbrowser": "*",
     "phpunit/phpunit": "^9"

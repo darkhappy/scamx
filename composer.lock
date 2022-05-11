@@ -1,30 +1,30 @@
 {
-    "_readme": [
-        "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-        "This file is @generated automatically"
-    ],
-    "content-hash": "dc945bc533fb9aa48b8db174976cad4e",
-    "packages": [],
-    "packages-dev": [
-        {
-            "name": "behat/gherkin",
-            "version": "v4.9.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Behat/Gherkin.git",
-                "reference": "0bc8d1e30e96183e4f36db9dc79caead300beff4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Gherkin/zipball/0bc8d1e30e96183e4f36db9dc79caead300beff4",
-                "reference": "0bc8d1e30e96183e4f36db9dc79caead300beff4",
-                "shasum": ""
-            },
-            "require": {
-                "php": "~7.2|~8.0"
-            },
-            "require-dev": {
+  "_readme": [
+    "This file locks the dependencies of your project to a known state",
+    "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+    "This file is @generated automatically"
+  ],
+  "content-hash": "3da7761fc26cf868e424bcfb79740ce0",
+  "packages": [],
+  "packages-dev": [
+    {
+      "name": "behat/gherkin",
+      "version": "v4.9.0",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/Behat/Gherkin.git",
+        "reference": "0bc8d1e30e96183e4f36db9dc79caead300beff4"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/Behat/Gherkin/zipball/0bc8d1e30e96183e4f36db9dc79caead300beff4",
+        "reference": "0bc8d1e30e96183e4f36db9dc79caead300beff4",
+        "shasum": ""
+      },
+      "require": {
+        "php": "~7.2|~8.0"
+      },
+      "require-dev": {
                 "cucumber/cucumber": "dev-gherkin-22.0.0",
                 "phpunit/phpunit": "~8|~9",
                 "symfony/yaml": "~3|~4|~5"
@@ -54,43 +54,100 @@
                     "homepage": "http://everzet.com"
                 }
             ],
-            "description": "Gherkin DSL parser for PHP",
-            "homepage": "http://behat.org/",
-            "keywords": [
-                "BDD",
-                "Behat",
-                "Cucumber",
-                "DSL",
-                "gherkin",
-                "parser"
-            ],
-            "support": {
-                "issues": "https://github.com/Behat/Gherkin/issues",
-                "source": "https://github.com/Behat/Gherkin/tree/v4.9.0"
-            },
-            "time": "2021-10-12T13:05:09+00:00"
+      "description": "Gherkin DSL parser for PHP",
+      "homepage": "http://behat.org/",
+      "keywords": [
+        "BDD",
+        "Behat",
+        "Cucumber",
+        "DSL",
+        "gherkin",
+        "parser"
+      ],
+      "support": {
+        "issues": "https://github.com/Behat/Gherkin/issues",
+        "source": "https://github.com/Behat/Gherkin/tree/v4.9.0"
+      },
+      "time": "2021-10-12T13:05:09+00:00"
+    },
+    {
+      "name": "codeception/c3",
+      "version": "2.6.5",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/Codeception/c3.git",
+        "reference": "d228302ac12860a0e92344756aa6eebff54ce171"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/Codeception/c3/zipball/d228302ac12860a0e92344756aa6eebff54ce171",
+        "reference": "d228302ac12860a0e92344756aa6eebff54ce171",
+        "shasum": ""
+      },
+      "require": {
+        "composer-plugin-api": "^1.0 || ^2.0",
+        "php": ">=5.4.0"
+      },
+      "require-dev": {
+        "composer/composer": "^1.0 || ^2.0"
+      },
+      "type": "composer-plugin",
+      "extra": {
+        "class": "Codeception\\c3\\Installer"
+      },
+      "autoload": {
+        "psr-4": {
+          "Codeception\\c3\\": "."
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "Tiger Seo",
+          "email": "tiger.seo@gmail.com"
         },
         {
-            "name": "codeception/codeception",
-            "version": "4.1.31",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "15524571ae0686a7facc2eb1f40f600e5bbce9e5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/15524571ae0686a7facc2eb1f40f600e5bbce9e5",
-                "reference": "15524571ae0686a7facc2eb1f40f600e5bbce9e5",
-                "shasum": ""
-            },
-            "require": {
-                "behat/gherkin": "^4.4.0",
-                "codeception/lib-asserts": "^1.0 | 2.0.*@dev",
-                "codeception/phpunit-wrapper": ">6.0.15 <6.1.0 | ^6.6.1 | ^7.7.1 | ^8.1.1 | ^9.0",
-                "codeception/stub": "^2.0 | ^3.0 | ^4.0",
-                "ext-curl": "*",
-                "ext-json": "*",
+          "name": "Michael Bodnarchuk",
+          "email": "davert.php@codegyre.com",
+          "homepage": "http://codegyre.com"
+        }
+      ],
+      "description": "CodeCoverage collector for Codeception",
+      "homepage": "http://codeception.com/",
+      "keywords": [
+        "code coverage",
+        "codecoverage"
+      ],
+      "support": {
+        "issues": "https://github.com/Codeception/c3/issues",
+        "source": "https://github.com/Codeception/c3/tree/2.6.5"
+      },
+      "time": "2022-04-28T12:08:33+00:00"
+    },
+    {
+      "name": "codeception/codeception",
+      "version": "4.1.31",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/Codeception/Codeception.git",
+        "reference": "15524571ae0686a7facc2eb1f40f600e5bbce9e5"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/Codeception/Codeception/zipball/15524571ae0686a7facc2eb1f40f600e5bbce9e5",
+        "reference": "15524571ae0686a7facc2eb1f40f600e5bbce9e5",
+        "shasum": ""
+      },
+      "require": {
+        "behat/gherkin": "^4.4.0",
+        "codeception/lib-asserts": "^1.0 | 2.0.*@dev",
+        "codeception/phpunit-wrapper": ">6.0.15 <6.1.0 | ^6.6.1 | ^7.7.1 | ^8.1.1 | ^9.0",
+        "codeception/stub": "^2.0 | ^3.0 | ^4.0",
+        "ext-curl": "*",
+        "ext-json": "*",
                 "ext-mbstring": "*",
                 "guzzlehttp/psr7": "^1.4 | ^2.0",
                 "php": ">=5.6.0 <9.0",
