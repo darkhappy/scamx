@@ -43,4 +43,12 @@ class UserRepository
     $query->execute();
     return $query->fetchObject(User::class);
   }
+
+  public static function getByEmail(string $email): User|bool
+  {
+    $query = DATABASE->prepare("SELECT * FROM users WHERE email = ?");
+    $query->bindValue(1, $email);
+    $query->execute();
+    return $query->fetchObject(User::class);
+  }
 }

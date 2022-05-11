@@ -74,14 +74,17 @@ class Security
       "From" => "ScamX <test@localhost>",
     ];
 
-    if (mail($email, $subject, $body, implode("\r\n", $headers))) {
-      Message::set("Verification email sent.", MessageType::Success);
-    } elseif ($url == "localhost") {
-      // Since we are on localhost, we can't send emails, so we just print the email
-      // TODO: NOT SECURE!!!!!!!! (the way im checking anyways)
-      Message::set($body);
-    } else {
-      Message::set("Verification email could not be sent.", MessageType::Error);
+    if (!mail($email, $subject, $body, implode("\r\n", $headers))) {
+      if ($url == "localhost") {
+        // Since we are on localhost, we can't send emails, so we just print the email
+        // TODO: NOT SECURE!!!!!!!! (the way im checking anyways)
+        Message::set($body);
+      } else {
+        Message::set(
+          "Verification email could not be sent.",
+          MessageType::Error
+        );
+      }
     }
   }
 }

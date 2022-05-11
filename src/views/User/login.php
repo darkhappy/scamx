@@ -1,6 +1,6 @@
 <div>
   <?php require __DIR__ . "/../components/Message.php"; ?>
-  <form method="post">
+  <form method="post" id="form">
     <div class="mb-6">
       <div class="mb-3">
         <label class="block mb-1 font-medium" for="username">Username</label>

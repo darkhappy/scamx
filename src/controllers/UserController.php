@@ -105,6 +105,18 @@ class UserController extends Controller
       return;
     }
 
+    // Verify if the username is already taken
+    if (UserRepository::getByUsername($username)) {
+      Message::set("Username is already taken.", MessageType::Error);
+      return;
+    }
+
+    // Verify if the email is already taken
+    if (UserRepository::getByEmail($email)) {
+      Message::set("Email is already taken.", MessageType::Error);
+      return;
+    }
+
     $user = new User();
     $user->username = $username;
     $user->email = $email;

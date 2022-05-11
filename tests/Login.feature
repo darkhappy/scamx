@@ -8,7 +8,7 @@ Feature: Login
     And I fill in the login form with the following:
       | username | admin |
       | password | admin |
-    When I press the login button
+    When I submit the form
     Then I should see the message "Welcome back"
 
   Scenario: Wrong Username
@@ -16,7 +16,7 @@ Feature: Login
     And I fill in the login form with the following:
       | username | wrong |
       | password | admin |
-    When I press the login button
+    When I submit the form
     Then I should see the message "Invalid username or password"
 
   Scenario: Wrong Password
@@ -24,7 +24,7 @@ Feature: Login
     And I fill in the login form with the following:
       | username | admin |
       | password | wrong |
-    When I press the login button
+    When I submit the form
     Then I should see the message "Invalid username or password"
 
   Scenario: Empty Username
@@ -32,7 +32,7 @@ Feature: Login
     And I fill in the login form with the following:
       | username |       |
       | password | admin |
-    When I press the login button
+    When I submit the form
     Then I should see the message "Fill in all fields"
 
   Scenario: Empty Password
@@ -40,7 +40,7 @@ Feature: Login
     And I fill in the login form with the following:
       | username | admin |
       | password |       |
-    When I press the login button
+    When I submit the form
     Then I should see the message "Fill in all fields"
 
   Scenario: Unverified User
@@ -48,6 +48,5 @@ Feature: Login
     And I fill in the login form with the following:
       | username | user |
       | password | user |
-    When I press the login button
+    When I submit the form
     Then I should see the message "not verified"
-

@@ -2,6 +2,7 @@
 
 use Behat\Gherkin\Node\TableNode;
 use Codeception\Actor;
+use PHPUnit\Framework\IncompleteTestError;
 
 /**
  * Inherited Methods
@@ -43,22 +44,6 @@ class AcceptanceTester extends Actor
   }
 
   /**
-   * @When /^I press the login button$/
-   */
-  public function iPressTheLoginButton()
-  {
-    $this->click("Connecter");
-  }
-
-  /**
-   * @Given /^I should see the home page$/
-   */
-  public function iShouldSeeTheHomePage()
-  {
-    $this->page("/");
-  }
-
-  /**
    * @Then /^I should see the login page$/
    */
   public function iShouldSeeTheLoginPage()
@@ -88,5 +73,40 @@ class AcceptanceTester extends Actor
   public function iShouldSeeAnErrorMessage()
   {
     $this->see("", "#alert-error");
+  }
+
+  /**
+   * @Given /^I am on the register page$/
+   */
+  public function iAmOnTheRegisterPage()
+  {
+    $this->amOnPage("/user/register");
+  }
+
+  /**
+   * @Given /^I fill in the registration form with the following:$/
+   */
+  public function iFillInTheRegistrationFormWithTheFollowing(TableNode $table)
+  {
+    $this->fillField("username", $table->getRow(0)[1]);
+    $this->fillField("password", $table->getRow(1)[1]);
+    $this->fillField("confirm", $table->getRow(2)[1]);
+    $this->fillField("email", $table->getRow(3)[1]);
+  }
+
+  /**
+   * @Given /^the test user does not exist$/
+   */
+  public function theTestUserDoesNotExist()
+  {
+    throw new IncompleteTestError();
+  }
+
+  /**
+   * @When /^I submit the form$/
+   */
+  public function iSubmitTheForm()
+  {
+    $this->submitForm("#form", []);
   }
 }
