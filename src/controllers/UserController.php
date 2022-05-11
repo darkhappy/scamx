@@ -24,6 +24,8 @@ class UserController extends Controller
       $this->handleLogin();
     }
 
+    Security::generateCSRFToken();
+
     $data = [
       "title" => "Login",
       "pagetitle" => "Login",
@@ -36,6 +38,13 @@ class UserController extends Controller
   {
     $username = $_POST["username"];
     $password = $_POST["password"];
+    $csrf = $_POST["csrf"];
+
+    // Verify CSRF
+    if (!Security::verifyCSRF($csrf)) {
+      Message::set("Invalid CSRF token.", MessageType::Error);
+      return;
+    }
 
     // Verify if all fields are filled
     if (empty($username) || empty($password)) {
@@ -72,6 +81,13 @@ class UserController extends Controller
     $email = $_POST["email"];
     $password = $_POST["password"];
     $confirm = $_POST["confirm"];
+    $csrf = $_POST["csrf"];
+
+    // Verify CSRF
+    if (!Security::verifyCSRF($csrf)) {
+      Message::set("Invalid CSRF token.", MessageType::Error);
+      return;
+    }
 
     // Verify if all fields are filled
     if (
@@ -140,6 +156,8 @@ class UserController extends Controller
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $this->handleRegister();
     }
+
+    Security::generateCSRFToken();
 
     $data = [
       "title" => "Register",

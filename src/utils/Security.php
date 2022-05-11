@@ -87,4 +87,27 @@ class Security
       }
     }
   }
+
+  public static function generateCSRFToken(): string
+  {
+    $token = bin2hex(openssl_random_pseudo_bytes(32));
+    Session::setCSRF($token);
+    return $token;
+  }
+
+  public static function verifyCSRF(string $token): bool
+  {
+    $csrf = Session::getCSRF();
+    return !empty($csrf) && $csrf === $token;
+  }
+
+  public static function resetSessionId(): void
+  {
+    $time = $_SESSION["sessionTimeout"];
+
+    if (!isset($time) || $time < time()) {
+      session_regenerate_id(true);
+      $_SESSION["sessionTimeout"] = time() + 60 * 5;
+    }
+  }
 }

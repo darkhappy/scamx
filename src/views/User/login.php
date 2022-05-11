@@ -1,3 +1,4 @@
+<?php use utils\Session; ?>
 <div>
   <?php require __DIR__ . "/../components/Message.php"; ?>
   <form method="post" id="form">
@@ -14,6 +15,9 @@
           class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="password" name="password" type="password">
       </div>
+      <label for="csrf" hidden>
+        <input type="hidden" name="csrf" value="<?= Session::getCSRF() ?>">
+      </label>
     </div>
     <div class="flex items-center justify-between gap-8">
       <button class="bg-slate-50 hover:bg-amber-300 text-black px-5 py-2 rounded font-medium" type="submit">Connecter

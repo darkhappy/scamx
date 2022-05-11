@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use controllers\HomeController;
+use utils\Security;
 
 ini_set("display_errors", 1);
 ini_set("display_startup_errors", 1);
@@ -60,3 +61,5 @@ if (method_exists($controller, $actionName)) {
 } else {
   $controller->index();
 }
+
+Security::resetSessionId();

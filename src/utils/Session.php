@@ -18,4 +18,17 @@ class Session
   {
     $_SESSION["user"] = $user;
   }
+
+  public static function getCSRF(): string
+  {
+    if (isset($_SESSION["csrfToken"])) {
+      return $_SESSION["csrfToken"];
+    }
+    return "";
+  }
+
+  public static function setCSRF(string $csrfToken): void
+  {
+    $_SESSION["csrfToken"] = $csrfToken;
+  }
 }
