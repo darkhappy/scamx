@@ -9,6 +9,9 @@
     "ext-openssl": "*"
   },
   "require-dev": {
+    "codeception/codeception": "*",
+    "codeception/module-db": "*",
+    "codeception/module-phpbrowser": "*",
     "phpunit/phpunit": "^9"
   }
 }

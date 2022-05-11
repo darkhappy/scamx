@@ -16,6 +16,6 @@ $class = match ($message["type"]) {
 };
 ?>
 
-<div class="<?= $class ?> text-xl px-4 py-2">
+<div class="<?= $class ?> text-xl px-4 py-2" id="alert">
   <?= $message["message"] ?>
 </div>
