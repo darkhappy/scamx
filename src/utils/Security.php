@@ -110,4 +110,24 @@ class Security
       $_SESSION["sessionTimeout"] = time() + 60 * 5;
     }
   }
+
+  public static function redirectToHTTPS(): void
+  {
+    // Do not redirect if the user is on localhost
+    if ($_SERVER["HTTP_HOST"] === "localhost") {
+      return;
+    }
+
+    if (!isset($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on") {
+      header(
+        "Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]
+      );
+      exit();
+    }
+  }
+
+  public static function sanitize(string $input): string
+  {
+    return htmlspecialchars($input, ENT_QUOTES, "UTF-8");
+  }
 }

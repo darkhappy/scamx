@@ -21,5 +21,6 @@ if (!isset($content)) {
   </div>
   <?php require __DIR__ . "/components/Footer.php"; ?>
 </div>
+<script src="<?= HOME_PATH ?>src/assets/js/selfxss.js"></script>
 </body>
 </html>

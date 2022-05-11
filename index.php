@@ -9,6 +9,7 @@ ini_set("display_startup_errors", 1);
 error_reporting(E_ALL);
 
 header("Content-Security-Policy: frame-ancestors none");
+header("Content-Security-Policy: default-src 'self'");
 
 if (!file_exists(__DIR__ . "/config/config.ini")) {
   die("Config file not found");
@@ -30,6 +31,8 @@ spl_autoload_register(function ($className) {
 });
 
 session_start();
+Security::resetSessionId();
+Security::redirectToHTTPS();
 define(
   "DATABASE",
   new PDO("mysql:host=$host;dbname=$name;port=$port", $user, $pass)
@@ -61,5 +64,3 @@ if (method_exists($controller, $actionName)) {
 } else {
   $controller->index();
 }
-
-Security::resetSessionId();
