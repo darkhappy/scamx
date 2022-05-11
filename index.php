@@ -1,6 +1,5 @@
 <?php
 declare(strict_types=1);
-include_once "./c3.php";
 
 use controllers\HomeController;
 
@@ -20,6 +19,9 @@ $pass = $config["pass"];
 $name = $config["name"];
 $host = $config["host"];
 $port = $config["port"];
+if ($config["debug"] == "true") {
+  include_once __DIR__ . "/c3.php";
+}
 
 spl_autoload_register(function ($className) {
   $className = str_replace("\\", DIRECTORY_SEPARATOR, $className);
