@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="a78b153a-5a80-4d6b-9cc4-fc19563391fb" name="Cegep" url="http://ftp.420n46.jolinfo.cegep-lanaudiere.qc.ca">
+        <fileTransfer host="ftp.420n46.jolinfo.cegep-lanaudiere.qc.ca" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="e955d97f-41b1-42e0-b2bd-a43fba81b8d6" name="louis' shit" url="http://ftp.420n46.jolinfo.cegep-lanaudiere.qc.ca">
+        <fileTransfer host="ftp.420n46.jolinfo.cegep-lanaudiere.qc.ca" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="d9b94e64-95bb-4b87-a427-b13daf8ab00d" name="pewwot shit" url="http://ftp.420n46.jolinfo.cegep-lanaudiere.qc.ca">
+        <fileTransfer host="ftp.420n46.jolinfo.cegep-lanaudiere.qc.ca" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="a234b826-bfaf-494a-ba48-ebd1ca47f630" name="will shit" url="http://ftp.420n46.jolinfo.cegep-lanaudiere.qc.ca">
+        <fileTransfer host="ftp.420n46.jolinfo.cegep-lanaudiere.qc.ca" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="09db545b-c95e-427b-a678-82b1f4c63eaa" name="isabel" url="http://ftp.420n46.jolinfo.cegep-lanaudiere.qc.ca">
+        <fileTransfer host="ftp.420n46.jolinfo.cegep-lanaudiere.qc.ca" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
