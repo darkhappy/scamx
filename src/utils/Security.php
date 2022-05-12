@@ -6,11 +6,10 @@ use models\User;
 
 class Security
 {
-  public static function redirectIfNotAuthenticated(
-    string $message = "Please sign in."
-  ): void {
+  public static function redirectIfNotAuthenticated(string $message = "Please sign in."): void
+  {
     if (!isset($_SESSION["user"])) {
-      Message::set($message, MessageType::Error);
+      Message::error($message);
       header("Location: /user/login");
       exit();
     }
@@ -67,23 +66,15 @@ class Security
       </p>
     ";
 
-    $headers = [
-      "MIME-Version" => "1.0",
-      "Content-type" => "text/html; charset=UTF-8",
-      "To" => "$username <$email>",
-      "From" => "ScamX <test@localhost>",
-    ];
+    $headers = ["MIME-Version" => "1.0", "Content-type" => "text/html; charset=UTF-8", "To" => "$username <$email>", "From" => "ScamX <test@localhost>",];
 
     if (!mail($email, $subject, $body, implode("\r\n", $headers))) {
       if ($url == "localhost") {
         // Since we are on localhost, we can't send emails, so we just print the email
         // TODO: NOT SECURE!!!!!!!! (the way im checking anyways)
-        Message::set($body);
+        Message::info($body);
       } else {
-        Message::set(
-          "Verification email could not be sent.",
-          MessageType::Error
-        );
+        Message::error("Verification email could not be sent.");
       }
     }
   }
@@ -99,7 +90,7 @@ class Security
       Session::setCSRF($token);
     }
 
-    // Concatenate the token with the concatenate string
+    // Concatenate the token
     $token = $token . $form;
 
     // Hash and return the token
@@ -116,7 +107,7 @@ class Security
       return false;
     }
 
-    // Concatenate the token with the concatenate string
+    // Concatenate the token
     $userToken = $userToken . $form;
 
     // Hash the token
@@ -144,9 +135,7 @@ class Security
     }
 
     if (!isset($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on") {
-      header(
-        "Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]
-      );
+      header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
       exit();
     }
   }

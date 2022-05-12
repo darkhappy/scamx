@@ -5,8 +5,8 @@ namespace controllers;
 use JetBrains\PhpStorm\NoReturn;
 use models\User;
 use repositories\UserRepository;
+use utils\Log;
 use utils\Message;
-use utils\MessageType;
 use utils\Security;
 use utils\Session;
 
@@ -24,11 +24,7 @@ class UserController extends Controller
       $this->handleLogin();
     }
 
-    $data = [
-      "title" => "Login",
-      "pagetitle" => "Login",
-      "pagesub" => "Lets scam some people",
-    ];
+    $data = ["title" => "Login", "pagetitle" => "Login", "pagesub" => "Lets scam some people",];
     $this->render("login", data: $data);
   }
 
@@ -40,13 +36,15 @@ class UserController extends Controller
 
     // Verify CSRF
     if (!Security::verifyCSRF($csrf, "login")) {
-      Message::set("Invalid CSRF token.", MessageType::Error);
+      Message::error("There was a problem, please try again.");
+      Log::severe("Possible CSRF attempt");
       return;
     }
 
     // Verify if all fields are filled
     if (empty($username) || empty($password)) {
-      Message::set("Please fill in all fields.", MessageType::Error);
+      Message::error("Please fill in all fields.");
+      Log::info("Empty login attempt");
       return;
     }
 
@@ -54,19 +52,22 @@ class UserController extends Controller
     $user = UserRepository::getByUsername($username);
 
     if (!$user || !password_verify($password, $user->getPassword())) {
-      Message::set("Invalid username or password.", MessageType::Error);
+      Message::error("Invalid username or password.");
+      Log::debug("Invalid login attempt");
       return;
     }
 
     // Verify if the user is verified
     if (!empty($user->getVerifyToken())) {
-      Message::set("Your account is not verified. Please check your email.", MessageType::Error);
+      Message::error("Your account is not verified. Please check your email.");
+      Log::debug("Connecting to an unverified account.");
       return;
     }
 
     // Login the user
     Session::setUser($user);
-    Message::set("Welcome back, $username", MessageType::Success);
+    Log::info("User $username logged in.");
+    Message::success("Welcome back, $username!");
     $this->redirect("/");
   }
 
@@ -80,51 +81,50 @@ class UserController extends Controller
 
     // Verify CSRF
     if (!Security::verifyCSRF($csrf, "register")) {
-      Message::set("Invalid CSRF token.", MessageType::Error);
+      Message::error("There was a problem, please try again.");
+      Log::severe("Possible CSRF attempt");
       return;
     }
 
     // Verify if all fields are filled
-    if (
-      empty($username) ||
-      empty($email) ||
-      empty($password) ||
-      empty($confirm)
-    ) {
-      Message::set("Please fill in all fields.", MessageType::Error);
+    if (empty($username) || empty($email) || empty($password) || empty($confirm)) {
+      Message::error("Please fill in all fields.");
+      Log::debug("Registered with empty fields.");
       return;
     }
 
     // Verify if the passwords match
     if ($password !== $confirm) {
-      Message::set("Passwords do not match.", MessageType::Error);
+      Message::error("Passwords do not match.");
+      Log::debug("Registered with mismatched passwords.");
       return;
     }
 
     // Verify if the username is valid
     if (!Security::isValidUsername($username)) {
-      Message::set(
-        "Names may only contain alphanumerical characters, as well as hyphens and dots.",
-        MessageType::Error
-      );
+      Message::error("Names may only contain alphanumerical characters, as well as hyphens and dots.");
+      Log::debug("Registered with invalid username.");
       return;
     }
 
     // Verify if the email is valid
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      Message::set("Please enter a valid email.", MessageType::Error);
+      Message::error("Please enter a valid email.");
+      Log::debug("Registered with invalid email.");
       return;
     }
 
     // Verify if the username is already taken
     if (UserRepository::getByUsername($username)) {
-      Message::set("Username is already taken.", MessageType::Error);
+      Message::error("Username is already taken.");
+      Log::debug("Registered with taken username.");
       return;
     }
 
     // Verify if the email is already taken
     if (UserRepository::getByEmail($email)) {
-      Message::set("Email is already taken.", MessageType::Error);
+      Message::error("Email is already taken.");
+      Log::debug("Registered with taken email.");
       return;
     }
 
@@ -140,7 +140,8 @@ class UserController extends Controller
     // Save the user
     UserRepository::insert($user);
 
-    Message::set("We've sent an email to $email. Please click the link inside your email to verify your account.");
+    Message::info("We've sent an email to $email. Please click the link inside your email to verify your account.");
+    Log::info("User $username registered with email $email.");
     Security::sendVerifyEmail($user);
     $this->redirect("/user/login");
   }
@@ -151,11 +152,7 @@ class UserController extends Controller
       $this->handleRegister();
     }
 
-    $data = [
-      "title" => "Register",
-      "pagetitle" => "Register",
-      "pagesub" => "Join the hood",
-    ];
+    $data = ["title" => "Register", "pagetitle" => "Register", "pagesub" => "Join the hood",];
 
     $this->render("register", $data);
   }
@@ -171,7 +168,7 @@ class UserController extends Controller
   public function verify(): void
   {
     if (!isset($_GET["token"])) {
-      Message::set("Please use the URL provided in the email", MessageType::Error);
+      Message::error("Please use the URL provided in the email.");
       $this->redirect("/user/login");
     }
 
@@ -179,17 +176,20 @@ class UserController extends Controller
     // Get the user from the database
     $user = UserRepository::findWithVerifyToken($token);
     if (!$user || $user->getVerifyToken() !== $token) {
-      Message::set("Invalid token. Please verify the link you have sent, or register again.", MessageType::Error);
+      Message::error("Invalid token. Please verify the link you have sent, or register again.");
+      Log::debug("Verification with invalid token.");
       $this->redirect("/user/login");
     }
     if ($user->getTimeout() < time()) {
-      Message::set("Token expired. Please register again.", MessageType::Error);
+      Message::error("Token expired. Please register again.");
+      Log::debug("Verification with expired token.");
       $this->redirect("/user/login");
     }
 
     // Verify the user
     UserRepository::setVerified($user);
-    Message::set("Account verified. You can now login.", MessageType::Success);
+    Message::success("Account verified. You can now login.");
+    Log::info("User " . $user->getUsername() . " verified.");
     $this->redirect("/user/login");
   }
 }
