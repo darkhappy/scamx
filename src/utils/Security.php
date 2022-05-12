@@ -88,17 +88,42 @@ class Security
     }
   }
 
-  public static function generateCSRFToken(): string
+  public static function generateCSRFToken(string $form): string
   {
-    $token = bin2hex(openssl_random_pseudo_bytes(32));
-    Session::setCSRF($token);
-    return $token;
+    // Get the user token
+    $token = Session::getCSRF();
+
+    // If the token is not set, generate a new one
+    if (!$token) {
+      $token = bin2hex(openssl_random_pseudo_bytes(32));
+      Session::setCSRF($token);
+    }
+
+    // Concatenate the token with the concatenate string
+    $token = $token . $form;
+
+    // Hash and return the token
+    return hash("sha256", $token);
   }
 
-  public static function verifyCSRF(string $token): bool
+  public static function verifyCSRF(string $token, string $form): bool
   {
-    $csrf = Session::getCSRF();
-    return !empty($csrf) && $csrf === $token;
+    // Get the user token
+    $userToken = Session::getCSRF();
+
+    // If the token is not set, return false
+    if (!$userToken) {
+      return false;
+    }
+
+    // Concatenate the token with the concatenate string
+    $userToken = $userToken . $form;
+
+    // Hash the token
+    $userToken = hash("sha256", $userToken);
+
+    // Compare the tokens
+    return $userToken === $token;
   }
 
   public static function resetSessionId(): void

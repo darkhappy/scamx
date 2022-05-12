@@ -24,8 +24,6 @@ class UserController extends Controller
       $this->handleLogin();
     }
 
-    Security::generateCSRFToken();
-
     $data = [
       "title" => "Login",
       "pagetitle" => "Login",
@@ -41,7 +39,7 @@ class UserController extends Controller
     $csrf = $_POST["csrf"];
 
     // Verify CSRF
-    if (!Security::verifyCSRF($csrf)) {
+    if (!Security::verifyCSRF($csrf, "login")) {
       Message::set("Invalid CSRF token.", MessageType::Error);
       return;
     }
@@ -84,7 +82,7 @@ class UserController extends Controller
     $csrf = $_POST["csrf"];
 
     // Verify CSRF
-    if (!Security::verifyCSRF($csrf)) {
+    if (!Security::verifyCSRF($csrf, "register")) {
       Message::set("Invalid CSRF token.", MessageType::Error);
       return;
     }
@@ -156,8 +154,6 @@ class UserController extends Controller
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $this->handleRegister();
     }
-
-    Security::generateCSRFToken();
 
     $data = [
       "title" => "Register",

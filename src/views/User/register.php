@@ -1,4 +1,4 @@
-<?php use Utils\Session; ?>
+<?php use Utils\Security; ?>
 <div>
   <?php require __DIR__ . "/../components/Message.php"; ?>
   <form method="post" id="form">
@@ -28,7 +28,9 @@
           id="confirm" name="confirm" type="password">
       </div>
       <label for="csrf" hidden>
-        <input type="hidden" name="csrf" value="<?= Session::getCSRF() ?>">
+        <input type="hidden" name="csrf" value="<?= Security::generateCSRFToken(
+          "register"
+        ) ?>">
       </label>
     </div>
     <div class="flex justify-between items-center gap-8">
