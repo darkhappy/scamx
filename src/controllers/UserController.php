@@ -53,17 +53,14 @@ class UserController extends Controller
     // Verify if user exists
     $user = UserRepository::getByUsername($username);
 
-    if (!$user || !password_verify($password, $user->password)) {
+    if (!$user || !password_verify($password, $user->getPassword())) {
       Message::set("Invalid username or password.", MessageType::Error);
       return;
     }
 
     // Verify if the user is verified
-    if (!empty($user->verifyToken)) {
-      Message::set(
-        "Your account is not verified. Please check your email.",
-        MessageType::Error
-      );
+    if (!empty($user->getVerifyToken())) {
+      Message::set("Your account is not verified. Please check your email.", MessageType::Error);
       return;
     }
 
@@ -131,10 +128,11 @@ class UserController extends Controller
       return;
     }
 
+    // User is safe to create
     $user = new User();
-    $user->username = $username;
-    $user->email = $email;
-    $user->password = $password;
+    $user->setUsername($username);
+    $user->setEmail($email);
+    $user->setPassword($password);
 
     // Create a token for the user
     Security::generateVerifyToken($user);
@@ -142,9 +140,7 @@ class UserController extends Controller
     // Save the user
     UserRepository::insert($user);
 
-    Message::set(
-      "We've sent an email to $email. Please click the link inside your email to verify your account."
-    );
+    Message::set("We've sent an email to $email. Please click the link inside your email to verify your account.");
     Security::sendVerifyEmail($user);
     $this->redirect("/user/login");
   }
@@ -175,24 +171,18 @@ class UserController extends Controller
   public function verify(): void
   {
     if (!isset($_GET["token"])) {
-      Message::set(
-        "Please use the URL provided in the email",
-        MessageType::Error
-      );
+      Message::set("Please use the URL provided in the email", MessageType::Error);
       $this->redirect("/user/login");
     }
 
     $token = $_GET["token"];
     // Get the user from the database
     $user = UserRepository::findWithVerifyToken($token);
-    if (!$user || $user->verifyToken !== $token) {
-      Message::set(
-        "Invalid token. Please verify the link you have sent, or register again.",
-        MessageType::Error
-      );
+    if (!$user || $user->getVerifyToken() !== $token) {
+      Message::set("Invalid token. Please verify the link you have sent, or register again.", MessageType::Error);
       $this->redirect("/user/login");
     }
-    if ($user->timeout < time()) {
+    if ($user->getTimeout() < time()) {
       Message::set("Token expired. Please register again.", MessageType::Error);
       $this->redirect("/user/login");
     }

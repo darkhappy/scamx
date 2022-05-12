@@ -8,14 +8,12 @@ class UserRepository
 {
   public static function insert(User $user): void
   {
-    $query = DATABASE->prepare(
-      "INSERT INTO users (username, email, password, verifyToken, timeout) VALUES (?, ?, ?, ?, ?)"
-    );
-    $query->bindValue(1, $user->username);
-    $query->bindValue(2, $user->email);
-    $query->bindValue(3, password_hash($user->password, PASSWORD_BCRYPT));
-    $query->bindValue(4, $user->verifyToken);
-    $query->bindValue(5, $user->timeout);
+    $query = DATABASE->prepare("INSERT INTO users (username, email, password, verifyToken, timeout) VALUES (?, ?, ?, ?, ?)");
+    $query->bindValue(1, $user->getUsername());
+    $query->bindValue(2, $user->getEmail());
+    $query->bindValue(3, password_hash($user->getPassword(), PASSWORD_BCRYPT));
+    $query->bindValue(4, $user->getVerifyToken());
+    $query->bindValue(5, $user->getTimeout());
     $query->execute();
   }
 
@@ -29,10 +27,8 @@ class UserRepository
 
   public static function setVerified(?User $user): void
   {
-    $query = DATABASE->prepare(
-      "UPDATE users SET verifyToken = '', timeout = 0 WHERE id = ?"
-    );
-    $query->bindValue(1, $user->id);
+    $query = DATABASE->prepare("UPDATE users SET verifyToken = '', timeout = 0 WHERE id = ?");
+    $query->bindValue(1, $user->getId());
     $query->execute();
   }
 

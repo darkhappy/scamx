@@ -20,16 +20,16 @@ class Security
   {
     $token = bin2hex(openssl_random_pseudo_bytes(32));
     $timeout = time() + 60 * 15;
-    $user->verifyToken = $token;
-    $user->timeout = $timeout;
+    $user->setVerifyToken($token);
+    $user->setTimeout($timeout);
   }
 
   public static function generateResetToken(User $user): void
   {
     $token = bin2hex(openssl_random_pseudo_bytes(32));
     $timeout = time() + 60 * 15;
-    $user->authToken = $token;
-    $user->timeout = $timeout;
+    $user->setAuthToken($token);
+    $user->setTimeout($timeout);
   }
 
   public static function isValidUsername(string $username): bool
@@ -49,9 +49,9 @@ class Security
   {
     // get url of the website
     $url = $_SERVER["HTTP_HOST"];
-    $token = $user->verifyToken;
-    $email = $user->email;
-    $username = $user->username;
+    $token = $user->getVerifyToken();
+    $email = $user->getEmail();
+    $username = $user->getUsername();
 
     $subject = "ScamX - Verify your account";
     $body = "
