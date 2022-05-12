@@ -8,7 +8,7 @@ class Security
 {
   public static function redirectIfNotAuthenticated(string $message = "Please sign in."): void
   {
-    if (!isset($_SESSION["user"])) {
+    if (!Session::isLogged()) {
       Message::error($message);
       header("Location: /user/login");
       exit();
@@ -119,11 +119,11 @@ class Security
 
   public static function resetSessionId(): void
   {
-    $time = $_SESSION["sessionTimeout"];
+    $time = Session::getTimeout();
 
-    if (!isset($time) || $time < time()) {
+    if ($time < time()) {
       session_regenerate_id(true);
-      $_SESSION["sessionTimeout"] = time() + 60 * 5;
+      Session::setTimeout(time() + 60 * 5);
     }
   }
 

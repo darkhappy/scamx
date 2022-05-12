@@ -160,7 +160,7 @@ class UserController extends Controller
   #[NoReturn]
   public function logout(): void
   {
-    session_destroy();
+    Session::destroy();
     $this->redirect("/");
   }
 
@@ -174,7 +174,7 @@ class UserController extends Controller
 
     $token = $_GET["token"];
     // Get the user from the database
-    $user = UserRepository::findWithVerifyToken($token);
+    $user = UserRepository::getByVerifyToken($token);
     if (!$user || $user->getVerifyToken() !== $token) {
       Message::error("Invalid token. Please verify the link you have sent, or register again.");
       Log::debug("Verification with invalid token.");

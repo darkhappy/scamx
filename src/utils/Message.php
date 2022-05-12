@@ -7,36 +7,33 @@ class Message
 
   public static function error($message): void
   {
-    self::set($message, MessageType::Error);
+    self::set($message, MessageType::ERROR);
   }
 
   public static function success($message): void
   {
-    self::set($message, MessageType::Success);
+    self::set($message, MessageType::SUCCESS);
   }
 
   public static function info($message): void
   {
-    self::set($message, MessageType::Info);
+    self::set($message, MessageType::INFO);
   }
 
   public static function warning($message): void
   {
-    self::set($message, MessageType::Warning);
+    self::set($message, MessageType::WARNING);
   }
 
   private static function set(string $message, MessageType $type): void
   {
-    $_SESSION["message"] = ["message" => $message, "type" => $type];
+    Session::setMessage(['message' => $message, 'type' => $type]);
   }
 
   public static function get(): ?array
   {
-    if (isset($_SESSION["message"])) {
-      $message = $_SESSION["message"];
-      unset($_SESSION["message"]);
-      return $message;
-    }
-    return null;
+    $message = Session::getMessage();
+    Session::unsetMessage();
+    return $message;
   }
 }

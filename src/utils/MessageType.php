@@ -4,8 +4,8 @@ namespace utils;
 
 enum MessageType
 {
-  case Success;
-  case Info;
-  case Warning;
-  case Error;
+  case SUCCESS;
+  case INFO;
+  case WARNING;
+  case ERROR;
 }

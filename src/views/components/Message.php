@@ -13,9 +13,9 @@ if (!isset($message)) {
 $message["message"] = Security::sanitize($message["message"]);
 
 $class = match ($message["type"]) {
-  MessageType::Success => "bg-green-500",
-  MessageType::Error => "bg-rose-500",
-  MessageType::Warning => "bg-amber-500",
+  MessageType::SUCCESS => "bg-green-500",
+  MessageType::ERROR => "bg-rose-500",
+  MessageType::WARNING => "bg-amber-500",
   default => "bg-teal-500",
 };
 ?>

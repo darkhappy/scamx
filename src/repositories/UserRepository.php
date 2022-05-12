@@ -17,7 +17,7 @@ class UserRepository
     $query->execute();
   }
 
-  public static function findWithVerifyToken(string $token): User|bool
+  public static function getByVerifyToken(string $token): User|bool
   {
     $query = DATABASE->prepare("SELECT * FROM users WHERE verifyToken = ?");
     $query->bindValue(1, $token);

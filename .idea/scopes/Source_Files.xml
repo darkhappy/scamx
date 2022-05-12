@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Source Files" pattern="file[scamx]:src//*&amp;&amp;!file[scamx]:src/assets/css/dist//*||file:index.php||file:.htaccess||file[scamx]:migrations//*||file[scamx]:config//*||file:.prettierrc||file:composer.json||file:package.json" />
+</component>
