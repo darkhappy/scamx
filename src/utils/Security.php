@@ -69,9 +69,7 @@ class Security
     $headers = ["MIME-Version" => "1.0", "Content-type" => "text/html; charset=UTF-8", "To" => "$username <$email>", "From" => "ScamX <test@localhost>",];
 
     if (!mail($email, $subject, $body, implode("\r\n", $headers))) {
-      if ($url == "localhost") {
-        // Since we are on localhost, we can't send emails, so we just print the email
-        // TODO: NOT SECURE!!!!!!!! (the way im checking anyways)
+      if (DEBUG) {
         Message::info($body);
       } else {
         Message::error("Verification email could not be sent.");
@@ -103,8 +101,8 @@ class Security
 
   public static function redirectToHTTPS(): void
   {
-    // Do not redirect if the user is on localhost
-    if ($_SERVER["HTTP_HOST"] === "localhost") {
+    // Do not redirect if the user is on localhost, or if we are debugging
+    if ($_SERVER["HTTP_HOST"] === "localhost" || DEBUG) {
       return;
     }
 
