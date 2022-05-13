@@ -214,8 +214,15 @@ class UserController extends Controller
       $this->handleReset();
     }
 
+    if (Session::isLogged()) {
+      $view = "reset";
+    } else {
+      $this->verifyReset();
+      $view = "forgot_reset";
+    }
+
     $data = ["title" => "Reset Password", "pagetitle" => "reset pass", "pagesub" => "just type ur new password"];
-    Session::isLogged() ? $this->render("reset", $data) : $this->render("forgot_reset", $data);
+    $this->render($view, $data);
   }
 
   private function handleReset()
@@ -256,25 +263,7 @@ class UserController extends Controller
       }
     } else {
       // Otherwise, get the user via the token
-      if (!isset($_GET["token"])) {
-        Message::error("Please use the URL provided in the email.");
-        $this->redirect("/user/login");
-      }
-
-      $token = $_GET["token"];
-      // Get the user from the database
-      $user = UserRepository::getByResetToken($token);
-
-      if (!$user || $user->getResetToken() !== $token) {
-        Message::error("Invalid token. Please verify the link you have sent, or register again.");
-        Log::debug("Verification with invalid token.");
-        $this->redirect("/user/login");
-      }
-      if ($user->getTimeout() < time()) {
-        Message::error("Token expired. Please register again.");
-        Log::debug("Verification with expired token.");
-        $this->redirect("/user/login");
-      }
+      $user = $this->verifyReset();
     }
 
     // Verify if both passwords are the same
@@ -290,9 +279,35 @@ class UserController extends Controller
 
     // Logout the user
     Session::logout(false);
+    // TODO: Show message that password has been changed
+    // This isn't working due to the session being destroyed
     Message::info("Password changed. You can now login.");
     Log::info("User " . $user->getUsername() . " changed password.");
     $this->redirect("/user/login");
+  }
+
+  private function verifyReset(): User
+  {
+    if (!isset($_GET["token"])) {
+      Message::error("Please use the URL provided in the email.");
+      $this->redirect("/user/login");
+    }
+
+    $token = $_GET["token"];
+    // Get the user from the database
+    $user = UserRepository::getByResetToken($token);
+
+    if (!$user || $user->getResetToken() !== $token) {
+      Message::error("Invalid token. Please verify the link you have sent, or register again.");
+      Log::debug("Verification with invalid token.");
+      $this->redirect("/user/login");
+    }
+    if ($user->getTimeout() < time()) {
+      Message::error("Token expired. Please register again.");
+      Log::debug("Verification with expired token.");
+      $this->redirect("/user/login");
+    }
+    return $user;
   }
 
   #[NoReturn]
