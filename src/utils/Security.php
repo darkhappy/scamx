@@ -84,10 +84,9 @@ class Security
     // Get the user token
     $token = Session::getCSRF();
 
-    // If the token is not set, generate a new one
+    // If the token is not set, return an empty token (this should never happen)
     if (!$token) {
-      $token = bin2hex(openssl_random_pseudo_bytes(32));
-      Session::setCSRF($token);
+      return "";
     }
 
     // Concatenate the token
@@ -99,32 +98,7 @@ class Security
 
   public static function verifyCSRF(string $token, string $form): bool
   {
-    // Get the user token
-    $userToken = Session::getCSRF();
-
-    // If the token is not set, return false
-    if (!$userToken) {
-      return false;
-    }
-
-    // Concatenate the token
-    $userToken = $userToken . $form;
-
-    // Hash the token
-    $userToken = hash("sha256", $userToken);
-
-    // Compare the tokens
-    return $userToken === $token;
-  }
-
-  public static function resetSessionId(): void
-  {
-    $time = Session::getTimeout();
-
-    if ($time < time()) {
-      session_regenerate_id(true);
-      Session::setTimeout(time() + 60 * 5);
-    }
+    return self::generateCSRFToken($form) === $token;
   }
 
   public static function redirectToHTTPS(): void

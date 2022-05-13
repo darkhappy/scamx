@@ -6,6 +6,24 @@ use models\User;
 
 class Session
 {
+  public static function init(): void
+  {
+    session_name('ScamX-Session');
+    session_start();
+    self::setCSRF();
+    self::resetSessionId();
+  }
+
+  public static function resetSessionId(): void
+  {
+    $time = self::getTimeout();
+
+    if ($time < time()) {
+      session_regenerate_id();
+      self::setTimeout(time() + 60 * 5);
+    }
+  }
+
   public static function getUser(): User|null
   {
     if (isset($_SESSION["user"])) {
@@ -26,15 +44,18 @@ class Session
 
   public static function getCSRF(): string
   {
-    if (isset($_SESSION["csrfToken"])) {
-      return $_SESSION["csrfToken"];
+    if (!isset($_SESSION["csrfToken"])) {
+      Session::setCSRF();
     }
-    return "";
+    return $_SESSION["csrfToken"];
   }
 
-  public static function setCSRF(string $csrfToken): void
+  // On session start, set a new CSRF token
+  public static function setCSRF(): void
   {
-    $_SESSION["csrfToken"] = $csrfToken;
+    if (!isset($_SESSION["csrfToken"])) {
+      $_SESSION["csrfToken"] = bin2hex(openssl_random_pseudo_bytes(32));
+    }
   }
 
   public static function getMessage(): ?array

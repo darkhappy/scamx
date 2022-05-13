@@ -324,3 +324,6 @@ c3.php
 
 # and uncomment the following lines
 # .pnp.*
+
+### Secrets ###
+config/config.ini

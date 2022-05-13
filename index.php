@@ -1,8 +1,11 @@
 <?php
 declare(strict_types=1);
 
+require_once 'vendor/autoload.php';
+
 use controllers\HomeController;
 use utils\Security;
+use utils\Session;
 
 ini_set("display_errors", 1);
 ini_set("display_startup_errors", 1);
@@ -21,7 +24,8 @@ $pass = $config["pass"];
 $name = $config["name"];
 $host = $config["host"];
 $port = $config["port"];
-if ($config["debug"] == "true") {
+$debug = $config["debug"] == "true";
+if ($debug) {
   include_once __DIR__ . "/c3.php";
 }
 
@@ -30,14 +34,11 @@ spl_autoload_register(function ($className) {
   include_once __DIR__ . "/src/$className.php";
 });
 
-session_start();
-Security::resetSessionId();
+Session::init();
 Security::redirectToHTTPS();
-define(
-  "DATABASE",
-  new PDO("mysql:host=$host;dbname=$name;port=$port", $user, $pass)
-);
+define("DATABASE", new PDO("mysql:host=$host;dbname=$name;port=$port", $user, $pass));
 define("HOME_PATH", $config["root"]);
+define("DEBUG", $debug);
 
 // Migrations
 require __DIR__ . "/migrations/Migration.php";
