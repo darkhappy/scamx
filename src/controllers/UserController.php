@@ -71,6 +71,17 @@ class UserController extends Controller
     $this->redirect("/");
   }
 
+  public function register(): void
+  {
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+      $this->handleRegister();
+    }
+
+    $data = ["title" => "Register", "pagetitle" => "Register", "pagesub" => "Join the hood",];
+
+    $this->render("register", $data);
+  }
+
   private function handleRegister(): void
   {
     $username = $_POST["username"];
@@ -197,52 +208,6 @@ class UserController extends Controller
     //
   }
 
-  public function register(): void
-  {
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-      $this->handleRegister();
-    }
-
-    $data = ["title" => "Register", "pagetitle" => "Register", "pagesub" => "Join the hood",];
-
-    $this->render("register", $data);
-  }
-
-  #[NoReturn]
-  public function logout(): void
-  {
-    Session::logout();
-  }
-
-  #[NoReturn]
-  public function verify(): void
-  {
-    if (!isset($_GET["token"])) {
-      Message::error("Please use the URL provided in the email.");
-      $this->redirect("/user/login");
-    }
-
-    $token = $_GET["token"];
-    // Get the user from the database
-    $user = UserRepository::getByVerifyToken($token);
-    if (!$user || $user->getVerifyToken() !== $token) {
-      Message::error("Invalid token. Please verify the link you have sent, or register again.");
-      Log::debug("Verification with invalid token.");
-      $this->redirect("/user/login");
-    }
-    if ($user->getTimeout() < time()) {
-      Message::error("Token expired. Please register again.");
-      Log::debug("Verification with expired token.");
-      $this->redirect("/user/login");
-    }
-
-    // Verify the user
-    UserRepository::setVerified($user);
-    Message::success("Account verified. You can now login.");
-    Log::info("User " . $user->getUsername() . " verified.");
-    $this->redirect("/user/login");
-  }
-
   public function reset(): void
   {
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -327,6 +292,41 @@ class UserController extends Controller
     Session::logout(false);
     Message::info("Password changed. You can now login.");
     Log::info("User " . $user->getUsername() . " changed password.");
+    $this->redirect("/user/login");
+  }
+
+  #[NoReturn]
+  public function logout(): void
+  {
+    Session::logout();
+  }
+
+  #[NoReturn]
+  public function verify(): void
+  {
+    if (!isset($_GET["token"])) {
+      Message::error("Please use the URL provided in the email.");
+      $this->redirect("/user/login");
+    }
+
+    $token = $_GET["token"];
+    // Get the user from the database
+    $user = UserRepository::getByVerifyToken($token);
+    if (!$user || $user->getVerifyToken() !== $token) {
+      Message::error("Invalid token. Please verify the link you have sent, or register again.");
+      Log::debug("Verification with invalid token.");
+      $this->redirect("/user/login");
+    }
+    if ($user->getTimeout() < time()) {
+      Message::error("Token expired. Please register again.");
+      Log::debug("Verification with expired token.");
+      $this->redirect("/user/login");
+    }
+
+    // Verify the user
+    UserRepository::setVerified($user);
+    Message::success("Account verified. You can now login.");
+    Log::info("User " . $user->getUsername() . " verified.");
     $this->redirect("/user/login");
   }
 }
