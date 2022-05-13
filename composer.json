@@ -6,7 +6,8 @@
   },
   "require": {
     "ext-pdo": "*",
-    "ext-openssl": "*"
+    "ext-openssl": "*",
+    "stripe/stripe-php": "*"
   },
   "require-dev": {
     "codeception/codeception": "*",

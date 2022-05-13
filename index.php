@@ -28,6 +28,8 @@ $debug = $config["debug"] == "true";
 if ($debug) {
   include_once __DIR__ . "/c3.php";
 }
+$stripe_public_key = $config["stripe_public_key"];
+$stripe_secret_key = $config["stripe_secret_key"];
 
 spl_autoload_register(function ($className) {
   $className = str_replace("\\", DIRECTORY_SEPARATOR, $className);
