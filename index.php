@@ -24,7 +24,7 @@ $pass = $config["pass"];
 $name = $config["name"];
 $host = $config["host"];
 $port = $config["port"];
-$debug = $config["debug"] == "true";
+$debug = $config["debug"];
 if ($debug) {
   include_once __DIR__ . "/c3.php";
 }

@@ -146,6 +146,57 @@ class UserController extends Controller
     $this->redirect("/user/login");
   }
 
+  public function forgot(): void
+  {
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+      $this->handleForgot();
+    }
+    $data = ["title" => "Forgot Password", "pagetitle" => "Forgot Password", "pagesub" => "bruh seriously"];
+    $this->render("forgot", $data);
+  }
+
+  private function handleForgot(): void
+  {
+    $email = $_POST["email"];
+    $csrf = $_POST["csrf"];
+
+    // Verify CSRF
+    if (!Security::verifyCSRF($csrf, "forgot")) {
+      Message::error("There was a problem, please try again.");
+      Log::severe("Possible CSRF attempt");
+      return;
+    }
+
+    // Verify if field is filled
+    if (empty($email)) {
+      Message::error("Please fill in all fields.");
+      Log::debug("Submitted forgot form with empty fields.");
+    }
+
+    // Verify if the email is valid
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      Message::error("Please enter a valid email.");
+      Log::debug("Submitted forgot form with invalid email.");
+      return;
+    }
+
+    Message::info("We've sent an email to $email. Please click the link inside your email to reset your password.");
+
+    $user = UserRepository::getByEmail($email);
+    if ($user) {
+      Security::generateResetToken($user);
+      UserRepository::setResetToken($user);
+      Security::sendResetEmail($user);
+      Log::info("User submitted forgot form to email $email.");
+    } else {
+      Log::warning("User submitted forgot form with a non-existent email.");
+    }
+
+
+    $this->redirect("/user/login");
+    //
+  }
+
   public function register(): void
   {
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -160,8 +211,7 @@ class UserController extends Controller
   #[NoReturn]
   public function logout(): void
   {
-    Session::destroy();
-    $this->redirect("/");
+    Session::logout();
   }
 
   #[NoReturn]
@@ -190,6 +240,93 @@ class UserController extends Controller
     UserRepository::setVerified($user);
     Message::success("Account verified. You can now login.");
     Log::info("User " . $user->getUsername() . " verified.");
+    $this->redirect("/user/login");
+  }
+
+  public function reset(): void
+  {
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+      $this->handleReset();
+    }
+
+    $data = ["title" => "Reset Password", "pagetitle" => "reset pass", "pagesub" => "just type ur new password"];
+    Session::isLogged() ? $this->render("reset", $data) : $this->render("forgot_reset", $data);
+  }
+
+  private function handleReset()
+  {
+    $new = $_POST["new"];
+    $confirm = $_POST["confirm"];
+    $csrf = $_POST["csrf"];
+
+    // Verify CSRF
+    if (!Security::verifyCSRF($csrf, "reset") && !Security::verifyCSRF($csrf, "forgot_reset")) {
+      Message::error("There was a problem, please try again.");
+      Log::severe("Possible CSRF attempt");
+      return;
+    }
+
+    // Verify fields
+    if (empty($new) || empty($confirm)) {
+      Message::error("Please fill in all fields.");
+      Log::debug("Submitted reset form with empty fields.");
+      return;
+    }
+
+    // If the user is logged in, verify the old password
+    if (Session::isLogged()) {
+      $user = Session::getUser();
+      $old = $_POST["old"];
+
+      if (empty($old)) {
+        Message::error("Please fill in all fields.");
+        Log::debug("Submitted reset form with empty fields.");
+        return;
+      }
+
+      if (!password_verify($old, $user->getPassword())) {
+        Message::error("Please ensure that your old password is correct.");
+        Log::debug("Submitted reset form with incorrect old password.");
+        return;
+      }
+    } else {
+      // Otherwise, get the user via the token
+      if (!isset($_GET["token"])) {
+        Message::error("Please use the URL provided in the email.");
+        $this->redirect("/user/login");
+      }
+
+      $token = $_GET["token"];
+      // Get the user from the database
+      $user = UserRepository::getByResetToken($token);
+
+      if (!$user || $user->getResetToken() !== $token) {
+        Message::error("Invalid token. Please verify the link you have sent, or register again.");
+        Log::debug("Verification with invalid token.");
+        $this->redirect("/user/login");
+      }
+      if ($user->getTimeout() < time()) {
+        Message::error("Token expired. Please register again.");
+        Log::debug("Verification with expired token.");
+        $this->redirect("/user/login");
+      }
+    }
+
+    // Verify if both passwords are the same
+    if ($new !== $confirm) {
+      Message::error("Passwords do not match.");
+      Log::debug("Submitted reset form with mismatched passwords.");
+      return;
+    }
+
+    // Set the new password
+    $user->setPassword($new);
+    UserRepository::changePassword($user);
+
+    // Logout the user
+    Session::logout(false);
+    Message::info("Password changed. You can now login.");
+    Log::info("User " . $user->getUsername() . " changed password.");
     $this->redirect("/user/login");
   }
 }

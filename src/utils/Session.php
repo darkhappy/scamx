@@ -89,9 +89,18 @@ class Session
     $_SESSION["timeout"] = $timeout;
   }
 
-  public static function destroy(): void
+  public static function logout(bool $redirect = true): void
   {
-    session_destroy();
+    if (self::isLogged()) {
+      unset($_SESSION);
+      session_destroy();
+      Message::info("Successfully logged out.");
+      Log::info("Logged out.");
+    }
+    if ($redirect) {
+      header("Location: /");
+      exit();
+    }
   }
 
 }

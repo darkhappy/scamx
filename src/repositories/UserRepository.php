@@ -47,4 +47,29 @@ class UserRepository
     $query->execute();
     return $query->fetchObject(User::class);
   }
+
+  public static function getByResetToken(string $token)
+  {
+    $query = DATABASE->prepare("SELECT * FROM users WHERE resetToken = ?");
+    $query->bindValue(1, $token);
+    $query->execute();
+    return $query->fetchObject(User::class);
+  }
+
+  public static function setResetToken(?User $user): void
+  {
+    $query = DATABASE->prepare("UPDATE users SET resetToken = ?, timeout = ? WHERE id = ?");
+    $query->bindValue(1, $user->getResetToken());
+    $query->bindValue(2, $user->getTimeout());
+    $query->bindValue(3, $user->getId());
+    $query->execute();
+  }
+
+  public static function changePassword(User $user): void
+  {
+    $query = DATABASE->prepare("UPDATE users SET password = ?, resetToken = '', timeout = 0 WHERE id = ?");
+    $query->bindValue(1, password_hash($user->getPassword(), PASSWORD_BCRYPT));
+    $query->bindValue(2, $user->getId());
+    $query->execute();
+  }
 }

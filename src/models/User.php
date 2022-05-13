@@ -11,6 +11,7 @@ class User
   private string $verifyToken;
   private int $timeout;
   private string $authToken;
+  private string $resetToken;
 
   public function getId(): string
   {
@@ -80,5 +81,15 @@ class User
   public function setAuthToken(string $authToken): void
   {
     $this->authToken = $authToken;
+  }
+
+  public function getResetToken(): string
+  {
+    return $this->resetToken;
+  }
+
+  public function setResetToken(string $resetToken): void
+  {
+    $this->resetToken = $resetToken;
   }
 }

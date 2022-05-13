@@ -16,9 +16,7 @@
           id="password" name="password" type="password">
       </div>
       <label for="csrf" hidden>
-        <input type="hidden" name="csrf" value="<?= Security::generateCSRFToken(
-          "login"
-        ) ?>">
+        <input type="hidden" name="csrf" value="<?= Security::generateCSRFToken("login") ?>">
       </label>
     </div>
     <div class="flex items-center justify-between gap-8">
@@ -26,6 +24,8 @@
       </button>
       <a class="text-slate-300 hover:text-amber-400 font-medium"
          href="<?= HOME_PATH ?>user/register">Se créer un compte...</a>
+      <a class="text-slate-300 hover:text-amber-400 font-medium"
+         href="<?= HOME_PATH ?>user/forgot">I forgor 💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀</a>
     </div>
   </form>
 </div>
