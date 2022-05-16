@@ -36,11 +36,12 @@ spl_autoload_register(function ($className) {
   include_once __DIR__ . "/src/$className.php";
 });
 
-Session::init();
-Security::redirectToHTTPS();
 define("DATABASE", new PDO("mysql:host=$host;dbname=$name;port=$port", $user, $pass));
 define("HOME_PATH", $config["root"]);
 define("DEBUG", $debug);
+
+Session::init();
+Security::redirectToHTTPS();
 
 // Migrations
 require __DIR__ . "/migrations/Migration.php";
