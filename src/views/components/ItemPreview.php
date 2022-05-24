@@ -4,12 +4,16 @@
  */
 
 use models\Item;
+use utils\Security;
 
 $id = $item->getId();
 $name = $item->getName();
 $description = $item->getDescription();
 $price = $item->getPrice();
 $image = $item->getImage();
+
+$name = Security::sanitize($name);
+$description = Security::sanitize($description);
 ?>
 <div id="<?= $id ?>" class="bg-blue-600 p-4">
   <h1 class="font-bold text-2xl text-white"><?= $name ?></h1>
