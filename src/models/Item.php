@@ -10,6 +10,24 @@ class Item
   private float $price;
   private string $image;
   private string $creationDate;
+  private int $vendorId;
+
+  /**
+   * @return int
+   */
+  public function getVendorId(): int
+  {
+    return $this->vendorId;
+  }
+
+  /**
+   * @param int $vendorId
+   */
+  public function setVendorId(int $vendorId): void
+  {
+    $this->vendorId = $vendorId;
+  }
+
 
   /**
    * @return string

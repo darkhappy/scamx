@@ -33,7 +33,10 @@ $stripe_secret_key = $config["stripe_secret_key"];
 
 spl_autoload_register(function ($className) {
   $className = str_replace("\\", DIRECTORY_SEPARATOR, $className);
-  include_once __DIR__ . "/src/$className.php";
+  // Check if the path exists
+  if (file_exists(__DIR__ . "/src/" . $className . ".php")) {
+    require_once __DIR__ . "/src/" . $className . ".php";
+  }
 });
 
 define("DATABASE", new PDO("mysql:host=$host;dbname=$name;port=$port", $user, $pass));

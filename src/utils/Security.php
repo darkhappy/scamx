@@ -152,4 +152,29 @@ class Security
 
     self::sendEmail($user, $subject, $body);
   }
+
+  public static function isValidImage(array $image): bool
+  {
+    // Get the MIME type
+    $mime = $image["type"];
+
+    // Check if the MIME type is valid
+    if (!in_array($mime, ["image/jpeg", "image/png"])) {
+      return false;
+    }
+
+    // TODO: probably other checks?:
+    // Check file size
+    if ($image["size"] > 5000000) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public static function formatPrice(string $input): float|bool
+  {
+    // Convert to float
+    return filter_var($input, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+  }
 }

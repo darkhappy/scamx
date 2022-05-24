@@ -28,11 +28,13 @@ class ItemRepository
 
   public static function insert(Item $item): bool
   {
-    $query = DATABASE->prepare("INSERT INTO items (name, description, price, image, creationDate, vendor) VALUES (?, ?, ?, ?, ?, ?)");
+    $query = DATABASE->prepare("INSERT INTO items (name, description, image, price, creationDate, vendor) VALUES (?, ?, ?, ?, ?, ?)");
     $query->bindValue(1, $item->getName());
     $query->bindValue(2, $item->getDescription());
     $query->bindValue(3, $item->getImage());
     $query->bindValue(4, $item->getPrice());
+    $query->bindValue(5, $item->getCreationDate());
+    $query->bindValue(6, $item->getVendorId());
     return $query->execute();
   }
 
