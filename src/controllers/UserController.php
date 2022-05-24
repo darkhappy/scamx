@@ -15,11 +15,23 @@ class UserController extends Controller
   #[NoReturn]
   public function index(): void
   {
-    $this->redirect("/user/login");
+    if (Session::isLogged()) {
+      $this->redirect('/user/profile');
+    } else {
+      $this->redirect("/user/login");
+    }
+  }
+
+  public function profile(): void
+  {
+    Security::redirectIfNotAuthenticated();
+    $data = ["title" => "Profile", "pagetitle" => "Profile", "pagesub" => "wekcom bak"];
+    $this->render("profile", $data);
   }
 
   public function login(): void
   {
+    Security::redirectIfAuthenticated();
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $this->handleLogin();
     }

@@ -15,7 +15,7 @@ abstract class Controller
     $controller = str_replace("Controller", "", $controller);
     $path = __DIR__ . "/../views/" . $controller . "/" . $view . ".php";
     if (!file_exists($path)) {
-      die("View not found");
+      die("View not found at $path");
     }
 
     extract($data);

@@ -15,6 +15,14 @@ class Security
     }
   }
 
+  public static function redirectIfAuthenticated(string $message = ""): void
+  {
+    if (Session::isLogged()) {
+      header("Location: /user/profile");
+      exit();
+    }
+  }
+
   public static function generateVerifyToken(User $user): void
   {
     $token = bin2hex(openssl_random_pseudo_bytes(32));

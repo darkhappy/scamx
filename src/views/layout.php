@@ -14,7 +14,7 @@ if (!isset($content)) {
   <title>ScamX<?= empty($title) ? "" : " - $title" ?></title>
 <body class="bg-lime-50">
 <div class="flex flex-col min-h-screen justify-between">
-  <?php require __DIR__ . "/components/Header.php"; ?>
+  <?php require __DIR__ . "/components/Navbar.php"; ?>
   <?php require __DIR__ . "/components/Title.php"; ?>
   <div class="grow p-8">
     <?php require $content; ?>
