@@ -22,6 +22,17 @@ class ItemBrowser
     $count = static::getCount();
     $page = intval($_GET[$getParam] ?? 1);
 
+    if ($count === 0) {
+      return [
+        "items" => [],
+        "page" => 0,
+        "itemsPerPage" => $itemsPerPage,
+        "itemsToShow" => 0,
+        "offset" => 0,
+        "count" => 0,
+      ];
+    }
+
     // Prevent negative page numbers
     if ($page < 1) {
       $page = 1;

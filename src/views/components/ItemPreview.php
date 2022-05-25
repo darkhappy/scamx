@@ -22,7 +22,7 @@ if (Security::ownsItem($id)) {
 ?>
 <div id="<?= $id ?>" class="<?= $color ?> p-4">
   <h1 class="font-bold text-2xl text-white"><?= $name ?></h1>
-  <p class="text-slate-300"><span class="text-white font-medium"><?= $price ?></span> vbuks</p>
+  <p class="text-slate-300">CAD$<span class="text-white font-medium"><?= $price ?></span></p>
   <img src="<?= HOME_PATH .
     "src/assets/uploads/" .
     $image ?>" alt="<?= $name ?>" class="my-4">

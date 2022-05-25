@@ -23,7 +23,11 @@ class MarketController extends Controller
   {
     Security::redirectIfNotAuthenticated();
 
-    $data = ["title" => "yo its the dashbord", "pagetitle" => "ScamX", "pagesub" => "lets manage our shit",];
+    $data = [
+      "title" => "yo its the dashbord",
+      "pagetitle" => "ScamX",
+      "pagesub" => "lets manage our shit",
+    ];
     $this->render("dashboard", data: $data);
   }
 
@@ -35,7 +39,11 @@ class MarketController extends Controller
       $this->handleAdd();
     }
 
-    $data = ["title" => "", "pagetitle" => "ScamX", "pagesub" => "Welcome to ScamX bbg",];
+    $data = [
+      "title" => "",
+      "pagetitle" => "ScamX",
+      "pagesub" => "Welcome to ScamX bbg",
+    ];
     $this->render("add", data: $data);
   }
 
@@ -81,7 +89,7 @@ class MarketController extends Controller
     $item->setName($name);
     $item->setDescription($description);
     $item->setPrice($price);
-    $item->setCreationDate(date('Y-m-d H:i:s'));
+    $item->setCreationDate(date("Y-m-d H:i:s"));
 
     $user = Session::getUser();
     $item->setVendorId($user->getId());
@@ -90,10 +98,29 @@ class MarketController extends Controller
     $path = Image::upload($image);
     $item->setImage($path);
 
-
     ItemRepository::insert($item);
     Message::success("Item added successfully.");
-    Log::info("Item '$name' was added by " . $user->getUsername() . " successfully.");
+    Log::info(
+      "Item '$name' was added by " . $user->getUsername() . " successfully."
+    );
     $this->redirect("/");
+  }
+
+  public function info(): void
+  {
+    $item = ItemRepository::getById($_GET["id"]);
+    if (!$item) {
+      Message::error("Item not found.");
+      Log::info("Trying to view non-existing item.");
+      $this->redirect("/");
+    }
+
+    $data = [
+      "title" => "",
+      "pagetitle" => "buying",
+      "pagesub" => "this is a very cool item you should buy it",
+      "item" => $item,
+    ];
+    $this->render("info", data: $data);
   }
 }

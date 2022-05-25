@@ -8,7 +8,9 @@ class UserRepository
 {
   public static function insert(User $user): void
   {
-    $query = DATABASE->prepare("INSERT INTO users (username, email, password, verifyToken, timeout) VALUES (?, ?, ?, ?, ?)");
+    $query = DATABASE->prepare(
+      "INSERT INTO users (username, email, password, verifyToken, timeout) VALUES (?, ?, ?, ?, ?)"
+    );
     $query->bindValue(1, $user->getUsername());
     $query->bindValue(2, $user->getEmail());
     $query->bindValue(3, password_hash($user->getPassword(), PASSWORD_BCRYPT));
@@ -27,7 +29,9 @@ class UserRepository
 
   public static function setVerified(?User $user): void
   {
-    $query = DATABASE->prepare("UPDATE users SET verifyToken = '', timeout = 0 WHERE id = ?");
+    $query = DATABASE->prepare(
+      "UPDATE users SET verifyToken = '', timeout = 0 WHERE id = ?"
+    );
     $query->bindValue(1, $user->getId());
     $query->execute();
   }
@@ -58,7 +62,9 @@ class UserRepository
 
   public static function setResetToken(?User $user): void
   {
-    $query = DATABASE->prepare("UPDATE users SET resetToken = ?, timeout = ? WHERE id = ?");
+    $query = DATABASE->prepare(
+      "UPDATE users SET resetToken = ?, timeout = ? WHERE id = ?"
+    );
     $query->bindValue(1, $user->getResetToken());
     $query->bindValue(2, $user->getTimeout());
     $query->bindValue(3, $user->getId());
@@ -67,9 +73,19 @@ class UserRepository
 
   public static function changePassword(User $user): void
   {
-    $query = DATABASE->prepare("UPDATE users SET password = ?, resetToken = '', timeout = 0 WHERE id = ?");
+    $query = DATABASE->prepare(
+      "UPDATE users SET password = ?, resetToken = '', timeout = 0 WHERE id = ?"
+    );
     $query->bindValue(1, password_hash($user->getPassword(), PASSWORD_BCRYPT));
     $query->bindValue(2, $user->getId());
     $query->execute();
+  }
+
+  public static function getById(int $getVendorId)
+  {
+    $query = DATABASE->prepare("SELECT * FROM users WHERE id = ?");
+    $query->bindValue(1, $getVendorId);
+    $query->execute();
+    return $query->fetchObject(User::class);
   }
 }

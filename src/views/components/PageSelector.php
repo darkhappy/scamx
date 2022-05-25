@@ -9,10 +9,12 @@
  * @var $getParam
  */
 
-$path = "?$getParam="; ?>
+$path = "?$getParam=";
+$lower = $count == 0 ? $offset : $offset + 1;
+$upper = $offset + $itemsToShow;
+?>
 
-<p>Showing <?= $offset + 1 ?> to <?= $offset +
-   $itemsToShow ?> of <?= $count ?> items. </p>
+<p>Showing <?= $lower ?> to <?= $upper ?> of <?= $count ?> items. </p>
 <div class="flex flex-row gap-8">
   <?php if ($page > 1) { ?>
     <a href="<?= $path . $page - 1 ?>">Previous</a>
