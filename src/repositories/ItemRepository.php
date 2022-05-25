@@ -7,7 +7,6 @@ use PDO;
 
 class ItemRepository
 {
-
   public static function getById(int $id): Item|bool
   {
     $query = DATABASE->prepare("SELECT * FROM items WHERE id = ?");
@@ -16,19 +15,48 @@ class ItemRepository
     return $query->fetchObject(Item::class);
   }
 
+  public static function getItemCount(): int|bool
+  {
+    $query = DATABASE->prepare("SELECT COUNT(*) FROM items");
+    $query->execute();
+    return $query->fetchColumn();
+  }
+
   /**
    * @return array<Item>
    */
-  public static function getAll(): array
+  public static function getItems(int $amount, int $offset): array
   {
-    $query = DATABASE->prepare("SELECT * FROM items");
+    $query = DATABASE->prepare("SELECT * FROM items LIMIT ? OFFSET ?");
+    $query->bindValue(1, $amount, PDO::PARAM_INT);
+    $query->bindValue(2, $offset, PDO::PARAM_INT);
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_CLASS, Item::class);
+  }
+
+  /**
+   * @return array<Item>
+   */
+  public static function getItemsFromVendor(
+    int $vendorId,
+    int $amount,
+    int $offset
+  ): array {
+    $query = DATABASE->prepare(
+      "SELECT * FROM items WHERE vendorId = ? LIMIT ? OFFSET ?"
+    );
+    $query->bindValue(1, $vendorId, PDO::PARAM_INT);
+    $query->bindValue(2, $amount, PDO::PARAM_INT);
+    $query->bindValue(3, $offset, PDO::PARAM_INT);
     $query->execute();
     return $query->fetchAll(PDO::FETCH_CLASS, Item::class);
   }
 
   public static function insert(Item $item): bool
   {
-    $query = DATABASE->prepare("INSERT INTO items (name, description, image, price, creationDate, vendor) VALUES (?, ?, ?, ?, ?, ?)");
+    $query = DATABASE->prepare(
+      "INSERT INTO items (name, description, image, price, creationDate, vendorId) VALUES (?, ?, ?, ?, ?, ?)"
+    );
     $query->bindValue(1, $item->getName());
     $query->bindValue(2, $item->getDescription());
     $query->bindValue(3, $item->getImage());
@@ -38,5 +66,11 @@ class ItemRepository
     return $query->execute();
   }
 
-
+  public static function getItemCountFromVendor(int $vendorId): int|bool
+  {
+    $query = DATABASE->prepare("SELECT COUNT(*) FROM items WHERE vendorId = ?");
+    $query->bindValue(1, $vendorId, PDO::PARAM_INT);
+    $query->execute();
+    return $query->fetchColumn();
+  }
 }

@@ -16,7 +16,7 @@ class UserController extends Controller
   public function index(): void
   {
     if (Session::isLogged()) {
-      $this->redirect('/user/profile');
+      $this->redirect("/user/profile");
     } else {
       $this->redirect("/user/login");
     }
@@ -25,7 +25,11 @@ class UserController extends Controller
   public function profile(): void
   {
     Security::redirectIfNotAuthenticated();
-    $data = ["title" => "Profile", "pagetitle" => "Profile", "pagesub" => "wekcom bak"];
+    $data = [
+      "title" => "Profile",
+      "pagetitle" => "Profile",
+      "pagesub" => "wekcom bak",
+    ];
     $this->render("profile", $data);
   }
 
@@ -36,7 +40,11 @@ class UserController extends Controller
       $this->handleLogin();
     }
 
-    $data = ["title" => "Login", "pagetitle" => "Login", "pagesub" => "Lets scam some people",];
+    $data = [
+      "title" => "Login",
+      "pagetitle" => "Login",
+      "pagesub" => "Lets scam some people",
+    ];
     $this->render("login", data: $data);
   }
 
@@ -89,7 +97,11 @@ class UserController extends Controller
       $this->handleRegister();
     }
 
-    $data = ["title" => "Register", "pagetitle" => "Register", "pagesub" => "Join the hood",];
+    $data = [
+      "title" => "Register",
+      "pagetitle" => "Register",
+      "pagesub" => "Join the hood",
+    ];
 
     $this->render("register", $data);
   }
@@ -110,7 +122,12 @@ class UserController extends Controller
     }
 
     // Verify if all fields are filled
-    if (empty($username) || empty($email) || empty($password) || empty($confirm)) {
+    if (
+      empty($username) ||
+      empty($email) ||
+      empty($password) ||
+      empty($confirm)
+    ) {
       Message::error("Please fill in all fields.");
       Log::debug("Registered with empty fields.");
       return;
@@ -125,7 +142,9 @@ class UserController extends Controller
 
     // Verify if the username is valid
     if (!Security::isValidUsername($username)) {
-      Message::error("Names may only contain alphanumerical characters, as well as hyphens and dots.");
+      Message::error(
+        "Names may only contain alphanumerical characters, as well as hyphens and dots."
+      );
       Log::debug("Registered with invalid username.");
       return;
     }
@@ -163,7 +182,9 @@ class UserController extends Controller
     // Save the user
     UserRepository::insert($user);
 
-    Message::info("We've sent an email to $email. Please click the link inside your email to verify your account.");
+    Message::info(
+      "We've sent an email to $email. Please click the link inside your email to verify your account."
+    );
     Log::info("User $username registered with email $email.");
     Security::sendVerifyEmail($user);
     $this->redirect("/user/login");
@@ -174,7 +195,11 @@ class UserController extends Controller
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $this->handleForgot();
     }
-    $data = ["title" => "Forgot Password", "pagetitle" => "Forgot Password", "pagesub" => "bruh seriously"];
+    $data = [
+      "title" => "Forgot Password",
+      "pagetitle" => "Forgot Password",
+      "pagesub" => "bruh seriously",
+    ];
     $this->render("forgot", $data);
   }
 
@@ -203,7 +228,9 @@ class UserController extends Controller
       return;
     }
 
-    Message::info("We've sent an email to $email. Please click the link inside your email to reset your password.");
+    Message::info(
+      "We've sent an email to $email. Please click the link inside your email to reset your password."
+    );
 
     $user = UserRepository::getByEmail($email);
     if ($user) {
@@ -214,7 +241,6 @@ class UserController extends Controller
     } else {
       Log::warning("User submitted forgot form with a non-existent email.");
     }
-
 
     $this->redirect("/user/login");
     //
@@ -233,7 +259,11 @@ class UserController extends Controller
       $view = "forgot_reset";
     }
 
-    $data = ["title" => "Reset Password", "pagetitle" => "reset pass", "pagesub" => "just type ur new password"];
+    $data = [
+      "title" => "Reset Password",
+      "pagetitle" => "reset pass",
+      "pagesub" => "just type ur new password",
+    ];
     $this->render($view, $data);
   }
 
@@ -244,7 +274,10 @@ class UserController extends Controller
     $csrf = $_POST["csrf"];
 
     // Verify CSRF
-    if (!Security::verifyCSRF($csrf, "reset") && !Security::verifyCSRF($csrf, "forgot_reset")) {
+    if (
+      !Security::verifyCSRF($csrf, "reset") &&
+      !Security::verifyCSRF($csrf, "forgot_reset")
+    ) {
       Message::error("There was a problem, please try again.");
       Log::severe("Possible CSRF attempt");
       return;
@@ -310,7 +343,9 @@ class UserController extends Controller
     $user = UserRepository::getByResetToken($token);
 
     if (!$user || $user->getResetToken() !== $token) {
-      Message::error("Invalid token. Please verify the link you have sent, or register again.");
+      Message::error(
+        "Invalid token. Please verify the link you have sent, or register again."
+      );
       Log::debug("Verification with invalid token.");
       $this->redirect("/user/login");
     }
@@ -340,7 +375,9 @@ class UserController extends Controller
     // Get the user from the database
     $user = UserRepository::getByVerifyToken($token);
     if (!$user || $user->getVerifyToken() !== $token) {
-      Message::error("Invalid token. Please verify the link you have sent, or register again.");
+      Message::error(
+        "Invalid token. Please verify the link you have sent, or register again."
+      );
       Log::debug("Verification with invalid token.");
       $this->redirect("/user/login");
     }

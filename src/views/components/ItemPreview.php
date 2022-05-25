@@ -14,10 +14,23 @@ $image = $item->getImage();
 
 $name = Security::sanitize($name);
 $description = Security::sanitize($description);
+
+$color = "bg-blue-600";
+if (Security::ownsItem($id)) {
+  $color = "bg-teal-600";
+}
 ?>
-<div id="<?= $id ?>" class="bg-blue-600 p-4">
+<div id="<?= $id ?>" class="<?= $color ?> p-4">
   <h1 class="font-bold text-2xl text-white"><?= $name ?></h1>
   <p class="text-slate-300"><span class="text-white font-medium"><?= $price ?></span> vbuks</p>
-  <img src="<?= HOME_PATH . "src/assets/uploads/" . $image ?>" alt="<?= $name ?>" class="my-4">
-  <a href="<?= HOME_PATH ?>market/info?id=<?= $id ?>" class="text-yellow-300 font-bold text-xl">View details</a>
+  <img src="<?= HOME_PATH .
+    "src/assets/uploads/" .
+    $image ?>" alt="<?= $name ?>" class="my-4">
+  <div class="flex flex-col">
+    <a href="<?= HOME_PATH ?>market/info?id=<?= $id ?>" class="text-yellow-300 font-bold text-xl">View details</a>
+    <?php if (Security::ownsItem($id)) { ?>
+      <a href="<?= HOME_PATH ?>market/edit?id=<?= $id ?>" class="text-yellow-300 font-bold text-xl">Edit</a>
+      <a href="<?= HOME_PATH ?>market/delete?id=<?= $id ?>" class="text-yellow-300 font-bold text-xl">Delete</a>
+    <?php } ?>
+  </div>
 </div>

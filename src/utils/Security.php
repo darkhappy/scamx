@@ -3,11 +3,13 @@
 namespace utils;
 
 use models\User;
+use repositories\ItemRepository;
 
 class Security
 {
-  public static function redirectIfNotAuthenticated(string $message = "Please sign in."): void
-  {
+  public static function redirectIfNotAuthenticated(
+    string $message = "Please sign in."
+  ): void {
     if (!Session::isLogged()) {
       Message::error($message);
       header("Location: /user/login");
@@ -52,11 +54,19 @@ class Security
     return preg_match($regex, $username);
   }
 
-  private static function sendEmail(User $user, string $subject, string $message): void
-  {
+  private static function sendEmail(
+    User $user,
+    string $subject,
+    string $message
+  ): void {
     $username = $user->getUsername();
     $email = $user->getEmail();
-    $headers = ["MIME-Version" => "1.0", "Content-type" => "text/html; charset=UTF-8", "To" => "$username <$email>", "From" => "ScamX <test@localhost>",];
+    $headers = [
+      "MIME-Version" => "1.0",
+      "Content-type" => "text/html; charset=UTF-8",
+      "To" => "$username <$email>",
+      "From" => "ScamX <test@localhost>",
+    ];
 
     if (!mail($email, $subject, $message, implode("\r\n", $headers))) {
       if (DEBUG) {
@@ -120,7 +130,9 @@ class Security
     }
 
     if (!isset($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on") {
-      header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+      header(
+        "Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]
+      );
       exit();
     }
   }
@@ -175,6 +187,36 @@ class Security
   public static function formatPrice(string $input): float|bool
   {
     // Convert to float
-    return filter_var($input, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    return filter_var(
+      $input,
+      FILTER_SANITIZE_NUMBER_FLOAT,
+      FILTER_FLAG_ALLOW_FRACTION
+    );
+  }
+
+  public static function ownsItem(string $id): bool
+  {
+    // Get the user
+    $user = Session::getUser();
+    if (!$user) {
+      return false;
+    }
+
+    $userID = $user->getID();
+
+    // Get the item
+    $item = ItemRepository::getById($id);
+
+    // Check if the item exists
+    if (!$item) {
+      return false;
+    }
+
+    // Check if the user owns the item
+    if ($item->getVendorId() != $userID) {
+      return false;
+    }
+
+    return true;
   }
 }
