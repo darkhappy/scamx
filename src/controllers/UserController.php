@@ -88,7 +88,23 @@ class UserController extends Controller
     Session::setUser($user);
     Log::info("User $username logged in.");
     Message::success("Welcome back, $username!");
+
+    // Verify for remember me
+    if (isset($_POST["remember"])) {
+      $this->handleRememberMe($user);
+    }
+
     $this->redirect("/");
+  }
+
+  private function handleRememberMe(User $user): void
+  {
+    // Generate a token for the user
+    Security::generateAuthToken($user);
+    // Send the remember me token to the database
+    UserRepository::setAuthToken($user);
+    // Add a cookie to the user's browser
+    Security::addAuthCookie($user);
   }
 
   public function register(): void

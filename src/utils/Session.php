@@ -3,15 +3,19 @@
 namespace utils;
 
 use models\User;
+use repositories\UserRepository;
 
 class Session
 {
   public static function init(): void
   {
-    session_name('ScamX-Session');
+    session_name("ScamX-Session");
     session_start();
     self::setCSRF();
     self::resetSessionId();
+    if (self::getUser() === null) {
+      Security::logFromCookie();
+    }
   }
 
   public static function resetSessionId(): void
@@ -92,8 +96,12 @@ class Session
   public static function logout(bool $redirect = true): void
   {
     if (self::isLogged()) {
+      $user = self::getUser();
+      UserRepository::resetAuthToken($user);
+
       unset($_SESSION);
       session_destroy();
+
       Message::info("Successfully logged out.");
       Log::info("Logged out.");
     }
@@ -102,5 +110,4 @@ class Session
       exit();
     }
   }
-
 }

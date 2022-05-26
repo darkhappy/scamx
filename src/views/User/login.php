@@ -15,8 +15,14 @@
           class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="password" name="password" type="password">
       </div>
+      <div class="mb-3">
+        <input id="remember" name="remember" type="checkbox">
+        <label class="mb-1 font-medium" for="remember">remember me</label>
+      </div>
       <label for="csrf" hidden>
-        <input type="hidden" name="csrf" value="<?= Security::generateCSRFToken("login") ?>">
+        <input type="hidden" name="csrf" value="<?= Security::generateCSRFToken(
+          "login"
+        ) ?>">
       </label>
     </div>
     <div class="flex items-center justify-between gap-8">

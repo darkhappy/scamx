@@ -88,4 +88,32 @@ class UserRepository
     $query->execute();
     return $query->fetchObject(User::class);
   }
+
+  public static function getByAuthToken(mixed $cookie)
+  {
+    $query = DATABASE->prepare("SELECT * FROM users WHERE authToken = ?");
+    $query->bindValue(1, $cookie);
+    $query->execute();
+    return $query->fetchObject(User::class);
+  }
+
+  public static function setAuthToken(User $user): void
+  {
+    $query = DATABASE->prepare(
+      "UPDATE users SET authToken = ?, authTimeout = ? WHERE id = ?"
+    );
+    $query->bindValue(1, $user->getAuthToken());
+    $query->bindValue(2, $user->getAuthTimeout());
+    $query->bindValue(3, $user->getId());
+    $query->execute();
+  }
+
+  public static function resetAuthToken(User $user): void
+  {
+    $query = DATABASE->prepare(
+      "UPDATE users SET authToken = '', authTimeout = 0 WHERE id = ?"
+    );
+    $query->bindValue(1, $user->getId());
+    $query->execute();
+  }
 }

@@ -9,9 +9,26 @@ class User
   private string $email;
   private string $password;
   private string $verifyToken;
+  private int $authTimeout;
   private int $timeout;
   private string $authToken;
   private string $resetToken;
+
+  /**
+   * @return int
+   */
+  public function getAuthTimeout(): int
+  {
+    return $this->authTimeout;
+  }
+
+  /**
+   * @param int $authTimeout
+   */
+  public function setAuthTimeout(int $authTimeout): void
+  {
+    $this->authTimeout = $authTimeout;
+  }
 
   public function getId(): string
   {

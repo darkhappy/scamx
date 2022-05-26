@@ -4,6 +4,7 @@ namespace utils;
 
 use models\User;
 use repositories\ItemRepository;
+use repositories\UserRepository;
 
 class Security
 {
@@ -218,5 +219,49 @@ class Security
     }
 
     return true;
+  }
+
+  public static function generateAuthToken(User $user): void
+  {
+    $token = bin2hex(openssl_random_pseudo_bytes(32));
+    $timeout = time() + 60 * 60 * 24 * 30;
+    $user->setAuthToken($token);
+    $user->setAuthTimeout($timeout);
+  }
+
+  public static function logFromCookie(): void
+  {
+    // Check if there is a remember me cookie
+    if (!isset($_COOKIE["authToken"])) {
+      return;
+    }
+
+    // Get the remember me cookie
+    $cookie = $_COOKIE["authToken"];
+
+    // Find a user with the remember me cookie
+    $user = UserRepository::getByAuthToken($cookie);
+
+    // Check if the user exists
+    if (!$user) {
+      return;
+    }
+
+    // If the auth timeout is expired, remove the cookie
+    if ($user->getAuthTimeout() < time()) {
+      UserRepository::resetAuthToken($user);
+      return;
+    }
+
+    // Set the user as logged in
+    Session::setUser($user);
+    Message::info("Welcome back, " . $user->getUsername() . "!");
+  }
+
+  public static function addAuthCookie(User $user): void
+  {
+    $token = $user->getAuthToken();
+    $timeout = $user->getAuthTimeout();
+    setcookie("authToken", $token, $timeout, "/");
   }
 }
