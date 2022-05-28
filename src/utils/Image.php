@@ -30,4 +30,12 @@ class Image
     // TODO: Implement watermark() method.
     return "yuki.png";
   }
+
+  public static function delete(string $oldImage): void
+  {
+    $target = __DIR__ . "/../assets/uploads/" . $oldImage;
+    if (file_exists($target)) {
+      unlink($target);
+    }
+  }
 }

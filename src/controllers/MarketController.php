@@ -123,4 +123,126 @@ class MarketController extends Controller
     ];
     $this->render("info", data: $data);
   }
+
+  public function edit(): void
+  {
+    Security::redirectIfNotAuthenticated();
+
+    $item = ItemRepository::getById($_GET["id"]);
+    if (!$item) {
+      Message::error("Item not found.");
+      Log::info("Trying to view non-existing item.");
+      $this->redirect("/");
+    }
+
+    if ($item->getVendorId() != Session::getUser()->getId()) {
+      Message::error("You are not allowed to edit this item.");
+      Log::info("Trying to edit item that is not owned by user.");
+      $this->redirect("/");
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+      $this->handleEdit($item);
+    }
+
+    $data = [
+      "title" => "",
+      "pagetitle" => "ScamX",
+      "pagesub" => "Welcome to ScamX bbg",
+      "item" => $item,
+    ];
+    $this->render("edit", data: $data);
+  }
+
+  private function handleEdit(Item $item)
+  {
+    $name = $_POST["name"];
+    $description = $_POST["description"];
+    $price = $_POST["price"];
+    $image = $_FILES["image"];
+    $csrf = $_POST["csrf"];
+
+    // Verify CSRF
+    if (!Security::verifyCSRF($csrf, "add")) {
+      Message::error("There was a problem, please try again.");
+      Log::severe("Possible CSRF attempt");
+      return;
+    }
+
+    // Verify if all fields are filled
+    if (empty($name) || empty($description) || empty($price)) {
+      Message::error("Please fill in all fields.");
+      Log::info("Empty login attempt");
+      return;
+    }
+
+    // Check if the user is changing the image
+    if (!empty($image["name"])) {
+      // Verify if the image is a valid image
+      if (!Security::isValidImage($image)) {
+        Message::error("Please upload a valid image.");
+        Log::info("Invalid image upload attempt");
+        return;
+      }
+
+      // Delete the old image
+      $oldImage = $item->getImage();
+      Image::delete($oldImage);
+
+      // Upload the image
+      $path = Image::upload($image);
+      $item->setImage($path);
+    }
+
+    // Format the price
+    $price = Security::formatPrice($price);
+    if (!$price) {
+      Message::error("Please enter a valid price.");
+      Log::info("Invalid price attempt");
+      return;
+    }
+
+    $item->setName($name);
+    $item->setDescription($description);
+    $item->setPrice($price);
+
+    $user = Session::getUser();
+
+    ItemRepository::edit($item);
+    Message::success("Item edited successfully.");
+    Log::info(
+      "Item '$name' was edited by " . $user->getUsername() . " successfully."
+    );
+    $this->redirect("/");
+  }
+
+  #[NoReturn]
+  public function delete(): void
+  {
+    Security::redirectIfNotAuthenticated();
+
+    $item = ItemRepository::getById($_GET["id"]);
+    if (!$item) {
+      Message::error("Item not found.");
+      Log::info("Trying to view non-existing item.");
+      $this->redirect("/");
+    }
+
+    if ($item->getVendorId() != Session::getUser()->getId()) {
+      Message::error("You are not allowed to edit this item.");
+      Log::info("Trying to edit item that is not owned by user.");
+      $this->redirect("/");
+    }
+
+    ItemRepository::delete($item);
+    Message::success("Item deleted successfully.");
+    Log::info(
+      "Item '" .
+        $item->getName() .
+        "' was deleted by " .
+        Session::getUser()->getUsername() .
+        " successfully."
+    );
+    $this->redirect("/market/dashboard");
+  }
 }

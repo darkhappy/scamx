@@ -73,4 +73,24 @@ class ItemRepository
     $query->execute();
     return $query->fetchColumn();
   }
+
+  public static function edit(Item $item): bool
+  {
+    $query = DATABASE->prepare(
+      "UPDATE items SET name = ?, description = ?, image = ?, price = ? WHERE id = ?"
+    );
+    $query->bindValue(1, $item->getName());
+    $query->bindValue(2, $item->getDescription());
+    $query->bindValue(3, $item->getImage());
+    $query->bindValue(4, $item->getPrice());
+    $query->bindValue(5, $item->getId());
+    return $query->execute();
+  }
+
+  public static function delete(Item $item): void
+  {
+    $query = DATABASE->prepare("DELETE FROM items WHERE id = ?");
+    $query->bindValue(1, $item->getId());
+    $query->execute();
+  }
 }
