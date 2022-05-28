@@ -72,6 +72,7 @@
       <path value="$PROJECT_DIR$/vendor/psr/http-message" />
       <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
       <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/codeception/module-asserts" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

@@ -17,9 +17,9 @@ use Codeception\Actor;
  *
  * @SuppressWarnings(PHPMD)
  */
-class AcceptanceTester extends Actor
+class UnitTester extends Actor
 {
-  use _generated\AcceptanceTesterActions;
+  use _generated\UnitTesterActions;
 
   /**
    * Define custom actions here

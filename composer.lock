@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "dd2f71883249ea02543661503f599ea6",
+  "content-hash": "73af351d292d4c7a78d81bd38748ed87",
   "packages": [
     {
       "name": "stripe/stripe-php",
@@ -399,6 +399,63 @@
         "source": "https://github.com/Codeception/lib-innerbrowser/tree/2.0.2"
       },
       "time": "2022-01-27T15:55:51+00:00"
+    },
+    {
+      "name": "codeception/module-asserts",
+      "version": "2.0.1",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/Codeception/module-asserts.git",
+        "reference": "313673c35de00ad337d3b5f895a1998695d3b537"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/Codeception/module-asserts/zipball/313673c35de00ad337d3b5f895a1998695d3b537",
+        "reference": "313673c35de00ad337d3b5f895a1998695d3b537",
+        "shasum": ""
+      },
+      "require": {
+        "codeception/codeception": "^4.1 | *@dev",
+        "codeception/lib-asserts": "^2.0",
+        "php": "^7.4 | ^8.0"
+      },
+      "conflict": {
+        "codeception/codeception": "<4.1"
+      },
+      "type": "library",
+      "autoload": {
+        "classmap": [
+          "src/"
+        ]
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "Michael Bodnarchuk"
+        },
+        {
+          "name": "Gintautas Miselis"
+        },
+        {
+          "name": "Gustavo Nieves",
+          "homepage": "https://medium.com/@ganieves"
+        }
+      ],
+      "description": "Codeception module containing various assertions",
+      "homepage": "https://codeception.com/",
+      "keywords": [
+        "assertions",
+        "asserts",
+        "codeception"
+      ],
+      "support": {
+        "issues": "https://github.com/Codeception/module-asserts/issues",
+        "source": "https://github.com/Codeception/module-asserts/tree/2.0.1"
+      },
+      "time": "2021-12-18T17:10:04+00:00"
     },
     {
       "name": "codeception/module-db",
@@ -4598,5 +4655,5 @@
     "ext-openssl": "*"
   },
   "platform-dev": [],
-  "plugin-api-version": "2.2.0"
+  "plugin-api-version": "2.3.0"
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Helper;
 
 // here you can define custom actions
@@ -6,6 +7,6 @@ namespace Helper;
 
 use Codeception\Module;
 
-class Acceptance extends Module
+class Unit extends Module
 {
 }

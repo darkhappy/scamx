@@ -1,20 +1,25 @@
 {
-  "autoload": {
-    "psr-0": {
-      "": "src/"
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    },
+    "require": {
+        "ext-pdo": "*",
+        "ext-openssl": "*",
+        "stripe/stripe-php": "*"
+    },
+    "require-dev": {
+        "codeception/codeception": "*",
+        "codeception/c3": "*",
+        "codeception/module-db": "*",
+        "codeception/module-phpbrowser": "*",
+        "phpunit/phpunit": "^9",
+        "codeception/module-asserts": "*"
+    },
+    "config": {
+        "allow-plugins": {
+            "codeception/c3": true
+        }
     }
-  },
-  "require": {
-    "ext-pdo": "*",
-    "ext-openssl": "*",
-    "stripe/stripe-php": "*",
-    "ext-intl": "*"
-  },
-  "require-dev": {
-    "codeception/codeception": "*",
-    "codeception/c3": "*",
-    "codeception/module-db": "*",
-    "codeception/module-phpbrowser": "*",
-    "phpunit/phpunit": "^9"
-  }
 }

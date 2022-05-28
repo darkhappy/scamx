@@ -1,28 +1,19 @@
-# suite config
-suites:
-  acceptance:
-    actor: AcceptanceTester
-    path: .
-    modules:
-      enabled:
-        - PhpBrowser:
-            url: http://host.docker.internal
-        - \Helper\Acceptance
-
-    # add Codeception\Step\Retry trait to AcceptanceTester to enable retries
-    step_decorators:
-      - Codeception\Step\ConditionalAssertion
-      - Codeception\Step\TryTo
-      - Codeception\Step\Retry
+paths:
+  tests: tests
+  output: tests/_output
+  data: tests/_data
+  support: tests/_support
+  envs: tests/_envs
+actor_suffix: Tester
+extensions:
+  enabled:
+    - Codeception\Extension\RunFailed
 
 coverage:
   enabled: true
   remote: false
   include:
     - src/*
-
-extensions:
-  enabled: [ Codeception\Extension\RunFailed ]
 
 params:
   - env
@@ -31,15 +22,3 @@ gherkin:
   contexts:
     default:
       - AcceptanceTester
-
-# additional paths
-paths:
-  tests: tests
-  output: tests/_output
-  data: tests/_data
-  support: tests/_support
-  envs: tests/_envs
-
-settings:
-  shuffle: false
-  lint: true
