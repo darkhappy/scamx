@@ -351,4 +351,55 @@ class MarketController extends Controller
     );
     $this->redirect("/market/dashboard");
   }
+
+  public function refund(): void
+  {
+    Security::redirectIfNotAuthenticated();
+    $transaction = TransactionRepository::getById($_GET["id"]);
+    if (!$transaction) {
+      Message::error("Transaction not found.");
+      Log::info("Trying to view non-existing transaction.");
+      $this->redirect("/");
+    }
+
+    // Check if we are either the vendor or the client
+    if (
+      $transaction->getClientId() != Session::getUser()->getId() &&
+      $transaction->getVendorId() != Session::getUser()->getId()
+    ) {
+      Message::error("You are not allowed to refund this transaction.");
+      Log::info("Trying to refund transaction that is not owned by user.");
+      $this->redirect("/");
+    }
+
+    $status = $transaction->getStatus();
+
+    if ($status == "refunded") {
+      Message::error("This transaction has already been refunded.");
+      Log::info("Trying to refund transaction that has already been refunded.");
+      $this->redirect("/");
+    }
+
+    if ($status == "confirmed") {
+      Message::error("This transaction has already been confirmed.");
+      Log::info(
+        "Trying to refund transaction that has already been confirmed."
+      );
+      $this->redirect("/");
+    }
+
+    $intent = Market::refund($transaction->getStripeIntentId());
+
+    if (!$intent) {
+      // There was an error, however the function will have already sent the error message
+      Log::severe("Stripe error");
+      return;
+    }
+
+    $transaction->setStatus("refunded");
+    TransactionRepository::updateStatus($transaction);
+    Message::success("Transaction refunded successfully.");
+    Log::info("Transaction refunded successfully.");
+    $this->redirect("/market/dashboard");
+  }
 }

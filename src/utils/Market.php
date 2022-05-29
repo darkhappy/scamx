@@ -4,6 +4,7 @@ namespace utils;
 
 use Stripe\Exception\ApiErrorException;
 use Stripe\PaymentIntent;
+use Stripe\Refund;
 use Stripe\StripeClient;
 
 class Market
@@ -32,6 +33,11 @@ class Market
   public static function calculateShipping(float $subtotal): float
   {
     return 20 + round($subtotal * 0.05, 2);
+  }
+
+  public static function calculateProfit(float $subtotal): float
+  {
+    return round($subtotal * 0.95, 2);
   }
 
   public static function buy(
@@ -82,5 +88,17 @@ class Market
     }
 
     return $intent;
+  }
+
+  public static function refund($getStripeIntentId): bool|Refund
+  {
+    $stripe = new StripeClient(STRIPE_SECRET_KEY);
+
+    try {
+      return $stripe->refunds->create(["payment_intent" => $getStripeIntentId]);
+    } catch (ApiErrorException $e) {
+      Message::error($e->getMessage());
+      return false;
+    }
   }
 }

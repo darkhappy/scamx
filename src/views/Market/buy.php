@@ -115,7 +115,7 @@ require __DIR__ . "/../components/Message.php";
                  name="cardnumber" id="cardnumber" required=""
                  autocomplete="cc-number">
         </div>
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-3 gap-4 items-end">
           <div>
             <label for="expmonth" class="block uppercase tracking-wide text-gray-100 text-xs font-bold mb-2">
               Expiration Month
@@ -145,18 +145,16 @@ require __DIR__ . "/../components/Message.php";
     </div>
   </form>
   <div class="bg-slate-700 rounded-3xl">
-    <div id="<?= $id ?>" class="flex flex-col gap-2 rounded-3xl <?= $color ?> p-8">
-      <div class="flex flex-row gap-2 items-center">
-        <div class="p-4">
-          <img src="<?= HOME_PATH .
-            "src/assets/uploads/" .
-            $image ?>" alt="<?= $name ?>"
-               class="max-h-48 rounded-3xl" />
-        </div>
-        <div>
-          <h1 class="font-bold text-6xl text-white"><?= $name ?></h1>
-          <p class="text-white text-3xl">Sold by <?= $username ?></p>
-        </div>
+    <div class="flex flex-col md:flex-row gap-2 rounded-3xl <?= $color ?> p-8">
+      <div class="p-4">
+        <img src="<?= HOME_PATH .
+          "src/assets/uploads/" .
+          $image ?>" alt="<?= $name ?>"
+             class="max-h-48 rounded-3xl" />
+      </div>
+      <div>
+        <h1 class="font-bold text-6xl text-white"><?= $name ?></h1>
+        <p class="text-white text-3xl">Sold by <?= $username ?></p>
       </div>
     </div>
     <div class="flex flex-col justify-between rounded-3xl p-8 text-white gap-4 grow-0">
@@ -178,7 +176,7 @@ require __DIR__ . "/../components/Message.php";
           <span class="font-mono">CAD$ <?= number_format($shipping, 2) ?></span>
         </div>
         <div class="flex flex-row justify-between items-end gap-2">
-          <span class="text-4xl">Total:</span>
+          <span class="text-4xl hidden md:block">Total:</span>
           <span class="text-4xl font-mono">CAD$<span
               class="text-6xl font-medium"><?= number_format(
                 $total,

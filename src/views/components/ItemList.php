@@ -15,7 +15,7 @@ $image = $item->getImage();
 $name = Security::sanitize($name);
 $description = Security::sanitize($description);
 ?>
-<div id="<?= $id ?>" class="text-white p-4 flex flex-row justify-between">
+<div id="<?= $id ?>" class="text-white p-4 flex flex-row justify-between break-all">
   <div>
     <h1 class="font-bold text-2xl"><?= $name ?></h1>
     <p class="text-slate-300"><span class="font-medium"><?= $price ?></span> vbuks</p>

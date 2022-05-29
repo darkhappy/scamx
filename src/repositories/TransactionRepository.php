@@ -23,8 +23,8 @@ class TransactionRepository
 
   public static function getById(string $itemId)
   {
-    $query = DATABASE->prepare("SELECT * FROM transactions WHERE item_id = ?");
-    $query->bindValue(1, $itemId);
+    $query = DATABASE->prepare("SELECT * FROM transactions WHERE id = ?");
+    $query->bindValue(1, $itemId, PDO::PARAM_INT);
     $query->execute();
     $query->setFetchMode(PDO::FETCH_CLASS, Transaction::class);
     return $query->fetch();
@@ -80,5 +80,15 @@ class TransactionRepository
     $query->execute();
     $query->setFetchMode(PDO::FETCH_CLASS, Transaction::class);
     return $query->fetchAll();
+  }
+
+  public static function updateStatus(Transaction $transaction)
+  {
+    $query = DATABASE->prepare(
+      "UPDATE transactions SET status = ? WHERE id = ?"
+    );
+    $query->bindValue(1, $transaction->getStatus());
+    $query->bindValue(2, $transaction->getId());
+    $query->execute();
   }
 }

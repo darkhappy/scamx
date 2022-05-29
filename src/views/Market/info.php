@@ -11,6 +11,7 @@ $id = $item->getId();
 $name = $item->getName();
 $description = $item->getDescription();
 $price = $item->getPrice();
+$price = number_format($price, 2);
 $image = $item->getImage();
 $user = UserRepository::getById($item->getVendorId());
 $username = $user->getUsername();
@@ -26,7 +27,8 @@ if (Security::ownsItem($id)) {
 
 $ownItem = Security::ownsItem($id);
 ?>
-<div id="<?= $id ?>" class="flex flex-row gap-4 text-white">
+<div id="<?= $id ?>"
+     class="flex flex-col md:flex-row gap-0 break-all <?= $color ?> md:bg-transparent rounded-3xl md:gap-4 text-white items-center">
   <div class="<?= $color ?> p-4 rounded-3xl">
     <img src="<?= HOME_PATH .
       "src/assets/uploads/" .
@@ -44,7 +46,7 @@ $ownItem = Security::ownsItem($id);
     <div class="grow">
       <p class="text-white text-xl"><?= $description ?></p>
     </div>
-    <p class="text-4xl font-mono">CAD$<span class="text-6xl font-medium"><?= $price ?></span></p>
+    <p class="text-4xl font-mono">CAD$ <span class="text-6xl font-medium"><?= $price ?></span></p>
     <div class="flex flex-row gap-8">
       <?php if ($ownItem) { ?>
         <a href="<?= HOME_PATH ?>market/edit?id=<?= $id ?>" class="text-yellow-300 font-bold text-xl">Edit</a>

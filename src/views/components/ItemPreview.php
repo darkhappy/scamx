@@ -20,7 +20,7 @@ if (Security::ownsItem($id)) {
   $color = "bg-teal-600";
 }
 ?>
-<div id="<?= $id ?>" class="<?= $color ?> p-4">
+<div id="<?= $id ?>" class="<?= $color ?> p-4 break-all">
   <h1 class="font-bold text-2xl text-white"><?= $name ?></h1>
   <p class="text-slate-300">CAD$<span class="text-white font-medium"><?= $price ?></span></p>
   <img src="<?= HOME_PATH .
