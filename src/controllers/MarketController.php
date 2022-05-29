@@ -4,9 +4,12 @@ namespace controllers;
 
 use JetBrains\PhpStorm\NoReturn;
 use models\Item;
+use models\Transaction;
 use repositories\ItemRepository;
+use repositories\TransactionRepository;
 use utils\Image;
 use utils\Log;
+use utils\Market;
 use utils\Message;
 use utils\Security;
 use utils\Session;
@@ -62,8 +65,8 @@ class MarketController extends Controller
       return;
     }
 
-    // Verify if all fields are filled
     if (empty($name) || empty($description) || empty($price) || empty($image)) {
+      // Verify if all fields are filled
       Message::error("Please fill in all fields.");
       Log::info("Empty login attempt");
       return;
@@ -213,6 +216,109 @@ class MarketController extends Controller
     Log::info(
       "Item '$name' was edited by " . $user->getUsername() . " successfully."
     );
+    $this->redirect("/");
+  }
+
+  public function buy(): void
+  {
+    Security::redirectIfNotAuthenticated();
+
+    $item = ItemRepository::getById($_GET["id"]);
+    if (!$item) {
+      Message::error("Item not found.");
+      Log::info("Trying to view non-existing item.");
+      $this->redirect("/");
+    }
+
+    if ($item->getVendorId() == Session::getUser()->getId()) {
+      Message::error("You can't buy your own item.");
+      Log::info("Trying to buy item that is owned by user.");
+      $this->redirect("/");
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+      $this->handleBuy($item);
+    }
+
+    $data = [
+      "title" => "",
+      "pagetitle" => "ScamX",
+      "pagesub" => "Welcome to ScamX bbg",
+      "item" => $item,
+    ];
+    $this->render("buy", data: $data);
+  }
+
+  private function handleBuy(Item $item)
+  {
+    $csrf = $_POST["csrf"];
+    $name = $_POST["name"];
+    $address = $_POST["address"];
+    $city = $_POST["city"];
+    $postal = $_POST["postal"];
+    $province = $_POST["province"];
+    $ccname = $_POST["ccname"];
+    $cardnumber = $_POST["cardnumber"];
+    $expmonth = $_POST["expmonth"];
+    $expyear = $_POST["expyear"];
+    $cvc = $_POST["cvc2"];
+
+    // Verify CSRF
+    if (!Security::verifyCSRF($csrf, "buy")) {
+      Message::error("There was a problem, please try again.");
+      Log::severe("Possible CSRF attempt");
+      return;
+    }
+
+    // Verify if all fields are filled
+    if (
+      empty($name) ||
+      empty($address) ||
+      empty($city) ||
+      empty($postal) ||
+      empty($province) ||
+      empty($ccname) ||
+      empty($cardnumber) ||
+      empty($expmonth) ||
+      empty($expyear) ||
+      empty($cvc)
+    ) {
+      Message::error("Please fill in all fields.");
+      Log::info("Empty buy attempt");
+      return;
+    }
+
+    // Verify if they are from Quebec
+    if ($province !== "QC") {
+      Message::error("tokébec icit");
+      Log::info("Invalid province attempt");
+      return;
+    }
+
+    $price = Market::calculateTotal($item->getPrice());
+
+    // Ask Stripe to verify the card
+    $intent = Market::buy($price, $cardnumber, $expmonth, $expyear, $cvc);
+    if (!$intent) {
+      // There was an error, however the function will have already sent the error message
+      Log::severe("Stripe error");
+      return;
+    }
+
+    // Create a new transaction
+    $transaction = new Transaction();
+
+    $transaction->setClientId(Session::getUser()->getId());
+    $transaction->setVendorId($item->getVendorId());
+    $transaction->setItemId($item->getId());
+    $transaction->setPrice($price);
+    $transaction->setStripeIntentId($intent->id);
+    $transaction->setDate(date("Y-m-d H:i:s"));
+
+    TransactionRepository::insert($transaction);
+
+    Message::success("Transaction completed successfully.");
+    Log::info("Transaction completed successfully.");
     $this->redirect("/");
   }
 

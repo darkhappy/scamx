@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-require_once 'vendor/autoload.php';
+require_once "vendor/autoload.php";
 
 use controllers\HomeController;
 use utils\Security;
@@ -39,9 +39,14 @@ spl_autoload_register(function ($className) {
   }
 });
 
-define("DATABASE", new PDO("mysql:host=$host;dbname=$name;port=$port", $user, $pass));
+define(
+  "DATABASE",
+  new PDO("mysql:host=$host;dbname=$name;port=$port", $user, $pass)
+);
 define("HOME_PATH", $config["root"]);
 define("DEBUG", $debug);
+define("STRIPE_PUBLIC_KEY", $stripe_public_key);
+define("STRIPE_SECRET_KEY", $stripe_secret_key);
 
 Session::init();
 Security::redirectToHTTPS();
