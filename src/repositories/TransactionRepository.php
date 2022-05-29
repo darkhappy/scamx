@@ -55,4 +55,30 @@ class TransactionRepository
     $query->setFetchMode(PDO::FETCH_CLASS, Transaction::class);
     return $query->fetchAll();
   }
+
+  public static function getClientTransactionsCount(string $getId)
+  {
+    $query = DATABASE->prepare(
+      "SELECT COUNT(*) FROM transactions WHERE client_id = ?"
+    );
+    $query->bindValue(1, $getId);
+    $query->execute();
+    return $query->fetchColumn();
+  }
+
+  public static function getClientTransactions(
+    string $getId,
+    int $itemsToShow,
+    int $offset
+  ) {
+    $query = DATABASE->prepare(
+      "SELECT * FROM transactions WHERE client_id = ? LIMIT ? OFFSET ?"
+    );
+    $query->bindValue(1, $getId, PDO::PARAM_INT);
+    $query->bindValue(2, $itemsToShow, PDO::PARAM_INT);
+    $query->bindValue(3, $offset, PDO::PARAM_INT);
+    $query->execute();
+    $query->setFetchMode(PDO::FETCH_CLASS, Transaction::class);
+    return $query->fetchAll();
+  }
 }

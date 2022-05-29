@@ -1,9 +1,10 @@
 <?php
 
+use views\components\BoughtItemsBrowser;
 use views\components\SellerBrowser;
 use views\components\TransactionBrowser;
 ?>
-<div class="grid grid-cols-2 rounded-3xl bg-blue-400 gap-4">
+<div class="grid grid-cols-1 lg:grid-cols-2 rounded-3xl bg-blue-400 gap-4">
   <div class="bg-blue-600 p-4 text-white stroke-2 stroke-black rounded-3xl">
     <h1 class="text-3xl font-bold">Items up for sale</h1>
     <a href="<?= HOME_PATH ?>market/add" class="text-yellow-300 font-medium">Add Item</a>
@@ -22,20 +23,38 @@ use views\components\TransactionBrowser;
       } ?>
     </div>
   </div>
-  <div class="p-4 text-white stroke-2 stroke-black rounded-3xl">
-    <h1 class="text-3xl font-bold">Transactions</h1>
-    <?php
-    $getParam = "transactions";
-    $browser = TransactionBrowser::showList($getParam, 6);
-    extract($browser);
+  <div>
+    <div class="p-4 text-white stroke-2 stroke-black rounded-3xl">
+      <h1 class="text-3xl font-bold">Transactions</h1>
+      <?php
+      $getParam = "transactions";
+      $browser = TransactionBrowser::showList($getParam, 3);
+      extract($browser);
 
-    require __DIR__ . "/../components/PageSelector.php";
-    ?>
-    
-    <div class="grid grid-cols-1 divide-y-4">
-      <?php foreach ($items as $transaction) {
-        include __DIR__ . "/../components/TransactionList.php";
-      } ?>
+      require __DIR__ . "/../components/PageSelector.php";
+      ?>
+      
+      <div class="grid grid-cols-1 divide-y-4">
+        <?php foreach ($items as $transaction) {
+          include __DIR__ . "/../components/TransactionList.php";
+        } ?>
+      </div>
+    </div>
+    <div class="p-4 text-white stroke-2 stroke-black rounded-3xl">
+      <h1 class="text-3xl font-bold">Bought Items</h1>
+      <?php
+      $getParam = "bought";
+      $browser = BoughtItemsBrowser::showList($getParam, 3);
+      extract($browser);
+
+      require __DIR__ . "/../components/PageSelector.php";
+      ?>
+      
+      <div class="grid grid-cols-1 divide-y-4">
+        <?php foreach ($items as $transaction) {
+          include __DIR__ . "/../components/BoughtItemsList.php";
+        } ?>
+      </div>
     </div>
   </div>
 </div>
