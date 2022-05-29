@@ -12,10 +12,7 @@ class Market
   public static function calculateTotal(float $subtotal): float
   {
     return round(
-      $subtotal +
-        self::calculateTPS($subtotal) +
-        self::calculateTVQ($subtotal) +
-        self::calculateShipping($subtotal),
+      $subtotal + self::calculateTPS($subtotal) + self::calculateTVQ($subtotal) + self::calculateShipping($subtotal),
       2
     );
   }
@@ -49,22 +46,7 @@ class Market
   ): PaymentIntent|bool {
     $stripe = new StripeClient(STRIPE_SECRET_KEY);
 
-    if (
-      !is_numeric($cardNumber) ||
-      !is_numeric($month) ||
-      !is_numeric($year) ||
-      !is_numeric($cvc) ||
-      strlen($cardNumber) != 16 ||
-      strlen($month) != 2 ||
-      strlen($year) != 4 ||
-      strlen($cvc) != 3
-    ) {
-      Message::error(
-        "Please ensure that all credit card fields are filled in correctly."
-      );
-      return false;
-    }
-
+    // Payment
     try {
       $paymentMethod = $stripe->paymentMethods->create([
         "type" => "card",
@@ -82,8 +64,7 @@ class Market
         "payment_method" => $paymentMethod->id,
         "confirm" => true,
       ]);
-    } catch (ApiErrorException $e) {
-      Message::error($e->getMessage());
+    } catch (ApiErrorException) {
       return false;
     }
 
@@ -96,8 +77,7 @@ class Market
 
     try {
       return $stripe->refunds->create(["payment_intent" => $getStripeIntentId]);
-    } catch (ApiErrorException $e) {
-      Message::error($e->getMessage());
+    } catch (ApiErrorException) {
       return false;
     }
   }

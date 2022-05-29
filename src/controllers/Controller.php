@@ -2,8 +2,6 @@
 
 namespace controllers;
 
-use JetBrains\PhpStorm\NoReturn;
-
 abstract class Controller
 {
   abstract public function index(): void;
@@ -21,11 +19,5 @@ abstract class Controller
     extract($data);
     $content = $path;
     require __DIR__ . "/../views/layout.php";
-  }
-
-  #[NoReturn]
-  protected function redirect($url): void {
-    header("Location: " . $url);
-    exit();
   }
 }

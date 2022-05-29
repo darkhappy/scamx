@@ -72,7 +72,7 @@ class Image
     $textColor = imagecolorallocate($newImage, 255, 255, 255);
     $text = "stockx.com";
     $fontsize = 44;
-    $font = __DIR__ . "/comic.ttf";
+    $font = __DIR__ . "/fonts/comic.ttf";
     $stroke = 5;
     $strokeColor = imagecolorallocate($newImage, 0, 0, 0);
 
@@ -83,29 +83,9 @@ class Image
     $textX = (int) (round($size - $textWidth) / 2);
     $textY = (int) (($size - $textHeight) / 2);
 
-    // Add the text
-    imagettftext(
-      $newImage,
-      $fontsize,
-      0,
-      $textX,
-      $textY,
-      $textColor,
-      $font,
-      $text
-    );
-
-    // Add the stroke
-    imagettftext(
-      $newImage,
-      $fontsize,
-      0,
-      $textX - $stroke,
-      $textY - $stroke,
-      $strokeColor,
-      $font,
-      $text
-    );
+    // Add the text and stroke
+    imagettftext($newImage, $fontsize, 0, $textX, $textY, $textColor, $font, $text);
+    imagettftext($newImage, $fontsize, 0, $textX - $stroke, $textY - $stroke, $strokeColor, $font, $text);
 
     return $newImage;
   }

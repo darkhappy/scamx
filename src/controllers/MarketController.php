@@ -11,6 +11,7 @@ use utils\Image;
 use utils\Log;
 use utils\Market;
 use utils\Message;
+use utils\Redirect;
 use utils\Security;
 use utils\Session;
 
@@ -19,12 +20,12 @@ class MarketController extends Controller
   #[NoReturn]
   public function index(): void
   {
-    $this->redirect("/market/dashboard");
+    Redirect::to("/market/dashboard");
   }
 
   public function dashboard(): void
   {
-    Security::redirectIfNotAuthenticated();
+    Redirect::ifNotAuthenticated();
 
     $data = [
       "title" => "yo its the dashbord",
@@ -36,7 +37,7 @@ class MarketController extends Controller
 
   public function add(): void
   {
-    Security::redirectIfNotAuthenticated();
+    Redirect::ifNotAuthenticated();
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $this->handleAdd();
@@ -72,18 +73,18 @@ class MarketController extends Controller
       return;
     }
 
-    // Verify if the image is a valid image
-    if (!Security::isValidImage($image)) {
-      Message::error("Please upload a valid image.");
-      Log::info("Invalid image upload attempt");
-      return;
-    }
-
     // Format the price
     $price = Security::formatPrice($price);
     if (!$price) {
       Message::error("Please enter a valid price.");
       Log::info("Invalid price attempt");
+      return;
+    }
+
+    // Verify if the image is a valid image
+    if (!Security::isValidImage($image)) {
+      Message::error("Please upload a valid image.");
+      Log::info("Invalid image upload attempt");
       return;
     }
 
@@ -103,10 +104,8 @@ class MarketController extends Controller
 
     ItemRepository::insert($item);
     Message::success("Item added successfully.");
-    Log::info(
-      "Item '$name' was added by " . $user->getUsername() . " successfully."
-    );
-    $this->redirect("/");
+    Log::info("Item '$name' was added by " . $user->getUsername() . " successfully.");
+    Redirect::back();
   }
 
   public function info(): void
@@ -115,7 +114,7 @@ class MarketController extends Controller
     if (!$item) {
       Message::error("Item not found.");
       Log::info("Trying to view non-existing item.");
-      $this->redirect("/");
+      Redirect::back();
     }
 
     $data = [
@@ -135,13 +134,13 @@ class MarketController extends Controller
     if (!$item) {
       Message::error("Item not found.");
       Log::info("Trying to view non-existing item.");
-      $this->redirect("/");
+      Redirect::back();
     }
 
     if ($item->getVendorId() != Session::getUser()->getId()) {
       Message::error("You are not allowed to edit this item.");
       Log::info("Trying to edit item that is not owned by user.");
-      $this->redirect("/");
+      Redirect::back();
     }
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -179,6 +178,14 @@ class MarketController extends Controller
       return;
     }
 
+    // Format the price
+    $price = Security::formatPrice($price);
+    if (!$price) {
+      Message::error("Please enter a valid price.");
+      Log::info("Invalid price attempt");
+      return;
+    }
+
     // Check if the user is changing the image
     if (!empty($image["name"])) {
       // Verify if the image is a valid image
@@ -197,14 +204,6 @@ class MarketController extends Controller
       $item->setImage($path);
     }
 
-    // Format the price
-    $price = Security::formatPrice($price);
-    if (!$price) {
-      Message::error("Please enter a valid price.");
-      Log::info("Invalid price attempt");
-      return;
-    }
-
     $item->setName($name);
     $item->setDescription($description);
     $item->setPrice($price);
@@ -213,10 +212,8 @@ class MarketController extends Controller
 
     ItemRepository::edit($item);
     Message::success("Item edited successfully.");
-    Log::info(
-      "Item '$name' was edited by " . $user->getUsername() . " successfully."
-    );
-    $this->redirect("/");
+    Log::info("Item '$name' was edited by " . $user->getUsername() . " successfully.");
+    Redirect::back();
   }
 
   public function buy(): void
@@ -227,13 +224,13 @@ class MarketController extends Controller
     if (!$item) {
       Message::error("Item not found.");
       Log::info("Trying to view non-existing item.");
-      $this->redirect("/");
+      Redirect::back();
     }
 
     if ($item->getVendorId() == Session::getUser()->getId()) {
       Message::error("You can't buy your own item.");
       Log::info("Trying to buy item that is owned by user.");
-      $this->redirect("/");
+      Redirect::back();
     }
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -297,10 +294,27 @@ class MarketController extends Controller
 
     $price = Market::calculateTotal($item->getPrice());
 
+    // Verify card details
+    // Verify fields
+    if (
+      !is_numeric($cardnumber) ||
+      !is_numeric($expmonth) ||
+      !is_numeric($expyear) ||
+      !is_numeric($cvc) ||
+      strlen($cardnumber) != 16 ||
+      strlen($expmonth) != 2 ||
+      strlen($expyear) != 4 ||
+      strlen($cvc) != 3
+    ) {
+      Message::error("Please make sure that all payment details are correct.");
+      Log::info("Invalid card number attempt");
+      return;
+    }
+
     // Ask Stripe to verify the card
     $intent = Market::buy($price, $cardnumber, $expmonth, $expyear, $cvc);
     if (!$intent) {
-      // There was an error, however the function will have already sent the error message
+      Message::error("There was a problem, please verify your card details.");
       Log::severe("Stripe error");
       return;
     }
@@ -319,37 +333,31 @@ class MarketController extends Controller
 
     Message::success("Transaction completed successfully.");
     Log::info("Transaction completed successfully.");
-    $this->redirect("/");
+    Redirect::back();
   }
 
   #[NoReturn]
   public function delete(): void
   {
-    Security::redirectIfNotAuthenticated();
+    Redirect::ifNotAuthenticated();
 
     $item = ItemRepository::getById($_GET["id"]);
     if (!$item) {
       Message::error("Item not found.");
       Log::info("Trying to view non-existing item.");
-      $this->redirect("/");
+      Redirect::back();
     }
 
     if ($item->getVendorId() != Session::getUser()->getId()) {
       Message::error("You are not allowed to edit this item.");
       Log::info("Trying to edit item that is not owned by user.");
-      $this->redirect("/");
+      Redirect::back();
     }
 
     ItemRepository::delete($item);
     Message::success("Item deleted successfully.");
-    Log::info(
-      "Item '" .
-        $item->getName() .
-        "' was deleted by " .
-        Session::getUser()->getUsername() .
-        " successfully."
-    );
-    $this->redirect("/market/dashboard");
+    Log::info("Item '" . $item->getName() . "' was deleted by " . Session::getUser()->getUsername() . " successfully.");
+    Redirect::back();
   }
 
   public function refund(): void
@@ -359,7 +367,7 @@ class MarketController extends Controller
     if (!$transaction) {
       Message::error("Transaction not found.");
       Log::info("Trying to view non-existing transaction.");
-      $this->redirect("/");
+      Redirect::back();
     }
 
     // Check if we are either the vendor or the client
@@ -369,7 +377,7 @@ class MarketController extends Controller
     ) {
       Message::error("You are not allowed to refund this transaction.");
       Log::info("Trying to refund transaction that is not owned by user.");
-      $this->redirect("/");
+      Redirect::back();
     }
 
     $status = $transaction->getStatus();
@@ -377,29 +385,27 @@ class MarketController extends Controller
     if ($status == "refunded") {
       Message::error("This transaction has already been refunded.");
       Log::info("Trying to refund transaction that has already been refunded.");
-      $this->redirect("/");
+      Redirect::back();
     }
 
     if ($status == "confirmed") {
       Message::error("This transaction has already been confirmed.");
-      Log::info(
-        "Trying to refund transaction that has already been confirmed."
-      );
-      $this->redirect("/");
+      Log::info("Trying to refund transaction that has already been confirmed.");
+      Redirect::back();
     }
 
     $intent = Market::refund($transaction->getStripeIntentId());
 
     if (!$intent) {
-      // There was an error, however the function will have already sent the error message
+      Message::error("There was a problem issuing a refund, please try again later.");
       Log::severe("Stripe error");
-      return;
+      Redirect::back();
     }
 
     $transaction->setStatus("refunded");
     TransactionRepository::updateStatus($transaction);
     Message::success("Transaction refunded successfully.");
     Log::info("Transaction refunded successfully.");
-    $this->redirect("/market/dashboard");
+    Redirect::back();
   }
 }

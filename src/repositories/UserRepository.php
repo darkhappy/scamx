@@ -3,6 +3,7 @@
 namespace repositories;
 
 use models\User;
+use PDO;
 
 class UserRepository
 {
@@ -13,9 +14,9 @@ class UserRepository
     );
     $query->bindValue(1, $user->getUsername());
     $query->bindValue(2, $user->getEmail());
-    $query->bindValue(3, password_hash($user->getPassword(), PASSWORD_BCRYPT));
+    $query->bindValue(3, $user->getPassword());
     $query->bindValue(4, $user->getVerifyToken());
-    $query->bindValue(5, $user->getTimeout());
+    $query->bindValue(5, $user->getTimeout(), PDO::PARAM_INT);
     $query->execute();
   }
 
@@ -25,15 +26,6 @@ class UserRepository
     $query->bindValue(1, $token);
     $query->execute();
     return $query->fetchObject(User::class);
-  }
-
-  public static function setVerified(?User $user): void
-  {
-    $query = DATABASE->prepare(
-      "UPDATE users SET verifyToken = '', timeout = 0 WHERE id = ?"
-    );
-    $query->bindValue(1, $user->getId());
-    $query->execute();
   }
 
   public static function getByUsername(string $username): User|bool
@@ -62,34 +54,30 @@ class UserRepository
 
   public static function setResetToken(?User $user): void
   {
-    $query = DATABASE->prepare(
-      "UPDATE users SET resetToken = ?, timeout = ? WHERE id = ?"
-    );
+    $query = DATABASE->prepare("UPDATE users SET resetToken = ?, timeout = ? WHERE id = ?");
     $query->bindValue(1, $user->getResetToken());
-    $query->bindValue(2, $user->getTimeout());
-    $query->bindValue(3, $user->getId());
+    $query->bindValue(2, $user->getTimeout(), PDO::PARAM_INT);
+    $query->bindValue(3, $user->getId(), PDO::PARAM_INT);
     $query->execute();
   }
 
   public static function changePassword(User $user): void
   {
-    $query = DATABASE->prepare(
-      "UPDATE users SET password = ?, resetToken = '', timeout = 0 WHERE id = ?"
-    );
-    $query->bindValue(1, password_hash($user->getPassword(), PASSWORD_BCRYPT));
-    $query->bindValue(2, $user->getId());
+    $query = DATABASE->prepare("UPDATE users SET password = ?, resetToken = '', timeout = 0 WHERE id = ?");
+    $query->bindValue(1, $user->getPassword());
+    $query->bindValue(2, $user->getId(), PDO::PARAM_INT);
     $query->execute();
   }
 
   public static function getById(int $getVendorId): User|bool
   {
     $query = DATABASE->prepare("SELECT * FROM users WHERE id = ?");
-    $query->bindValue(1, $getVendorId);
+    $query->bindValue(1, $getVendorId, PDO::PARAM_INT);
     $query->execute();
     return $query->fetchObject(User::class);
   }
 
-  public static function getByAuthToken(mixed $cookie)
+  public static function getByAuthToken(string $cookie): User|bool
   {
     $query = DATABASE->prepare("SELECT * FROM users WHERE authToken = ?");
     $query->bindValue(1, $cookie);
@@ -99,21 +87,24 @@ class UserRepository
 
   public static function setAuthToken(User $user): void
   {
-    $query = DATABASE->prepare(
-      "UPDATE users SET authToken = ?, authTimeout = ? WHERE id = ?"
-    );
+    $query = DATABASE->prepare("UPDATE users SET authToken = ?, authTimeout = ? WHERE id = ?");
     $query->bindValue(1, $user->getAuthToken());
-    $query->bindValue(2, $user->getAuthTimeout());
-    $query->bindValue(3, $user->getId());
+    $query->bindValue(2, $user->getAuthTimeout(), PDO::PARAM_INT);
+    $query->bindValue(3, $user->getId(), PDO::PARAM_INT);
     $query->execute();
   }
 
   public static function resetAuthToken(User $user): void
   {
-    $query = DATABASE->prepare(
-      "UPDATE users SET authToken = '', authTimeout = 0 WHERE id = ?"
-    );
-    $query->bindValue(1, $user->getId());
+    $query = DATABASE->prepare("UPDATE users SET authToken = '', authTimeout = 0 WHERE id = ?");
+    $query->bindValue(1, $user->getId(), PDO::PARAM_INT);
+    $query->execute();
+  }
+
+  public static function setVerified(?User $user): void
+  {
+    $query = DATABASE->prepare("UPDATE users SET verifyToken = '', timeout = 0 WHERE id = ?");
+    $query->bindValue(1, $user->getId(), PDO::PARAM_INT);
     $query->execute();
   }
 }

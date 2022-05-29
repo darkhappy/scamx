@@ -7,6 +7,7 @@ use models\User;
 use repositories\UserRepository;
 use utils\Log;
 use utils\Message;
+use utils\Redirect;
 use utils\Security;
 use utils\Session;
 
@@ -15,27 +16,19 @@ class UserController extends Controller
   #[NoReturn]
   public function index(): void
   {
-    if (Session::isLogged()) {
-      $this->redirect("/user/profile");
-    } else {
-      $this->redirect("/user/login");
-    }
+    Redirect::to("/user/login");
   }
 
   public function profile(): void
   {
-    Security::redirectIfNotAuthenticated();
-    $data = [
-      "title" => "Profile",
-      "pagetitle" => "Profile",
-      "pagesub" => "wekcom bak",
-    ];
+    Redirect::ifNotAuthenticated();
+    $data = ["title" => "Profile", "pagetitle" => "Profile", "pagesub" => "wekcom bak"];
     $this->render("profile", $data);
   }
 
   public function login(): void
   {
-    Security::redirectIfAuthenticated();
+    Redirect::ifAuthenticated();
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $this->handleLogin();
     }
@@ -94,7 +87,7 @@ class UserController extends Controller
       $this->handleRememberMe($user);
     }
 
-    $this->redirect("/");
+    Redirect::back();
   }
 
   private function handleRememberMe(User $user): void
@@ -109,15 +102,13 @@ class UserController extends Controller
 
   public function register(): void
   {
+    Redirect::ifAuthenticated();
+
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $this->handleRegister();
     }
 
-    $data = [
-      "title" => "Register",
-      "pagetitle" => "Register",
-      "pagesub" => "Join the hood",
-    ];
+    $data = ["title" => "Register", "pagetitle" => "Register", "pagesub" => "Join the hood"];
 
     $this->render("register", $data);
   }
@@ -138,12 +129,7 @@ class UserController extends Controller
     }
 
     // Verify if all fields are filled
-    if (
-      empty($username) ||
-      empty($email) ||
-      empty($password) ||
-      empty($confirm)
-    ) {
+    if (empty($username) || empty($email) || empty($password) || empty($confirm)) {
       Message::error("Please fill in all fields.");
       Log::debug("Registered with empty fields.");
       return;
@@ -158,9 +144,7 @@ class UserController extends Controller
 
     // Verify if the username is valid
     if (!Security::isValidUsername($username)) {
-      Message::error(
-        "Names may only contain alphanumerical characters, as well as hyphens and dots."
-      );
+      Message::error("Names may only contain alphanumerical characters, as well as hyphens and dots.");
       Log::debug("Registered with invalid username.");
       return;
     }
@@ -187,6 +171,8 @@ class UserController extends Controller
     }
 
     // User is safe to create
+    $password = password_hash($password, PASSWORD_BCRYPT);
+
     $user = new User();
     $user->setUsername($username);
     $user->setEmail($email);
@@ -198,12 +184,10 @@ class UserController extends Controller
     // Save the user
     UserRepository::insert($user);
 
-    Message::info(
-      "We've sent an email to $email. Please click the link inside your email to verify your account."
-    );
+    Message::info("We've sent an email to $email. Please click the link inside your email to verify your account.");
     Log::info("User $username registered with email $email.");
     Security::sendVerifyEmail($user);
-    $this->redirect("/user/login");
+    Redirect::back();
   }
 
   public function forgot(): void
@@ -244,9 +228,7 @@ class UserController extends Controller
       return;
     }
 
-    Message::info(
-      "We've sent an email to $email. Please click the link inside your email to reset your password."
-    );
+    Message::info("We've sent an email to $email. Please click the link inside your email to reset your password.");
 
     $user = UserRepository::getByEmail($email);
     if ($user) {
@@ -258,8 +240,7 @@ class UserController extends Controller
       Log::warning("User submitted forgot form with a non-existent email.");
     }
 
-    $this->redirect("/user/login");
-    //
+    Redirect::back();
   }
 
   public function reset(): void
@@ -290,10 +271,7 @@ class UserController extends Controller
     $csrf = $_POST["csrf"];
 
     // Verify CSRF
-    if (
-      !Security::verifyCSRF($csrf, "reset") &&
-      !Security::verifyCSRF($csrf, "forgot_reset")
-    ) {
+    if (!Security::verifyCSRF($csrf, "reset") && !Security::verifyCSRF($csrf, "forgot_reset")) {
       Message::error("There was a problem, please try again.");
       Log::severe("Possible CSRF attempt");
       return;
@@ -335,6 +313,7 @@ class UserController extends Controller
     }
 
     // Set the new password
+    $new = password_hash($new, PASSWORD_BCRYPT);
     $user->setPassword($new);
     UserRepository::changePassword($user);
 
@@ -344,14 +323,16 @@ class UserController extends Controller
     // This isn't working due to the session being destroyed
     Message::info("Password changed. You can now login.");
     Log::info("User " . $user->getUsername() . " changed password.");
-    $this->redirect("/user/login");
+
+    Redirect::to("/user/login");
   }
 
   private function verifyReset(): User
   {
     if (!isset($_GET["token"])) {
       Message::error("Please use the URL provided in the email.");
-      $this->redirect("/user/login");
+      Log::warning("User submitted forgot form without a token.");
+      Redirect::back();
     }
 
     $token = $_GET["token"];
@@ -359,16 +340,14 @@ class UserController extends Controller
     $user = UserRepository::getByResetToken($token);
 
     if (!$user || $user->getResetToken() !== $token) {
-      Message::error(
-        "Invalid token. Please verify the link you have sent, or register again."
-      );
+      Message::error("Invalid token. Please verify the link you have sent, or register again.");
       Log::debug("Verification with invalid token.");
-      $this->redirect("/user/login");
+      Redirect::back();
     }
     if ($user->getTimeout() < time()) {
       Message::error("Token expired. Please register again.");
       Log::debug("Verification with expired token.");
-      $this->redirect("/user/login");
+      Redirect::back();
     }
     return $user;
   }
@@ -384,29 +363,28 @@ class UserController extends Controller
   {
     if (!isset($_GET["token"])) {
       Message::error("Please use the URL provided in the email.");
-      $this->redirect("/user/login");
+      Log::warning("User submitted forgot form without a token.");
+      Redirect::to("/user/login");
     }
 
     $token = $_GET["token"];
     // Get the user from the database
     $user = UserRepository::getByVerifyToken($token);
     if (!$user || $user->getVerifyToken() !== $token) {
-      Message::error(
-        "Invalid token. Please verify the link you have sent, or register again."
-      );
+      Message::error("Invalid token. Please verify the link you have sent, or register again.");
       Log::debug("Verification with invalid token.");
-      $this->redirect("/user/login");
+      Redirect::to("/user/login");
     }
     if ($user->getTimeout() < time()) {
       Message::error("Token expired. Please register again.");
       Log::debug("Verification with expired token.");
-      $this->redirect("/user/login");
+      Redirect::to("/user/login");
     }
 
     // Verify the user
     UserRepository::setVerified($user);
     Message::success("Account verified. You can now login.");
     Log::info("User " . $user->getUsername() . " verified.");
-    $this->redirect("/user/login");
+    Redirect::to("/user/login");
   }
 }

@@ -7,21 +7,21 @@ use PDO;
 
 class TransactionRepository
 {
-  public static function insert(Transaction $transaction)
+  public static function insert(Transaction $transaction): void
   {
     $query = DATABASE->prepare(
       "INSERT INTO transactions (client_id, item_id, vendor_id, price, date, stripe_intent_id) VALUES (?, ?, ?, ?, ?, ?)"
     );
-    $query->bindValue(1, $transaction->getClientId());
-    $query->bindValue(2, $transaction->getItemId());
-    $query->bindValue(3, $transaction->getVendorId());
+    $query->bindValue(1, $transaction->getClientId(), PDO::PARAM_INT);
+    $query->bindValue(2, $transaction->getItemId(), PDO::PARAM_INT);
+    $query->bindValue(3, $transaction->getVendorId(), PDO::PARAM_INT);
     $query->bindValue(4, $transaction->getPrice());
     $query->bindValue(5, $transaction->getDate());
     $query->bindValue(6, $transaction->getStripeIntentId());
     $query->execute();
   }
 
-  public static function getById(string $itemId)
+  public static function getById(string $itemId): Transaction|false
   {
     $query = DATABASE->prepare("SELECT * FROM transactions WHERE id = ?");
     $query->bindValue(1, $itemId, PDO::PARAM_INT);
@@ -30,24 +30,17 @@ class TransactionRepository
     return $query->fetch();
   }
 
-  public static function getVendorTransactionsCount(string $getId)
+  public static function getVendorTransactionsCount(string $getId): int|false
   {
-    $query = DATABASE->prepare(
-      "SELECT COUNT(*) FROM transactions WHERE vendor_id = ?"
-    );
-    $query->bindValue(1, $getId);
+    $query = DATABASE->prepare("SELECT COUNT(*) FROM transactions WHERE vendor_id = ?");
+    $query->bindValue(1, $getId, PDO::PARAM_INT);
     $query->execute();
     return $query->fetchColumn();
   }
 
-  public static function getVendorTransactions(
-    string $getId,
-    int $itemsToShow,
-    int $offset
-  ): bool|array {
-    $query = DATABASE->prepare(
-      "SELECT * FROM transactions WHERE vendor_id = ? LIMIT ? OFFSET ?"
-    );
+  public static function getVendorTransactions(string $getId, int $itemsToShow, int $offset): array|false
+  {
+    $query = DATABASE->prepare("SELECT * FROM transactions WHERE vendor_id = ? LIMIT ? OFFSET ?");
     $query->bindValue(1, $getId, PDO::PARAM_INT);
     $query->bindValue(2, $itemsToShow, PDO::PARAM_INT);
     $query->bindValue(3, $offset, PDO::PARAM_INT);
@@ -56,24 +49,17 @@ class TransactionRepository
     return $query->fetchAll();
   }
 
-  public static function getClientTransactionsCount(string $getId)
+  public static function getClientTransactionsCount(string $getId): int|bool
   {
-    $query = DATABASE->prepare(
-      "SELECT COUNT(*) FROM transactions WHERE client_id = ?"
-    );
-    $query->bindValue(1, $getId);
+    $query = DATABASE->prepare("SELECT COUNT(*) FROM transactions WHERE client_id = ?");
+    $query->bindValue(1, $getId, PDO::PARAM_INT);
     $query->execute();
     return $query->fetchColumn();
   }
 
-  public static function getClientTransactions(
-    string $getId,
-    int $itemsToShow,
-    int $offset
-  ) {
-    $query = DATABASE->prepare(
-      "SELECT * FROM transactions WHERE client_id = ? LIMIT ? OFFSET ?"
-    );
+  public static function getClientTransactions(string $getId, int $itemsToShow, int $offset): bool|array
+  {
+    $query = DATABASE->prepare("SELECT * FROM transactions WHERE client_id = ? LIMIT ? OFFSET ?");
     $query->bindValue(1, $getId, PDO::PARAM_INT);
     $query->bindValue(2, $itemsToShow, PDO::PARAM_INT);
     $query->bindValue(3, $offset, PDO::PARAM_INT);
@@ -82,13 +68,11 @@ class TransactionRepository
     return $query->fetchAll();
   }
 
-  public static function updateStatus(Transaction $transaction)
+  public static function updateStatus(Transaction $transaction): void
   {
-    $query = DATABASE->prepare(
-      "UPDATE transactions SET status = ? WHERE id = ?"
-    );
+    $query = DATABASE->prepare("UPDATE transactions SET status = ? WHERE id = ?");
     $query->bindValue(1, $transaction->getStatus());
-    $query->bindValue(2, $transaction->getId());
+    $query->bindValue(2, $transaction->getId(), PDO::PARAM_INT);
     $query->execute();
   }
 }
