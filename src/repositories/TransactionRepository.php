@@ -3,6 +3,7 @@
 namespace repositories;
 
 use models\Transaction;
+use PDO;
 
 class TransactionRepository
 {
@@ -18,5 +19,40 @@ class TransactionRepository
     $query->bindValue(5, $transaction->getDate());
     $query->bindValue(6, $transaction->getStripeIntentId());
     $query->execute();
+  }
+
+  public static function getById(string $itemId)
+  {
+    $query = DATABASE->prepare("SELECT * FROM transactions WHERE item_id = ?");
+    $query->bindValue(1, $itemId);
+    $query->execute();
+    $query->setFetchMode(PDO::FETCH_CLASS, Transaction::class);
+    return $query->fetch();
+  }
+
+  public static function getVendorTransactionsCount(string $getId)
+  {
+    $query = DATABASE->prepare(
+      "SELECT COUNT(*) FROM transactions WHERE vendor_id = ?"
+    );
+    $query->bindValue(1, $getId);
+    $query->execute();
+    return $query->fetchColumn();
+  }
+
+  public static function getVendorTransactions(
+    string $getId,
+    int $itemsToShow,
+    int $offset
+  ): bool|array {
+    $query = DATABASE->prepare(
+      "SELECT * FROM transactions WHERE vendor_id = ? LIMIT ? OFFSET ?"
+    );
+    $query->bindValue(1, $getId, PDO::PARAM_INT);
+    $query->bindValue(2, $itemsToShow, PDO::PARAM_INT);
+    $query->bindValue(3, $offset, PDO::PARAM_INT);
+    $query->execute();
+    $query->setFetchMode(PDO::FETCH_CLASS, Transaction::class);
+    return $query->fetchAll();
   }
 }

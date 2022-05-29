@@ -1,0 +1,41 @@
+<?php
+/**
+ * @var $transaction Transaction
+ */
+
+use models\Transaction;
+use repositories\ItemRepository;
+use repositories\UserRepository;
+use utils\Security;
+use utils\Session;
+
+$id = $transaction->getId();
+$transactionPrice = $transaction->getPrice();
+$transactionStatus = $transaction->getStatus();
+
+$user = Session::getUser();
+
+$client = UserRepository::getById($transaction->getClientId());
+$clientName = $client->getUsername();
+
+$itemId = $transaction->getItemId();
+$item = ItemRepository::getById($itemId);
+$itemName = $item->getName();
+
+$itemName = Security::sanitize($itemName);
+$clientName = Security::sanitize($clientName);
+$transactionPrice = Security::sanitize($transactionPrice);
+$transactionStatus = ucfirst($transactionStatus);
+?>
+<div id="<?= $id ?>" class="text-white p-4 flex flex-row justify-between items-center">
+  <div>
+    <h1 class="font-bold text-2xl"><?= $itemName ?></h1>
+    <h2 class="font-medium text-xl"><?= $transactionStatus ?></h2>
+    <p>Sold to <?= $clientName ?> for CAD$<?= $transactionPrice ?> </p>
+  </div>
+  <div class="flex flex-col text-right text-amber-300 font-bold text-xl">
+    <a href="<?= HOME_PATH ?>market/info?id=<?= $itemId ?>">View item</a>
+    <a href="<?= HOME_PATH ?>market/confirm?id=<?= $itemId ?>">Confirm</a>
+    <a href="<?= HOME_PATH ?>market/refund?id=<?= $itemId ?>">Refund</a>
+  </div>
+</div>

@@ -81,7 +81,7 @@ class UserRepository
     $query->execute();
   }
 
-  public static function getById(int $getVendorId)
+  public static function getById(int $getVendorId): User|bool
   {
     $query = DATABASE->prepare("SELECT * FROM users WHERE id = ?");
     $query->bindValue(1, $getVendorId);

@@ -89,7 +89,13 @@ class ItemRepository
 
   public static function delete(Item $item): void
   {
-    $query = DATABASE->prepare("DELETE FROM items WHERE id = ?");
+    // Check if the item is in use in a transaction
+    if (TransactionRepository::getById($item->getId()) !== false) {
+      $query = DATABASE->prepare("UPDATE items SET hidden = 1 WHERE id = ?");
+    } else {
+      $query = DATABASE->prepare("DELETE FROM items WHERE id = ?");
+    }
+
     $query->bindValue(1, $item->getId());
     $query->execute();
   }
