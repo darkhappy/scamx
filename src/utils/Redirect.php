@@ -16,6 +16,10 @@ class Redirect
 
   #[NoReturn]
   public static function to($url): void {
+    // Remove the first slash if it exists
+    if (str_starts_with($url, "/")) {
+      $url = substr($url, 1);
+    }
     header("Location: " . HOME_PATH . $url);
     exit();
   }

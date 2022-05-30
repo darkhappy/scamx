@@ -44,9 +44,9 @@ class UserController extends Controller
 
   private function handleLogin(): void
   {
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    $csrf = $_POST["csrf"];
+    $username = $_POST["username"] ?? "";
+    $password = $_POST["password"] ?? "";
+    $csrf = $_POST["csrf"] ?? "";
 
     // Verify CSRF
     if (!Security::verifyCSRF($csrf, "login")) {
@@ -116,11 +116,11 @@ class UserController extends Controller
 
   private function handleRegister(): void
   {
-    $username = $_POST["username"];
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    $confirm = $_POST["confirm"];
-    $csrf = $_POST["csrf"];
+    $username = $_POST["username"] ?? "";
+    $email = $_POST["email"] ?? "";
+    $password = $_POST["password"] ?? "";
+    $confirm = $_POST["confirm"] ?? "";
+    $csrf = $_POST["csrf"] ?? "";
 
     // Verify CSRF
     if (!Security::verifyCSRF($csrf, "register")) {
@@ -206,8 +206,8 @@ class UserController extends Controller
 
   private function handleForgot(): void
   {
-    $email = $_POST["email"];
-    $csrf = $_POST["csrf"];
+    $email = $_POST["email"] ?? "";
+    $csrf = $_POST["csrf"] ?? "";
 
     // Verify CSRF
     if (!Security::verifyCSRF($csrf, "forgot")) {
@@ -267,9 +267,9 @@ class UserController extends Controller
 
   private function handleReset()
   {
-    $new = $_POST["new"];
-    $confirm = $_POST["confirm"];
-    $csrf = $_POST["csrf"];
+    $new = $_POST["new"] ?? "";
+    $confirm = $_POST["confirm"] ?? "";
+    $csrf = $_POST["csrf"] ?? "";
 
     // Verify CSRF
     if (!Security::verifyCSRF($csrf, "reset") && !Security::verifyCSRF($csrf, "forgot_reset")) {
@@ -334,7 +334,7 @@ class UserController extends Controller
       Redirect::back();
     }
 
-    $token = $_GET["token"];
+    $token = $_GET["token"] ?? "";
     // Get the user from the database
     $user = UserRepository::getByResetToken($token);
 
@@ -366,7 +366,7 @@ class UserController extends Controller
       Redirect::to("/user/login");
     }
 
-    $token = $_GET["token"];
+    $token = $_GET["token"] ?? "";
     // Get the user from the database
     $user = UserRepository::getByVerifyToken($token);
     if (!$user || $user->getVerifyToken() !== $token) {

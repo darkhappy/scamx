@@ -29,7 +29,7 @@ class Security
     // Names can only contain letters, numbers, dots, hyphens and underscores
     // Additionally, it must be at least 3 characters, and cannot be longer than 32
     // It must start and end with either a number or a letter
-    $regex = "/^[a-zA-Z\d][a-zA-Z\d\-_.]{2,32}[a-zA-Z\d]$/";
+    $regex = "/^[a-zA-Z\d][a-zA-Z\d\-_.]{1,32}[a-zA-Z\d]$/";
 
     // Trim the username
     $username = trim($username);

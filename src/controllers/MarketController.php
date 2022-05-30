@@ -53,11 +53,11 @@ class MarketController extends Controller
 
   private function handleAdd(): void
   {
-    $name = $_POST["name"];
-    $description = $_POST["description"];
-    $price = $_POST["price"];
-    $image = $_FILES["image"];
-    $csrf = $_POST["csrf"];
+    $name = $_POST["name"] ?? "";
+    $description = $_POST["description"] ?? "";
+    $price = $_POST["price"] ?? "";
+    $image = $_FILES["image"] ?? [];
+    $csrf = $_POST["csrf"] ?? "";
 
     // Verify CSRF
     if (!Security::verifyCSRF($csrf, "add")) {
@@ -158,11 +158,11 @@ class MarketController extends Controller
 
   private function handleEdit(Item $item)
   {
-    $name = $_POST["name"];
-    $description = $_POST["description"];
-    $price = $_POST["price"];
-    $image = $_FILES["image"];
-    $csrf = $_POST["csrf"];
+    $name = $_POST["name"] ?? "";
+    $description = $_POST["description"] ?? "";
+    $price = $_POST["price"] ?? "";
+    $image = $_FILES["image"] ?? [];
+    $csrf = $_POST["csrf"] ?? "";
 
     // Verify CSRF
     if (!Security::verifyCSRF($csrf, "add")) {
@@ -248,17 +248,17 @@ class MarketController extends Controller
 
   private function handleBuy(Item $item)
   {
-    $csrf = $_POST["csrf"];
-    $name = $_POST["name"];
-    $address = $_POST["address"];
-    $city = $_POST["city"];
-    $postal = $_POST["postal"];
-    $province = $_POST["province"];
-    $ccname = $_POST["ccname"];
-    $cardnumber = $_POST["cardnumber"];
-    $expmonth = $_POST["expmonth"];
-    $expyear = $_POST["expyear"];
-    $cvc = $_POST["cvc2"];
+    $csrf = $_POST["csrf"] ?? "";
+    $name = $_POST["name"] ?? "";
+    $address = $_POST["address"] ?? "";
+    $city = $_POST["city"] ?? "";
+    $postal = $_POST["postal"] ?? "";
+    $province = $_POST["province"] ?? "";
+    $ccname = $_POST["ccname"] ?? "";
+    $cardnumber = $_POST["cardnumber"] ?? "";
+    $expmonth = $_POST["expmonth"] ?? "";
+    $expyear = $_POST["expyear"] ?? "";
+    $cvc = $_POST["cvc2"] ?? "";
 
     // Verify CSRF
     if (!Security::verifyCSRF($csrf, "buy")) {
@@ -372,8 +372,8 @@ class MarketController extends Controller
       Redirect::back();
     }
 
-    // Check if we are either the vendor or the client
-    if ($transaction->getClientId() != Session::getUser()->getId()) {
+    // Check if we are the vendor
+    if ($transaction->getVendorId() != Session::getUser()->getId()) {
       Message::error("You are not allowed to confirm this transaction.");
       Log::info("Trying to refund transaction that is not owned by user.");
       Redirect::back();
