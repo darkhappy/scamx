@@ -76,4 +76,13 @@ class TransactionRepository
     $query->bindValue(3, $transaction->getId(), PDO::PARAM_INT);
     $query->execute();
   }
+
+  public static function getByItemId(string $itemId)
+  {
+    $query = DATABASE->prepare("SELECT * FROM transactions WHERE item_id = ?");
+    $query->bindValue(1, $itemId, PDO::PARAM_INT);
+    $query->execute();
+    $query->setFetchMode(PDO::FETCH_CLASS, Transaction::class);
+    return $query->fetch();
+  }
 }

@@ -155,7 +155,7 @@ require __DIR__ . "/../components/Message.php";
         <p class="text-white text-3xl">Sold by <?= $username ?></p>
       </div>
     </div>
-    <div class="flex flex-col justify-between rounded-3xl p-8 text-white gap-4 grow-0">
+    <div class="flex flex-col justify-between rounded-3xl p-8 text-white gap-4 h-full">
       <div>
         <div class="flex flex-row justify-between items-end gap-2">
           <span>Subtotal:</span>
@@ -179,7 +179,18 @@ require __DIR__ . "/../components/Message.php";
               class="text-6xl font-medium"><?= number_format($total, 2) ?></span></span>
         </div>
       </div>
-      <button type="submit" form="buy" class="px-4 py-2 bg-blue-600 rounded-3xl m-4">Buy now</button>
+      <div class="focus:outline-none focus:shadow-outline text-center flex flex-col gap-4">
+        <button
+          class="bg-blue-500 hover:bg-blue-700 transition-colors text-white font-bold py-2 px-4 rounded"
+          type="submit">
+          Acheter
+        </button>
+        <a
+          class="bg-slate-500 hover:bg-red-700 transition-colors text-white font-bold py-2 px-4 rounded"
+          href="<?= HOME_PATH ?>market">
+          Annuler
+        </a>
+      </div>
     </div>
   </div>
 </div>

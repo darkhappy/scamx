@@ -30,18 +30,26 @@ $vendorName = Security::sanitize($vendorName);
 $transactionPrice = Security::sanitize($transactionPrice);
 $transactionStatus = ucfirst($transactionStatus);
 $date = $transaction->getDate();
+
+$transactionStatus = match ($transactionStatus) {
+  "Refunded" => "Remboursé",
+  "Confirmed" => "Confirmé",
+  default => "Acheté",
+};
 ?>
-<div id="<?= $id ?>" class="text-white p-4 flex flex-row justify-between items-center">
+<div id="<?= $id ?>" class="text-white py-4 flex flex-row justify-between items-center">
   <div>
     <h1 class="font-bold text-2xl"><?= $itemName ?></h1>
-    <h2 class="font-medium text-xl"><?= $transactionStatus ?></h2>
-    <p>Bought from <?= $vendorName ?> for CAD$<?= $transactionPrice ?> </p>
-    <p>Last updated: <?= $date ?></p>
+    <h2 class="font-medium text-xl mb-2"><?= $transactionStatus ?> - <span
+        class="font-mono">CAD$<?= $transactionPrice ?></span></h2>
+    <p>Acheté de <?= $vendorName ?>  </p>
+    <p>Dernière modification: <?= $date ?></p>
   </div>
   <div class="flex flex-col text-right text-amber-300 font-bold text-xl">
-    <a href="<?= HOME_PATH ?>market/info?id=<?= $itemId ?>">View item</a>
-    <?php if ($transactionStatus === "Paid") { ?>
-      <a href="<?= HOME_PATH ?>market/refund?id=<?= $id ?>">Refund</a>
+    <a href="<?= HOME_PATH ?>market/info?id=<?= $itemId ?>" class="hover:text-yellow-600 transition-colors">Voir le
+                                                                                                            produit</a>
+    <?php if ($transactionStatus === "Acheté") { ?>
+      <a href="<?= HOME_PATH ?>market/refund?id=<?= $id ?>" class="hover:text-red-700 transition-colors">Annuler</a>
     <?php } ?>
   </div>
 </div>

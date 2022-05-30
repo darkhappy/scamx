@@ -28,33 +28,35 @@ if (Security::ownsItem($id)) {
 }
 
 $ownItem = Security::ownsItem($id);
+require __DIR__ . "/../components/Message.php";
 ?>
 <div id="<?= $id ?>"
-     class="flex flex-col md:flex-row gap-4 p-4 break-words <?= $color ?> rounded-3xl text-white items-center">
+     class="flex flex-col md:flex-row gap-y-4 gap-x-8 p-4 <?= $color ?> rounded-3xl text-white items-center">
   <div class="<?= $color ?> rounded-3xl">
     <img src="<?= HOME_PATH . "src/assets/uploads/" . $image ?>" alt="<?= $name ?>" class="rounded-3xl" />
   </div>
   <div class="<?= $color ?> flex-grow rounded-3xl flex flex-col justify-between gap-4">
     <div>
-      <h1 class="font-bold text-6xl text-white"><?= $name ?></h1>
+      <h1 class="font-bold text-6xl text-white break-all"><?= $name ?></h1>
       <?php if ($ownItem) { ?>
-        <p class="text-slate-300 text-3xl">You own this item.</p>
+        <p class="text-slate-300 text-3xl">Ce produit vous appartient.</p>
       <?php } else { ?>
-        <p class="text-white text-3xl">Sold by <?= $username ?></p>
+        <p class="text-slate-300 text-3xl">Vendu par <?= $username ?></p>
       <?php } ?>
     </div>
     <div class="grow">
-      <p class="text-white text-xl"><?= $description ?></p>
+      <p class="text-white text-xl text-wrap break-words"><?= $description ?></p>
     </div>
-    <p class="text-4xl font-mono">CAD$ <span class="text-6xl font-medium"><?= $price ?></span></p>
+    <p class="text-4xl font-mono text-wrap break-all">CAD$ <span
+        class="text-4xl md:text-6xl font-medium"><?= $price ?></span></p>
     <div class="flex flex-row gap-8">
       <?php if ($ownItem) { ?>
-        <a href="<?= HOME_PATH ?>market/edit?id=<?= $id ?>" class="text-yellow-300 font-bold text-xl">Edit</a>
-        <a href="<?= HOME_PATH ?>market/delete?id=<?= $id ?>" class="text-yellow-300 font-bold text-xl">Delete</a>
+        <a href="<?= HOME_PATH ?>market/edit?id=<?= $id ?>" class="text-yellow-300 font-bold text-xl">Modifier</a>
+        <a href="<?= HOME_PATH ?>market/delete?id=<?= $id ?>" class="text-yellow-300 font-bold text-xl">Supprimer</a>
       <?php } else { ?>
-        <a href="<?= HOME_PATH ?>market/buy?id=<?= $id ?>" class="text-yellow-300 font-bold text-xl">Buy</a>
+        <a href="<?= HOME_PATH ?>market/buy?id=<?= $id ?>" class="text-yellow-300 font-bold text-xl">Acheter</a>
       <?php } ?>
-      <a href="<?= HOME_PATH ?>" class="text-yellow-300 font-bold text-xl">Return</a>
+      <a href="<?= HOME_PATH ?>" class="text-yellow-300 font-bold text-xl">Retour</a>
     </div>
   </div>
 </div>

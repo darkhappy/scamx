@@ -5,11 +5,11 @@
 
   <div class="text-xl font-normal flex gap-4">
     <?php if (Session::isLogged()): ?>
-      <a href="<?= HOME_PATH ?>market/dashboard">Dashboard</a>
-      <a href="<?= HOME_PATH ?>user/profile">Profile</a>
+      <a href="<?= HOME_PATH ?>market/dashboard">Tableau de bord</a>
+      <a href="<?= HOME_PATH ?>user/profile">Profil</a>
     <?php else: ?>
-      <a href="<?= HOME_PATH ?>user/login">Login</a>
-      <a href="<?= HOME_PATH ?>user/register">Register</a>
+      <a href="<?= HOME_PATH ?>user/login">Se connecter</a>
+      <a href="<?= HOME_PATH ?>user/register">Créer un compte</a>
     <?php endif; ?>
   </div>
 </div>

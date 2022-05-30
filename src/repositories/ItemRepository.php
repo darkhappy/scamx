@@ -33,7 +33,7 @@ class ItemRepository
 
   public function getItemsFromVendor(int $vendorId, int $amount, int $offset): array
   {
-    $query = DATABASE->prepare("SELECT * FROM items WHERE vendorId = ? LIMIT ? OFFSET ?");
+    $query = DATABASE->prepare("SELECT * FROM items WHERE vendorId = ? AND hidden = 0 LIMIT ? OFFSET ?");
     $query->bindValue(1, $vendorId, PDO::PARAM_INT);
     $query->bindValue(2, $amount, PDO::PARAM_INT);
     $query->bindValue(3, $offset, PDO::PARAM_INT);
@@ -43,7 +43,7 @@ class ItemRepository
 
   public function getItemCountFromVendor(int $vendorId): int|bool
   {
-    $query = DATABASE->prepare("SELECT COUNT(*) FROM items WHERE vendorId = ?");
+    $query = DATABASE->prepare("SELECT COUNT(*) FROM items WHERE vendorId = ? AND hidden = 0");
     $query->bindValue(1, $vendorId, PDO::PARAM_INT);
     $query->execute();
     return $query->fetchColumn();
@@ -77,7 +77,7 @@ class ItemRepository
   public function delete(Item $item): void
   {
     // Check if the item is in use in a transaction
-    if (TransactionRepository::getById($item->getId()) !== false) {
+    if (TransactionRepository::getByItemId($item->getId()) !== false) {
       $query = DATABASE->prepare("UPDATE items SET hidden = 1 WHERE id = ?");
     } else {
       $query = DATABASE->prepare("DELETE FROM items WHERE id = ?");

@@ -9,7 +9,7 @@ class HomeController extends Controller
     $data = [
       "title" => "",
       "pagetitle" => "ScamX",
-      "pagesub" => "Welcome to ScamX bbg",
+      "pagesub" => "Le meilleur site que vous allez avoir les meilleurs prooduits",
     ];
     $this->render(data: $data);
   }

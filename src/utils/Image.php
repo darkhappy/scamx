@@ -2,6 +2,7 @@
 
 namespace utils;
 
+use Exception;
 use GdImage;
 
 class Image
@@ -20,7 +21,11 @@ class Image
     $target_file = $target_dir . $name . ".jpeg";
 
     // Apply watermark
-    $output = self::watermark($image);
+    try {
+      $output = self::watermark($image);
+    } catch (Exception) {
+      return false;
+    }
 
     imagejpeg($output, $target_file);
 
@@ -31,13 +36,14 @@ class Image
     }
   }
 
+  /**
+   * @throws Exception
+   */
   public static function watermark(array $image): GdImage
   {
-    // Check mime type
-    if ($image["type"] == "image/png") {
-      $img = imagecreatefrompng($image["tmp_name"]);
-    } else {
-      $img = imagecreatefromjpeg($image["tmp_name"]);
+    $img = imagecreatefromstring(file_get_contents($image["tmp_name"]));
+    if ($img === false) {
+      throw new Exception("Could not create image from file");
     }
 
     // Set image size to 500x500
@@ -57,12 +63,7 @@ class Image
       $height = $width;
     }
 
-    $newImage = imagecrop($img, [
-      "x" => $srcX,
-      "y" => $srcY,
-      "width" => $width,
-      "height" => $height,
-    ]);
+    $newImage = imagecrop($img, ["x" => $srcX, "y" => $srcY, "width" => $width, "height" => $height]);
 
     // Scale the image to 500x500
     $newImage = imagescale($newImage, $size, $size);
@@ -104,7 +105,18 @@ class Image
     $mime = $image["type"];
 
     // Check if the MIME type is valid
-    if (!in_array($mime, ["image/jpeg", "image/png"])) {
+    if (
+      !in_array($mime, [
+        "image/apng",
+        "image/avif",
+        "image/gif",
+        "image/heic",
+        "image/heif",
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+      ])
+    ) {
       return false;
     }
 

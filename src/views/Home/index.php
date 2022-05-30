@@ -1,11 +1,11 @@
 <?php use utils\views\ItemBrowser; ?>
 <div>
+  <?php require __DIR__ . "/../components/Title.php"; ?>
   <?php require __DIR__ . "/../components/Message.php"; ?>
   <?php
   $getParam = "page";
   $browser = ItemBrowser::showList($getParam, 12);
   extract($browser);
-
   require __DIR__ . "/../components/PageSelector.php";
   ?>
   

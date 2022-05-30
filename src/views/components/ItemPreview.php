@@ -29,13 +29,13 @@ if (Security::ownsItem($id)) {
   <img src="<?= HOME_PATH . "src/assets/uploads/" . $image ?>" alt="<?= $name ?>" class="my-4 rounded-3xl">
   <div class="flex flex-col font-medium text-black gap-3">
     <a href="<?= HOME_PATH ?>market/info?id=<?= $id ?>"
-       class="bg-white py-2 px-3 rounded-3xl hover:bg-blue-400 transition-colors">View details</a>
+       class="bg-white py-2 px-3 rounded-lg hover:bg-slate-200 transition-colors">Voir les détails</a>
     <?php if (Security::ownsItem($id)) { ?>
       <div class="grid grid-cols-2 justify-between gap-3">
         <a href="<?= HOME_PATH ?>market/edit?id=<?= $id ?>"
-           class="bg-white py-2 px-3 rounded-3xl hover:bg-green-400 transition-colors">Edit</a>
+           class="bg-white py-1 px-3 rounded-lg hover:bg-slate-400 transition-colors">Modifier</a>
         <a href="<?= HOME_PATH ?>market/delete?id=<?= $id ?>"
-           class="bg-white py-2 px-3 rounded-3xl hover:bg-red-400 transition-colors">Delete</a>
+           class="bg-white py-1 px-3 rounded-lg hover:bg-red-400 transition-colors">Supprimer</a>
       </div>
     <?php } ?>
   </div>

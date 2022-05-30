@@ -35,9 +35,9 @@ class MarketController extends Controller
     Redirect::ifNotAuthenticated();
 
     $data = [
-      "title" => "yo its the dashbord",
-      "pagetitle" => "ScamX",
-      "pagesub" => "lets manage our shit",
+      "title" => "Tableau de bord",
+      "pagetitle" => "Tableau de bord",
+      "pagesub" => "Gérer votre inventaire et vos transactions",
     ];
     $this->render("dashboard", data: $data);
   }
@@ -50,11 +50,7 @@ class MarketController extends Controller
       $this->handleAdd();
     }
 
-    $data = [
-      "title" => "",
-      "pagetitle" => "ScamX",
-      "pagesub" => "Welcome to ScamX bbg",
-    ];
+    $data = ["title" => "Ajouter", "pagetitle" => "Ajouter", "pagesub" => "Ajouter un nouvel objet à la vente"];
     $this->render("add", data: $data);
   }
 
@@ -68,14 +64,14 @@ class MarketController extends Controller
 
     // Verify CSRF
     if (!Security::verifyCSRF($csrf, "add")) {
-      Message::error("There was a problem, please try again.");
+      Message::error("Il y a eu un problème avec votre requête. Veuillez réessayer.");
       Log::severe("Possible CSRF attempt");
       return;
     }
 
     if (empty($name) || empty($description) || empty($price) || empty($image)) {
       // Verify if all fields are filled
-      Message::error("Please fill in all fields.");
+      Message::error("Veuillez remplir tous les champs.");
       Log::info("Empty login attempt");
       return;
     }
@@ -83,14 +79,14 @@ class MarketController extends Controller
     // Format the price
     $price = Market::convertPriceToFloat($price);
     if (!$price) {
-      Message::error("Please enter a valid price.");
+      Message::error("Veuillez entrer un prix valide.");
       Log::info("Invalid price attempt");
       return;
     }
 
     // Verify if the image is a valid image
     if (!Image::isValidImage($image)) {
-      Message::error("Please upload a valid image.");
+      Message::error("Veuillez entrer une image valide.");
       Log::info("Invalid image upload attempt");
       return;
     }
@@ -107,10 +103,15 @@ class MarketController extends Controller
 
     // Upload the image
     $path = Image::upload($image);
+    if (!$path) {
+      Message::error("Une erreur est survenue lors du téléversement de l'image.");
+      Log::severe("Image upload failed");
+      return;
+    }
     $item->setImage($path);
 
     $this->itemRepo->insert($item);
-    Message::success("Item added successfully.");
+    Message::success("Produit ajouté avec succès.");
     Log::info("Item '$name' was added by " . $user->getUsername() . " successfully.");
     Redirect::back();
   }
@@ -124,9 +125,12 @@ class MarketController extends Controller
       Redirect::back();
     }
 
+    $itemName = $item->getName();
+    $itemName = Security::sanitize($itemName);
+
     $data = [
-      "title" => "",
-      "pagetitle" => "buying",
+      "title" => "Info - $itemName",
+      "pagetitle" => "Viewing $itemName",
       "pagesub" => "this is a very cool item you should buy it",
       "item" => $item,
     ];
@@ -154,10 +158,13 @@ class MarketController extends Controller
       $this->handleEdit($item);
     }
 
+    $itemName = $item->getName();
+    $itemName = Security::sanitize($itemName);
+
     $data = [
-      "title" => "",
-      "pagetitle" => "ScamX",
-      "pagesub" => "Welcome to ScamX bbg",
+      "title" => "Editing $itemName",
+      "pagetitle" => "Editing $itemName",
+      "pagesub" => "put the real things this time",
       "item" => $item,
     ];
     $this->render("edit", data: $data);
@@ -208,6 +215,11 @@ class MarketController extends Controller
 
       // Upload the image
       $path = Image::upload($image);
+      if (!$path) {
+        Message::error("There was a problem uploading the image.");
+        Log::info("Image upload attempt failed");
+        return;
+      }
       $item->setImage($path);
     }
 

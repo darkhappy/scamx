@@ -14,13 +14,15 @@ $lower = $count == 0 ? $offset : $offset + 1;
 $upper = $offset + $itemsToShow;
 ?>
 
-<p>Showing <?= $lower ?> to <?= $upper ?> of <?= $count ?> items. </p>
-<div class="flex flex-row gap-8">
-  <?php if ($page > 1) { ?>
-    <a href="<?= $path . $page - 1 ?>">Previous</a>
-  <?php } ?>
-  
-  <?php if ($count > $itemsPerPage * $page) { ?>
-    <a href="<?= $path . $page + 1 ?>">Next</a>
-  <?php } ?>
+<div class="my-4">
+  <p class="font-medium"><?= $lower ?> à <?= $upper ?> produits affichés sur <?= $count ?>. </p>
+  <div class="flex flex-row gap-8 font-bold">
+    <?php if ($page > 1) { ?>
+      <a href="<?= $path . $page - 1 ?>">Précédent</a>
+    <?php } ?>
+
+    <?php if ($count > $itemsPerPage * $page) { ?>
+      <a href="<?= $path . $page + 1 ?>">Suivant</a>
+    <?php } ?>
+  </div>
 </div>

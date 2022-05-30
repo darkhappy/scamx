@@ -63,7 +63,6 @@ class Market
         "amount" => $price * 100,
         "currency" => "cad",
         "payment_method" => $paymentMethod->id,
-        "confirm" => true,
       ]);
     } catch (ApiErrorException) {
       return false;
