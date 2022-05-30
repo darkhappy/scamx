@@ -8,24 +8,6 @@ use repositories\UserRepository;
 
 class Security
 {
-  public static function redirectIfNotAuthenticated(
-    string $message = "Please sign in."
-  ): void {
-    if (!Session::isLogged()) {
-      Message::error($message);
-      header("Location: /user/login");
-      exit();
-    }
-  }
-
-  public static function redirectIfAuthenticated(string $message = ""): void
-  {
-    if (Session::isLogged()) {
-      header("Location: /user/profile");
-      exit();
-    }
-  }
-
   public static function generateVerifyToken(User $user): void
   {
     $token = bin2hex(openssl_random_pseudo_bytes(32));
@@ -53,52 +35,6 @@ class Security
     $username = trim($username);
 
     return preg_match($regex, $username);
-  }
-
-  private static function sendEmail(
-    User $user,
-    string $subject,
-    string $message
-  ): void {
-    $username = $user->getUsername();
-    $email = $user->getEmail();
-    $headers = [
-      "MIME-Version" => "1.0",
-      "Content-type" => "text/html; charset=UTF-8",
-      "To" => "$username <$email>",
-      "From" => "ScamX <test@localhost>",
-    ];
-
-    if (!mail($email, $subject, $message, implode("\r\n", $headers))) {
-      if (DEBUG) {
-        Message::info($message);
-      } else {
-        Message::error("An error occurred while sending the email.");
-      }
-    }
-  }
-
-  public static function sendVerifyEmail(User $user): void
-  {
-    $url = $_SERVER["HTTP_HOST"];
-    $token = $user->getVerifyToken();
-    $username = $user->getUsername();
-
-    $subject = "ScamX - Verify your account";
-    $body = "
-      <h1>Hello, $username!</h1>
-      <p>
-        To verify your account, please click on the following link:
-        <a href='http://$url:80/user/verify?token=$token'>
-          http://$url:80/user/verify?token=$token
-        </a>
-      </p>
-      <p>
-        If you did not request this email, feel free to ignore it.
-      </p>
-    ";
-
-    self::sendEmail($user, $subject, $body);
   }
 
   public static function generateCSRFToken(string $form): string
@@ -131,9 +67,7 @@ class Security
     }
 
     if (!isset($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on") {
-      header(
-        "Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]
-      );
+      header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
       exit();
     }
   }
@@ -141,58 +75,6 @@ class Security
   public static function sanitize(string $input): string
   {
     return htmlspecialchars($input, ENT_QUOTES, "UTF-8");
-  }
-
-  public static function sendResetEmail(User $user): void
-  {
-    $url = $_SERVER["HTTP_HOST"];
-    $token = $user->getResetToken();
-    $username = $user->getUsername();
-
-    $subject = "ScamX - Reset your password";
-    $body = "
-      <h1>Hello, $username!</h1>
-      <p>
-        To reset your password, please click on the following link:
-        <a href='http://$url:80/user/reset?token=$token'>
-          http://$url:80/user/reset?token=$token
-        </a>
-      </p>
-      <p>
-        If you did not request this email, feel free to ignore it.
-      </p>
-    ";
-
-    self::sendEmail($user, $subject, $body);
-  }
-
-  public static function isValidImage(array $image): bool
-  {
-    // Get the MIME type
-    $mime = $image["type"];
-
-    // Check if the MIME type is valid
-    if (!in_array($mime, ["image/jpeg", "image/png"])) {
-      return false;
-    }
-
-    // TODO: probably other checks?:
-    // Check file size
-    if ($image["size"] > 5000000) {
-      return false;
-    }
-
-    return true;
-  }
-
-  public static function formatPrice(string $input): float|bool
-  {
-    // Convert to float
-    return filter_var(
-      $input,
-      FILTER_SANITIZE_NUMBER_FLOAT,
-      FILTER_FLAG_ALLOW_FRACTION
-    );
   }
 
   public static function ownsItem(string $id): bool

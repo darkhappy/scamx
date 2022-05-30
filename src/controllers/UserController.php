@@ -6,6 +6,7 @@ use JetBrains\PhpStorm\NoReturn;
 use models\User;
 use repositories\UserRepository;
 use utils\Log;
+use utils\Mail;
 use utils\Message;
 use utils\Redirect;
 use utils\Security;
@@ -186,7 +187,7 @@ class UserController extends Controller
 
     Message::info("We've sent an email to $email. Please click the link inside your email to verify your account.");
     Log::info("User $username registered with email $email.");
-    Security::sendVerifyEmail($user);
+    Mail::sendVerifyEmail($user);
     Redirect::back();
   }
 
@@ -234,7 +235,7 @@ class UserController extends Controller
     if ($user) {
       Security::generateResetToken($user);
       UserRepository::setResetToken($user);
-      Security::sendResetEmail($user);
+      Mail::sendResetEmail($user);
       Log::info("User submitted forgot form to email $email.");
     } else {
       Log::warning("User submitted forgot form with a non-existent email.");
@@ -319,8 +320,6 @@ class UserController extends Controller
 
     // Logout the user
     Session::logout(false);
-    // TODO: Show message that password has been changed
-    // This isn't working due to the session being destroyed
     Message::info("Password changed. You can now login.");
     Log::info("User " . $user->getUsername() . " changed password.");
 

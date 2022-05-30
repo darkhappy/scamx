@@ -74,7 +74,7 @@ class MarketController extends Controller
     }
 
     // Format the price
-    $price = Security::formatPrice($price);
+    $price = Market::convertPriceToFloat($price);
     if (!$price) {
       Message::error("Please enter a valid price.");
       Log::info("Invalid price attempt");
@@ -82,7 +82,7 @@ class MarketController extends Controller
     }
 
     // Verify if the image is a valid image
-    if (!Security::isValidImage($image)) {
+    if (!Image::isValidImage($image)) {
       Message::error("Please upload a valid image.");
       Log::info("Invalid image upload attempt");
       return;
@@ -128,7 +128,7 @@ class MarketController extends Controller
 
   public function edit(): void
   {
-    Security::redirectIfNotAuthenticated();
+    Redirect::ifNotAuthenticated();
 
     $item = ItemRepository::getById($_GET["id"]);
     if (!$item) {
@@ -179,7 +179,7 @@ class MarketController extends Controller
     }
 
     // Format the price
-    $price = Security::formatPrice($price);
+    $price = Market::convertPriceToFloat($price);
     if (!$price) {
       Message::error("Please enter a valid price.");
       Log::info("Invalid price attempt");
@@ -189,7 +189,7 @@ class MarketController extends Controller
     // Check if the user is changing the image
     if (!empty($image["name"])) {
       // Verify if the image is a valid image
-      if (!Security::isValidImage($image)) {
+      if (!Image::isValidImage($image)) {
         Message::error("Please upload a valid image.");
         Log::info("Invalid image upload attempt");
         return;
@@ -218,7 +218,7 @@ class MarketController extends Controller
 
   public function buy(): void
   {
-    Security::redirectIfNotAuthenticated();
+    Redirect::ifNotAuthenticated();
 
     $item = ItemRepository::getById($_GET["id"]);
     if (!$item) {
@@ -360,9 +360,10 @@ class MarketController extends Controller
     Redirect::back();
   }
 
+  #[NoReturn]
   public function refund(): void
   {
-    Security::redirectIfNotAuthenticated();
+    Redirect::ifNotAuthenticated();
     $transaction = TransactionRepository::getById($_GET["id"]);
     if (!$transaction) {
       Message::error("Transaction not found.");

@@ -106,8 +106,7 @@ class Session
       Log::info("Logged out.");
     }
     if ($redirect) {
-      header("Location: /");
-      exit();
+      Redirect::to("/");
     }
   }
 }

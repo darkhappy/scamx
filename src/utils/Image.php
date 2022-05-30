@@ -97,4 +97,22 @@ class Image
       unlink($target);
     }
   }
+
+  public static function isValidImage(array $image): bool
+  {
+    // Get the MIME type
+    $mime = $image["type"];
+
+    // Check if the MIME type is valid
+    if (!in_array($mime, ["image/jpeg", "image/png"])) {
+      return false;
+    }
+
+    // Check file size
+    if ($image["size"] > 5000000) {
+      return false;
+    }
+
+    return true;
+  }
 }
