@@ -21,7 +21,7 @@ if (Security::ownsItem($id)) {
   $color = "bg-violet-600";
 }
 ?>
-<div id="<?= $id ?>" class="<?= $color ?> p-4 break-all rounded-3xl text-white">
+<div id="<?= $id ?>" class="<?= $color ?> p-4 break-all rounded-3xl text-white flex flex-col justify-between">
   <div class="text-center">
     <h2 class="font-bold text-2xl"><?= $name ?></h2>
     <p class="text-slate-300 font-mono">CAD$<span class="text-white"><?= $price ?></span></p>

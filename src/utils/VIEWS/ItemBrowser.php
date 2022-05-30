@@ -1,6 +1,6 @@
 <?php
 
-namespace views\components;
+namespace utils\views;
 
 use JetBrains\PhpStorm\ArrayShape;
 use models\Item;

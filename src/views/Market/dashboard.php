@@ -1,8 +1,8 @@
 <?php
 
-use views\components\BoughtItemsBrowser;
-use views\components\SellerBrowser;
-use views\components\TransactionBrowser;
+use utils\views\BoughtItemsBrowser;
+use utils\views\SellerBrowser;
+use utils\views\TransactionBrowser;
 ?>
 <div class="grid grid-cols-1 lg:grid-cols-2 rounded-3xl bg-blue-400 gap-4">
   <div class="bg-blue-600 p-4 text-white stroke-2 stroke-black rounded-3xl">
