@@ -8,22 +8,18 @@ use utils\Session;
 
 class SellerBrowser extends ItemBrowser
 {
-  protected static function getCount(): bool|int
+  protected static function getCount(ItemRepository $repo = new ItemRepository()): bool|int
   {
     $user = Session::getUser();
-    return ItemRepository::getItemCountFromVendor($user->getId());
+    return $repo->getItemCountFromVendor($user->getId());
   }
 
   /**
    * @return Item[]
    */
-  protected static function getItems(int $itemsToShow, int $offset): array
+  protected static function getItems(int $itemsToShow, int $offset, ItemRepository $repo = new ItemRepository()): array
   {
     $user = Session::getUser();
-    return ItemRepository::getItemsFromVendor(
-      $user->getId(),
-      $itemsToShow,
-      $offset
-    );
+    return $repo->getItemsFromVendor($user->getId(), $itemsToShow, $offset);
   }
 }

@@ -7,7 +7,7 @@ use PDO;
 
 class ItemRepository
 {
-  public static function getById(int $id): Item|bool
+  public function getById(int $id): Item|bool
   {
     $query = DATABASE->prepare("SELECT * FROM items WHERE id = ?");
     $query->bindValue(1, $id, PDO::PARAM_INT);
@@ -15,23 +15,23 @@ class ItemRepository
     return $query->fetchObject(Item::class);
   }
 
-  public static function getItems(int $amount, int $offset): array|false
+  public function getItems(int $amount, int $offset): array|false
   {
-    $query = DATABASE->prepare("SELECT * FROM items LIMIT ? OFFSET ?");
+    $query = DATABASE->prepare("SELECT * FROM items WHERE hidden = 0 LIMIT ? OFFSET ?");
     $query->bindValue(1, $amount, PDO::PARAM_INT);
     $query->bindValue(2, $offset, PDO::PARAM_INT);
     $query->execute();
     return $query->fetchAll(PDO::FETCH_CLASS, Item::class);
   }
 
-  public static function getItemCount(): int|bool
+  public function getItemCount(): int|bool
   {
-    $query = DATABASE->prepare("SELECT COUNT(*) FROM items");
+    $query = DATABASE->prepare("SELECT COUNT(*) FROM items WHERE hidden = 0");
     $query->execute();
     return $query->fetchColumn();
   }
 
-  public static function getItemsFromVendor(int $vendorId, int $amount, int $offset): array
+  public function getItemsFromVendor(int $vendorId, int $amount, int $offset): array
   {
     $query = DATABASE->prepare("SELECT * FROM items WHERE vendorId = ? LIMIT ? OFFSET ?");
     $query->bindValue(1, $vendorId, PDO::PARAM_INT);
@@ -41,7 +41,7 @@ class ItemRepository
     return $query->fetchAll(PDO::FETCH_CLASS, Item::class);
   }
 
-  public static function getItemCountFromVendor(int $vendorId): int|bool
+  public function getItemCountFromVendor(int $vendorId): int|bool
   {
     $query = DATABASE->prepare("SELECT COUNT(*) FROM items WHERE vendorId = ?");
     $query->bindValue(1, $vendorId, PDO::PARAM_INT);
@@ -49,7 +49,7 @@ class ItemRepository
     return $query->fetchColumn();
   }
 
-  public static function insert(Item $item): void
+  public function insert(Item $item): void
   {
     $query = DATABASE->prepare(
       "INSERT INTO items (name, description, image, price, creationDate, vendorId) VALUES (?, ?, ?, ?, ?, ?)"
@@ -63,7 +63,7 @@ class ItemRepository
     $query->execute();
   }
 
-  public static function edit(Item $item): bool
+  public function edit(Item $item): bool
   {
     $query = DATABASE->prepare("UPDATE items SET name = ?, description = ?, image = ?, price = ? WHERE id = ?");
     $query->bindValue(1, $item->getName());
@@ -74,7 +74,7 @@ class ItemRepository
     return $query->execute();
   }
 
-  public static function delete(Item $item): void
+  public function delete(Item $item): void
   {
     // Check if the item is in use in a transaction
     if (TransactionRepository::getById($item->getId()) !== false) {

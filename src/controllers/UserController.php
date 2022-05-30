@@ -14,6 +14,13 @@ use utils\Session;
 
 class UserController extends Controller
 {
+  private UserRepository $userRepo;
+
+  public function __construct(UserRepository $repo = new UserRepository())
+  {
+    $this->userRepo = $repo;
+  }
+
   #[NoReturn]
   public function index(): void
   {
@@ -63,7 +70,7 @@ class UserController extends Controller
     }
 
     // Verify if user exists
-    $user = UserRepository::getByUsername($username);
+    $user = $this->userRepo->getByUsername($username);
 
     if (!$user || !password_verify($password, $user->getPassword())) {
       Message::error("Invalid username or password.");
@@ -96,7 +103,7 @@ class UserController extends Controller
     // Generate a token for the user
     Security::generateAuthToken($user);
     // Send the remember me token to the database
-    UserRepository::setAuthToken($user);
+    $this->userRepo->setAuthToken($user);
     // Add a cookie to the user's browser
     Security::addAuthCookie($user);
   }
@@ -158,35 +165,37 @@ class UserController extends Controller
     }
 
     // Verify if the username is already taken
-    if (UserRepository::getByUsername($username)) {
+    if ($this->userRepo->getByUsername($username)) {
       Message::error("Username is already taken.");
       Log::debug("Registered with taken username.");
       return;
     }
 
     // Verify if the email is already taken
-    if (UserRepository::getByEmail($email)) {
-      Message::error("Email is already taken.");
+    $user = $this->userRepo->getByEmail($email);
+    if (!$user) {
+      // User is safe to create
+      $password = password_hash($password, PASSWORD_BCRYPT);
+
+      $user = new User();
+      $user->setUsername($username);
+      $user->setEmail($email);
+      $user->setPassword($password);
+
+      // Create a token for the user
+      Security::generateVerifyToken($user);
+
+      // Save the user
+      $this->userRepo->insert($user);
+      Log::info("User $username registered with email $email.");
+    }
+    // We still allow the user to create an account, however we won't actually create a new user. Instead, we will email
+    // the email address provided.
+    else {
       Log::debug("Registered with taken email.");
-      return;
     }
 
-    // User is safe to create
-    $password = password_hash($password, PASSWORD_BCRYPT);
-
-    $user = new User();
-    $user->setUsername($username);
-    $user->setEmail($email);
-    $user->setPassword($password);
-
-    // Create a token for the user
-    Security::generateVerifyToken($user);
-
-    // Save the user
-    UserRepository::insert($user);
-
     Message::info("We've sent an email to $email. Please click the link inside your email to verify your account.");
-    Log::info("User $username registered with email $email.");
     Mail::sendVerifyEmail($user);
     Redirect::back();
   }
@@ -220,6 +229,7 @@ class UserController extends Controller
     if (empty($email)) {
       Message::error("Please fill in all fields.");
       Log::debug("Submitted forgot form with empty fields.");
+      return;
     }
 
     // Verify if the email is valid
@@ -231,10 +241,10 @@ class UserController extends Controller
 
     Message::info("We've sent an email to $email. Please click the link inside your email to reset your password.");
 
-    $user = UserRepository::getByEmail($email);
+    $user = $this->userRepo->getByEmail($email);
     if ($user) {
       Security::generateResetToken($user);
-      UserRepository::setResetToken($user);
+      $this->userRepo->setResetToken($user);
       Mail::sendResetEmail($user);
       Log::info("User submitted forgot form to email $email.");
     } else {
@@ -316,7 +326,7 @@ class UserController extends Controller
     // Set the new password
     $new = password_hash($new, PASSWORD_BCRYPT);
     $user->setPassword($new);
-    UserRepository::changePassword($user);
+    $this->userRepo->changePassword($user);
 
     // Logout the user
     Session::logout(false);
@@ -336,7 +346,7 @@ class UserController extends Controller
 
     $token = $_GET["token"] ?? "";
     // Get the user from the database
-    $user = UserRepository::getByResetToken($token);
+    $user = $this->userRepo->getByResetToken($token);
 
     if (!$user || $user->getResetToken() !== $token) {
       Message::error("Invalid token. Please verify the link you have sent, or register again.");
@@ -368,7 +378,7 @@ class UserController extends Controller
 
     $token = $_GET["token"] ?? "";
     // Get the user from the database
-    $user = UserRepository::getByVerifyToken($token);
+    $user = $this->userRepo->getByVerifyToken($token);
     if (!$user || $user->getVerifyToken() !== $token) {
       Message::error("Invalid token. Please verify the link you have sent, or register again.");
       Log::debug("Verification with invalid token.");
@@ -381,7 +391,7 @@ class UserController extends Controller
     }
 
     // Verify the user
-    UserRepository::setVerified($user);
+    $this->userRepo->setVerified($user);
     Message::success("Account verified. You can now login.");
     Log::info("User " . $user->getUsername() . " verified.");
     Redirect::to("/user/login");

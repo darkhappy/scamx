@@ -60,16 +60,16 @@ class ItemBrowser
     ];
   }
 
-  protected static function getCount(): bool|int
+  protected static function getCount(ItemRepository $repo = new ItemRepository()): bool|int
   {
-    return ItemRepository::getItemCount();
+    return $repo->getItemCount();
   }
 
   /**
    * @return Item[]
    */
-  protected static function getItems(int $itemsToShow, int $offset): array
+  protected static function getItems(int $itemsToShow, int $offset, ItemRepository $repo = new ItemRepository()): array
   {
-    return ItemRepository::getItems($itemsToShow, $offset);
+    return $repo->getItems($itemsToShow, $offset);
   }
 }

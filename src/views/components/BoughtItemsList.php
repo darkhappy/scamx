@@ -15,11 +15,14 @@ $transactionStatus = $transaction->getStatus();
 
 $user = Session::getUser();
 
-$vendor = UserRepository::getById($transaction->getVendorId());
+$userRepo = new UserRepository();
+$vendor = $userRepo->getById($transaction->getVendorId());
 $vendorName = $vendor->getUsername();
 
 $itemId = $transaction->getItemId();
-$item = ItemRepository::getById($itemId);
+
+$itemRepo = new ItemRepository();
+$item = $itemRepo->getById($itemId);
 $itemName = $item->getName();
 
 $itemName = Security::sanitize($itemName);

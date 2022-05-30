@@ -96,11 +96,11 @@ class Session
     $_SESSION["timeout"] = $timeout;
   }
 
-  public static function logout(bool $redirect = true): void
+  public static function logout(bool $redirect = true, UserRepository $repo = new UserRepository()): void
   {
     if (self::isLogged()) {
       $user = self::getUser();
-      UserRepository::resetAuthToken($user);
+      $repo->resetAuthToken($user);
 
       unset($_SESSION);
       session_destroy();

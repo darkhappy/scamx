@@ -3,6 +3,9 @@
 namespace unit;
 
 use Codeception\Test\Unit;
+use models\Item;
+use models\User;
+use repositories\ItemRepository;
 use utils\Security;
 
 class SecurityTest extends Unit
@@ -19,6 +22,11 @@ class SecurityTest extends Unit
     $this->assertTrue($result);
   }
 
+  public function validUsernameProvivder(): array
+  {
+    return [["aaa"], ["hello.there"], ["name-with-dash"]];
+  }
+
   /**
    * @dataProvider invalidUsernameProvider
    */
@@ -29,11 +37,6 @@ class SecurityTest extends Unit
 
     // Assert
     $this->assertFalse($result);
-  }
-
-  public function validUsernameProvivder(): array
-  {
-    return [["aaa"], ["hello.there"], ["name-with-dash"]];
   }
 
   public function invalidUsernameProvider(): array
@@ -47,5 +50,25 @@ class SecurityTest extends Unit
       ["test@test"],
       ["test username"],
     ];
+  }
+
+  public function testOwnsItem()
+  {
+    // Arrange
+    $user = new User();
+    $user->setId(1);
+
+    $_SESSION["user"] = $user;
+
+    $item = new Item();
+    $item->setVendorId(1);
+
+    $repo = $this->make(ItemRepository::class, ["getById" => $item]);
+
+    // Act
+    $result = Security::ownsItem(1, $repo);
+
+    // Assert
+    $this->assertTrue($result);
   }
 }

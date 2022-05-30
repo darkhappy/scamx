@@ -11,6 +11,7 @@ class Item
   private string $image;
   private string $creationDate;
   private int $vendorId;
+  private bool $hidden;
 
   /**
    * @return int
@@ -27,7 +28,6 @@ class Item
   {
     $this->vendorId = $vendorId;
   }
-
 
   /**
    * @return string
@@ -123,5 +123,21 @@ class Item
   public function setImage(string $image): void
   {
     $this->image = $image;
+  }
+
+  /**
+   * @return bool
+   */
+  public function getHidden(): bool
+  {
+    return $this->hidden;
+  }
+
+  /**
+   * @param bool $hidden
+   */
+  public function setHidden(bool $hidden): void
+  {
+    $this->hidden = $hidden;
   }
 }

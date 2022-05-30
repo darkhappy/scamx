@@ -1,6 +1,6 @@
 <?php use utils\Session; ?>
 
-<div class="py-4 px-8 bg-green-500 text-white font-medium flex flex-row items-center justify-between">
+<div class="py-4 px-8 bg-blue-600 text-white font-medium flex flex-row items-center justify-between">
   <a href="<?= HOME_PATH ?>" class="text-3xl">ScamX</a>
 
   <div class="text-xl font-normal flex gap-4">

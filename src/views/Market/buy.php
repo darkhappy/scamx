@@ -12,7 +12,9 @@ $id = $item->getId();
 $name = $item->getName();
 $description = $item->getDescription();
 $image = $item->getImage();
-$user = UserRepository::getById($item->getVendorId());
+
+$userRepo = new UserRepository();
+$user = $userRepo->getById($item->getVendorId());
 $username = $user->getUsername();
 
 $name = Security::sanitize($name);

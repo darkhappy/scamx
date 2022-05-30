@@ -14,12 +14,13 @@ $id = $transaction->getId();
 $transactionStatus = $transaction->getStatus();
 
 $user = Session::getUser();
-
-$client = UserRepository::getById($transaction->getClientId());
+$userRepo = new UserRepository();
+$client = $userRepo->getById($transaction->getClientId());
 $clientName = $client->getUsername();
 
 $itemId = $transaction->getItemId();
-$item = ItemRepository::getById($itemId);
+$itemRepo = new ItemRepository();
+$item = $itemRepo->getById($itemId);
 $itemName = $item->getName();
 
 $transactionPrice = $item->getPrice();

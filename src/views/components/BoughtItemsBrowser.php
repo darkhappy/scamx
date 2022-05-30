@@ -8,23 +8,20 @@ use utils\Session;
 
 class BoughtItemsBrowser extends ItemBrowser
 {
-  protected static function getCount(): bool|int
+  // Repo is only there since it's in the parent class
+  // please don't delete it
+  protected static function getCount($repo = null): bool|int
   {
     $user = Session::getUser();
-    // Get the count of all items that is in a transaction that the user owns
     return TransactionRepository::getClientTransactionsCount($user->getId());
   }
 
   /**
    * @return Item[]
    */
-  protected static function getItems(int $itemsToShow, int $offset): array
+  protected static function getItems(int $itemsToShow, int $offset, $repo = null): array
   {
     $user = Session::getUser();
-    return TransactionRepository::getClientTransactions(
-      $user->getId(),
-      $itemsToShow,
-      $offset
-    );
+    return TransactionRepository::getClientTransactions($user->getId(), $itemsToShow, $offset);
   }
 }

@@ -13,7 +13,9 @@ $description = $item->getDescription();
 $price = $item->getPrice();
 $price = number_format($price, 2);
 $image = $item->getImage();
-$user = UserRepository::getById($item->getVendorId());
+
+$userRepo = new UserRepository();
+$user = $userRepo->getById($item->getVendorId());
 $username = $user->getUsername();
 
 $name = Security::sanitize($name);
@@ -22,23 +24,21 @@ $username = Security::sanitize($username);
 
 $color = "bg-blue-600";
 if (Security::ownsItem($id)) {
-  $color = "bg-teal-600";
+  $color = "bg-violet-600";
 }
 
 $ownItem = Security::ownsItem($id);
 ?>
 <div id="<?= $id ?>"
-     class="flex flex-col md:flex-row gap-0 break-all <?= $color ?> md:bg-transparent rounded-3xl md:gap-4 text-white items-center">
-  <div class="<?= $color ?> p-4 rounded-3xl">
-    <img src="<?= HOME_PATH .
-      "src/assets/uploads/" .
-      $image ?>" alt="<?= $name ?>" class="max-h-96 rounded-3xl" />
+     class="flex flex-col md:flex-row gap-4 p-4 break-words <?= $color ?> rounded-3xl text-white items-center">
+  <div class="<?= $color ?> rounded-3xl">
+    <img src="<?= HOME_PATH . "src/assets/uploads/" . $image ?>" alt="<?= $name ?>" class="rounded-3xl" />
   </div>
-  <div class="<?= $color ?> flex-grow rounded-3xl p-8 flex flex-col justify-between gap-4">
+  <div class="<?= $color ?> flex-grow rounded-3xl flex flex-col justify-between gap-4">
     <div>
       <h1 class="font-bold text-6xl text-white"><?= $name ?></h1>
       <?php if ($ownItem) { ?>
-        <p class="text-slate-600 text-3xl">You own this item.</p>
+        <p class="text-slate-300 text-3xl">You own this item.</p>
       <?php } else { ?>
         <p class="text-white text-3xl">Sold by <?= $username ?></p>
       <?php } ?>

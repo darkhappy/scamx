@@ -17,6 +17,13 @@ use utils\Session;
 
 class MarketController extends Controller
 {
+  private ItemRepository $itemRepo;
+
+  public function __construct($repo = new ItemRepository())
+  {
+    $this->itemRepo = $repo;
+  }
+
   #[NoReturn]
   public function index(): void
   {
@@ -102,7 +109,7 @@ class MarketController extends Controller
     $path = Image::upload($image);
     $item->setImage($path);
 
-    ItemRepository::insert($item);
+    $this->itemRepo->insert($item);
     Message::success("Item added successfully.");
     Log::info("Item '$name' was added by " . $user->getUsername() . " successfully.");
     Redirect::back();
@@ -110,7 +117,7 @@ class MarketController extends Controller
 
   public function info(): void
   {
-    $item = ItemRepository::getById($_GET["id"]);
+    $item = $this->itemRepo->getById($_GET["id"]);
     if (!$item) {
       Message::error("Item not found.");
       Log::info("Trying to view non-existing item.");
@@ -130,7 +137,7 @@ class MarketController extends Controller
   {
     Redirect::ifNotAuthenticated();
 
-    $item = ItemRepository::getById($_GET["id"]);
+    $item = $this->itemRepo->getById($_GET["id"]);
     if (!$item) {
       Message::error("Item not found.");
       Log::info("Trying to view non-existing item.");
@@ -210,7 +217,7 @@ class MarketController extends Controller
 
     $user = Session::getUser();
 
-    ItemRepository::edit($item);
+    $this->itemRepo->edit($item);
     Message::success("Item edited successfully.");
     Log::info("Item '$name' was edited by " . $user->getUsername() . " successfully.");
     Redirect::back();
@@ -220,10 +227,16 @@ class MarketController extends Controller
   {
     Redirect::ifNotAuthenticated();
 
-    $item = ItemRepository::getById($_GET["id"]);
+    $item = $this->itemRepo->getById($_GET["id"]);
     if (!$item) {
       Message::error("Item not found.");
       Log::info("Trying to view non-existing item.");
+      Redirect::back();
+    }
+
+    if ($item->getHidden()) {
+      Message::error("You can no longer buy this item.");
+      Log::info("Trying to buy hidden item.");
       Redirect::back();
     }
 
@@ -341,7 +354,7 @@ class MarketController extends Controller
   {
     Redirect::ifNotAuthenticated();
 
-    $item = ItemRepository::getById($_GET["id"]);
+    $item = $this->itemRepo->getById($_GET["id"]);
     if (!$item) {
       Message::error("Item not found.");
       Log::info("Trying to view non-existing item.");
@@ -354,7 +367,7 @@ class MarketController extends Controller
       Redirect::back();
     }
 
-    ItemRepository::delete($item);
+    $this->itemRepo->delete($item);
     Image::delete($item->getImage());
     Message::success("Item deleted successfully.");
     Log::info("Item '" . $item->getName() . "' was deleted by " . Session::getUser()->getUsername() . " successfully.");

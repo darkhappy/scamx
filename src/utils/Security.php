@@ -77,7 +77,7 @@ class Security
     return htmlspecialchars($input, ENT_QUOTES, "UTF-8");
   }
 
-  public static function ownsItem(string $id): bool
+  public static function ownsItem(string $id, ItemRepository $repo = new ItemRepository()): bool
   {
     // Get the user
     $user = Session::getUser();
@@ -88,7 +88,7 @@ class Security
     $userID = $user->getID();
 
     // Get the item
-    $item = ItemRepository::getById($id);
+    $item = $repo->getById($id);
 
     // Check if the item exists
     if (!$item) {
@@ -122,7 +122,8 @@ class Security
     $cookie = $_COOKIE["authToken"];
 
     // Find a user with the remember me cookie
-    $user = UserRepository::getByAuthToken($cookie);
+    $userRepo = new UserRepository();
+    $user = $userRepo->getByAuthToken($cookie);
 
     // Check if the user exists
     if (!$user) {
@@ -131,7 +132,7 @@ class Security
 
     // If the auth timeout is expired, remove the cookie
     if ($user->getAuthTimeout() < time()) {
-      UserRepository::resetAuthToken($user);
+      $userRepo->resetAuthToken($user);
       return;
     }
 

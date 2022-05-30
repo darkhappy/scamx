@@ -8,7 +8,8 @@ use utils\Session;
 
 class TransactionBrowser extends ItemBrowser
 {
-  protected static function getCount(): bool|int
+  // has repo because it is used in the parent class, even though it is not used here
+  protected static function getCount($repo = null): bool|int
   {
     $user = Session::getUser();
     // Get the count of all items that is in a transaction that the user owns
@@ -18,13 +19,9 @@ class TransactionBrowser extends ItemBrowser
   /**
    * @return Item[]
    */
-  protected static function getItems(int $itemsToShow, int $offset): array
+  protected static function getItems(int $itemsToShow, int $offset, $repo = null): array
   {
     $user = Session::getUser();
-    return TransactionRepository::getVendorTransactions(
-      $user->getId(),
-      $itemsToShow,
-      $offset
-    );
+    return TransactionRepository::getVendorTransactions($user->getId(), $itemsToShow, $offset);
   }
 }
