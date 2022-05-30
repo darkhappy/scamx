@@ -37,6 +37,8 @@ $date = $transaction->getDate();
   </div>
   <div class="flex flex-col text-right text-amber-300 font-bold text-xl">
     <a href="<?= HOME_PATH ?>market/info?id=<?= $itemId ?>">View item</a>
-    <a href="<?= HOME_PATH ?>market/refund?id=<?= $id ?>">Refund</a>
+    <?php if ($transactionStatus === "Paid") { ?>
+      <a href="<?= HOME_PATH ?>market/refund?id=<?= $id ?>">Refund</a>
+    <?php } ?>
   </div>
 </div>

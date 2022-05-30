@@ -17,7 +17,7 @@ class UserController extends Controller
   #[NoReturn]
   public function index(): void
   {
-    Redirect::to("/user/login");
+    Redirect::to("/user/profile");
   }
 
   public function profile(): void

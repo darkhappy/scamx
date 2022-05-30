@@ -10,13 +10,13 @@ class Redirect
   {
     if (!Session::isLogged()) {
       Message::error("Please login to access this page.");
-      self::to("/login");
+      self::to("/user/login");
     }
   }
 
   #[NoReturn]
   public static function to($url): void {
-    header("Location: $url");
+    header("Location: " . HOME_PATH . $url);
     exit();
   }
 
@@ -31,7 +31,13 @@ class Redirect
   #[NoReturn]
   public static function back(): void
   {
-    header("Location: " . $_SERVER["HTTP_REFERER"]);
-    exit();
+    $back = Session::getBack();
+    if (isset($back)) {
+      self::to($back);
+    } elseif (isset($_SERVER["HTTP_REFERER"])) {
+      self::to($_SERVER["HTTP_REFERER"]);
+    } else {
+      self::to("/");
+    }
   }
 }

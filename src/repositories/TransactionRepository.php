@@ -70,9 +70,10 @@ class TransactionRepository
 
   public static function updateStatus(Transaction $transaction): void
   {
-    $query = DATABASE->prepare("UPDATE transactions SET status = ? WHERE id = ?");
+    $query = DATABASE->prepare("UPDATE transactions SET status = ?, date = ? WHERE id = ?");
     $query->bindValue(1, $transaction->getStatus());
-    $query->bindValue(2, $transaction->getId(), PDO::PARAM_INT);
+    $query->bindValue(2, date("Y-m-d H:i:s"));
+    $query->bindValue(3, $transaction->getId(), PDO::PARAM_INT);
     $query->execute();
   }
 }

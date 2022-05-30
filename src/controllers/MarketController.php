@@ -349,14 +349,52 @@ class MarketController extends Controller
     }
 
     if ($item->getVendorId() != Session::getUser()->getId()) {
-      Message::error("You are not allowed to edit this item.");
+      Message::error("You are not allowed to delete this item.");
       Log::info("Trying to edit item that is not owned by user.");
       Redirect::back();
     }
 
     ItemRepository::delete($item);
+    Image::delete($item->getImage());
     Message::success("Item deleted successfully.");
     Log::info("Item '" . $item->getName() . "' was deleted by " . Session::getUser()->getUsername() . " successfully.");
+    Redirect::back();
+  }
+
+  #[NoReturn]
+  public function confirm(): void
+  {
+    Redirect::ifNotAuthenticated();
+    $transaction = TransactionRepository::getById($_GET["id"]);
+    if (!$transaction) {
+      Message::error("Transaction not found.");
+      Log::info("Trying to view non-existing transaction.");
+      Redirect::back();
+    }
+
+    // Check if we are either the vendor or the client
+    if ($transaction->getClientId() != Session::getUser()->getId()) {
+      Message::error("You are not allowed to confirm this transaction.");
+      Log::info("Trying to refund transaction that is not owned by user.");
+      Redirect::back();
+    }
+
+    $status = $transaction->getStatus();
+
+    if ($status == "refunded") {
+      Message::error("This transaction has already been refunded.");
+      Log::info("Trying to refund transaction that has already been refunded.");
+      Redirect::back();
+    } elseif ($status == "confirmed") {
+      Message::error("This transaction has already been confirmed.");
+      Log::info("Trying to refund transaction that has already been confirmed.");
+      Redirect::back();
+    }
+
+    $transaction->setStatus("confirmed");
+    TransactionRepository::updateStatus($transaction);
+    Message::success("Transaction confirmed successfully.");
+    Log::info("Transaction confirmed successfully.");
     Redirect::back();
   }
 

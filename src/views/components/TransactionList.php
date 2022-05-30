@@ -38,7 +38,9 @@ $transactionStatus = ucfirst($transactionStatus);
   </div>
   <div class="flex flex-col text-right text-amber-300 font-bold text-xl grow">
     <a href="<?= HOME_PATH ?>market/info?id=<?= $itemId ?>">View item</a>
-    <a href="<?= HOME_PATH ?>market/confirm?id=<?= $id ?>">Confirm</a>
-    <a href="<?= HOME_PATH ?>market/refund?id=<?= $id ?>">Refund</a>
+    <?php if ($transactionStatus === "Paid") { ?>
+      <a href="<?= HOME_PATH ?>market/confirm?id=<?= $id ?>">Confirm</a>
+      <a href="<?= HOME_PATH ?>market/refund?id=<?= $id ?>">Cancel</a>
+    <?php } ?>
   </div>
 </div>

@@ -17,6 +17,7 @@ if (!isset($content)) {
   <?php require __DIR__ . "/components/Navbar.php"; ?>
   <?php require __DIR__ . "/components/Title.php"; ?>
   <div class="grow p-8">
+    <?php require __DIR__ . "/components/Message.php"; ?>
     <?php require $content; ?>
   </div>
   <?php require __DIR__ . "/components/Footer.php"; ?>

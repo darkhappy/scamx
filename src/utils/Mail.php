@@ -13,12 +13,17 @@ class Mail
     $username = $user->getUsername();
 
     $subject = "ScamX - Verify your account";
-    $body = "
+    $body =
+      "
       <h1>Hello, $username!</h1>
       <p>
         To verify your account, please click on the following link:
-        <a href='http://$url:80/user/verify?token=$token'>
-          http://$url:80/user/verify?token=$token
+        <a href='https://$url" .
+      HOME_PATH .
+      "user/verify?token=$token'>
+            https://$url" .
+      HOME_PATH .
+      "user/verify?token=$token'
         </a>
       </p>
       <p>
@@ -31,16 +36,15 @@ class Mail
 
   private static function sendEmail(User $user, string $subject, string $message): void
   {
+    $url = $_SERVER["HTTP_HOST"];
     $username = $user->getUsername();
     $email = $user->getEmail();
-    $headers = [
-      "MIME-Version" => "1.0",
-      "Content-type" => "text/html; charset=UTF-8",
-      "To" => "$username <$email>",
-      "From" => "ScamX <test@localhost>",
-    ];
+    $headers = "From: " . "scamx@$url" . "\r\n";
+    $headers .= "Reply-To: " . "$username@$email" . "\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 
-    if (!mail($email, $subject, $message, implode("\r\n", $headers))) {
+    if (!mail($email, $subject, $message, $headers)) {
       if (DEBUG) {
         Message::info($message);
       } else {
@@ -56,12 +60,17 @@ class Mail
     $username = $user->getUsername();
 
     $subject = "ScamX - Reset your password";
-    $body = "
+    $body =
+      "
       <h1>Hello, $username!</h1>
       <p>
         To reset your password, please click on the following link:
-        <a href='http://$url:80/user/reset?token=$token'>
-          http://$url:80/user/reset?token=$token
+        <a href='https://$url" .
+      HOME_PATH .
+      "user/reset?token=$token'>
+            https://$url" .
+      HOME_PATH .
+      "user/reset?token=$token
         </a>
       </p>
       <p>

@@ -31,9 +31,7 @@ require __DIR__ . "/../components/Message.php";
 ?>
 <div class="flex flex-col lg:flex-row gap-4 my-4 text-white">
   <form method="post" class="p-8 bg-blue-600 grow rounded-3xl" id="buy">
-    <input type="hidden" aria-hidden="true" hidden name="csrf" value="<?= Security::generateCSRFToken(
-      "buy"
-    ) ?>">
+    <input type="hidden" aria-hidden="true" hidden name="csrf" value="<?= Security::generateCSRFToken("buy") ?>">
     <div>
       <h2 class="text-3xl mb-2">Information de l'acheteur</h2>
       <div class="flex flex-col gap-4">
@@ -52,8 +50,8 @@ require __DIR__ . "/../components/Message.php";
                  name="address" id="address" required="" autocomplete="street-address"
                  placeholder="1045 Rue des Parlementaires">
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="col-span-1 md:col-span-2">
+        <div class="flex flex-row lg:flex-col xl:flex-row gap-4">
+          <div class="grow">
             <label for="city" class="block uppercase tracking-wide text-gray-100 text-xs font-bold mb-2">Ville</label>
             <input type="text"
                    class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -145,11 +143,9 @@ require __DIR__ . "/../components/Message.php";
     </div>
   </form>
   <div class="bg-slate-700 rounded-3xl">
-    <div class="flex flex-col md:flex-row gap-2 rounded-3xl <?= $color ?> p-8">
+    <div class="flex flex-col md:flex-row gap-2 rounded-3xl <?= $color ?> p-8 items-center">
       <div class="p-4">
-        <img src="<?= HOME_PATH .
-          "src/assets/uploads/" .
-          $image ?>" alt="<?= $name ?>"
+        <img src="<?= HOME_PATH . "src/assets/uploads/" . $image ?>" alt="<?= $name ?>"
              class="max-h-48 rounded-3xl" />
       </div>
       <div>
@@ -178,10 +174,7 @@ require __DIR__ . "/../components/Message.php";
         <div class="flex flex-row justify-between items-end gap-2">
           <span class="text-4xl hidden md:block">Total:</span>
           <span class="text-4xl font-mono">CAD$<span
-              class="text-6xl font-medium"><?= number_format(
-                $total,
-                2
-              ) ?></span></span>
+              class="text-6xl font-medium"><?= number_format($total, 2) ?></span></span>
         </div>
       </div>
       <button type="submit" form="buy" class="px-4 py-2 bg-blue-600 rounded-3xl m-4">Buy now</button>

@@ -16,6 +16,9 @@ class Session
     if (self::getUser() === null) {
       Security::logFromCookie();
     }
+
+    $uri = $_SERVER["REQUEST_URI"];
+    Session::setBack($uri);
   }
 
   public static function resetSessionId(): void
@@ -107,6 +110,47 @@ class Session
     }
     if ($redirect) {
       Redirect::to("/");
+    }
+  }
+
+  public static function getBack()
+  {
+    // Initiate our array if it doesn't exist
+    if (!isset($_SESSION["back"])) {
+      $_SESSION["back"] = [];
+    }
+
+    // Get the before last element of the stack
+    array_pop($_SESSION["back"]);
+    $back = array_pop($_SESSION["back"]);
+
+    // If the stack is empty, redirect to the home page
+    if (!isset($back)) {
+      return "/";
+    }
+
+    // Otherwise, return the last element of the stack
+    return $back;
+  }
+
+  public static function setBack(string $back)
+  {
+    // Initiate our array if it doesn't exist
+    if (!isset($_SESSION["back"])) {
+      $_SESSION["back"] = [];
+    }
+
+    // If the top of the stack is the same as the new back, do nothing
+    if (end($_SESSION["back"]) === $back) {
+      return;
+    }
+    // Push the current page to the stack
+    $_SESSION["back"][] = $back;
+
+    // If the stack is longer than 10, pop the first element
+    // This is to prevent the stack from growing too large
+    if (count($_SESSION["back"]) > 10) {
+      array_shift($_SESSION["back"]);
     }
   }
 }

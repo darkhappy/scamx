@@ -34,6 +34,7 @@ class Market
 
   public static function calculateProfit(float $subtotal): float
   {
+    // We take 5% of the subtotal
     return round($subtotal * 0.95, 2);
   }
 
