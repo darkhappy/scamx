@@ -60,17 +60,19 @@ De plus, il n'y a pas de transactions par défaut. Il faut Stripe pour les faire
 * Qualité du code (MVC avancé, normes, performances, typage, etc.) - 40/40
     * La plupart du code est fait pour être réutilisé partout. Par exemple, les messages sont dynamiques et stockés dans
       des variables de session. Alors, on peut afficher un message dans n'importe quel page peu importe la source.
-* Sécurité - 40/40
+* Sécurité - 38/40
+    * J'ai oublié le CSRF pour le boutton delete et logout. J'ai réalisé dernière minute.
 * Tests unitaires - 10/10
 * Tests d'acceptations - 10/10
 * Ergonomie, accessibilité et réactivité - 10/10
     * Le seul problème est que le site marche un peu mal sur un iPhone SE (des textes qui dépasse), mais il y a eu
-      beaucoup d'éffort sur le site pour le rendre plus accessible. J'ai opté pour un "mobile-first" site.
+      beaucoup d'éffort sur le site pour le rendre plus accessible, et honnêtement la plupart des sites marchent mals
+      sur un téléphone vraiment petit.
 * Déploiement sur le FTP - 10/10
     * J'ai quand même laissé le directoire "src" dans le FTP. Cependant, tous marche et l'utilisateur ne saura même
       pas que ce dossier existe!
 * Fichiers (migration, README, git propre, etc.) - 5/5
-* Total - 125/125
+* Total - 123/125
 
 ### Ajouts
 
@@ -81,4 +83,4 @@ De plus, il n'y a pas de transactions par défaut. Il faut Stripe pour les faire
     * Cette liste est réutilisé d'une manière polymorphe pour les différents types de produits (produits, ventes,
       achats).
 
-Total - 220/220
+Total - 218/220
