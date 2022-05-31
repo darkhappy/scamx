@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /var/www/html/src/models</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../_css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../_css/nv.d3.min.css" rel="stylesheet" type="text/css">
+  <link href="../_css/style.css" rel="stylesheet" type="text/css">
+  <link href="../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../index.html">/var/www/html/src</a></li>
+         <li class="breadcrumb-item"><a href="index.html">models</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="User.php.html#5">models\User</a></td><td class="text-right">27%</td></tr>
+       <tr><td><a href="Item.php.html#5">models\Item</a></td><td class="text-right">66%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Item.php.html#35"><abbr title="models\Item::getCreationDate">getCreationDate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Item.php.html#43"><abbr title="models\Item::setCreationDate">setCreationDate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Item.php.html#59"><abbr title="models\Item::setId">setId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Item.php.html#123"><abbr title="models\Item::setImage">setImage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Item.php.html#139"><abbr title="models\Item::setHidden">setHidden</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Transaction.php.html#19"><abbr title="models\Transaction::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Transaction.php.html#27"><abbr title="models\Transaction::setId">setId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Transaction.php.html#99"><abbr title="models\Transaction::getStatus">getStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Transaction.php.html#107"><abbr title="models\Transaction::setStatus">setStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#20"><abbr title="models\User::getAuthTimeout">getAuthTimeout</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#28"><abbr title="models\User::setAuthTimeout">setAuthTimeout</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#48"><abbr title="models\User::setUsername">setUsername</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#53"><abbr title="models\User::getEmail">getEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#58"><abbr title="models\User::setEmail">setEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#68"><abbr title="models\User::setPassword">setPassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#78"><abbr title="models\User::setVerifyToken">setVerifyToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#83"><abbr title="models\User::getTimeout">getTimeout</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#88"><abbr title="models\User::setTimeout">setTimeout</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#93"><abbr title="models\User::getAuthToken">getAuthToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#98"><abbr title="models\User::setAuthToken">setAuthToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#103"><abbr title="models\User::getResetToken">getResetToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="User.php.html#108"><abbr title="models\User::setResetToken">setResetToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Item.php.html#27"><abbr title="models\Item::setVendorId">setVendorId</abbr></a></td><td class="text-right">50%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.15</a> using <a href="https://secure.php.net/" target="_top">PHP 8.1.5</a>, <a href="http://codeception.com">Codeception</a> and <a href="http://phpunit.de/">PHPUnit 9.5.20</a> at Tue May 31 2:01:13 UTC 2022.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../_js/jquery.min.js" type="text/javascript"></script>
+  <script src="../_js/d3.min.js" type="text/javascript"></script>
+  <script src="../_js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([0,0,0,1,0,0,0,1,1,0,0,0], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([22,0,0,0,0,0,1,0,0,0,0,27], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[66.66666666666666,16,"<a href=\"Item.php.html#5\">models\\Item<\/a>"],[75,16,"<a href=\"Transaction.php.html#5\">models\\Transaction<\/a>"],[27.77777777777778,18,"<a href=\"User.php.html#5\">models\\User<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"Item.php.html#19\">models\\Item::getVendorId<\/a>"],[50,1,"<a href=\"Item.php.html#27\">models\\Item::setVendorId<\/a>"],[0,1,"<a href=\"Item.php.html#35\">models\\Item::getCreationDate<\/a>"],[0,1,"<a href=\"Item.php.html#43\">models\\Item::setCreationDate<\/a>"],[100,1,"<a href=\"Item.php.html#51\">models\\Item::getId<\/a>"],[0,1,"<a href=\"Item.php.html#59\">models\\Item::setId<\/a>"],[100,1,"<a href=\"Item.php.html#67\">models\\Item::getName<\/a>"],[100,1,"<a href=\"Item.php.html#75\">models\\Item::setName<\/a>"],[100,1,"<a href=\"Item.php.html#83\">models\\Item::getDescription<\/a>"],[100,1,"<a href=\"Item.php.html#91\">models\\Item::setDescription<\/a>"],[100,1,"<a href=\"Item.php.html#99\">models\\Item::getPrice<\/a>"],[100,1,"<a href=\"Item.php.html#107\">models\\Item::setPrice<\/a>"],[100,1,"<a href=\"Item.php.html#115\">models\\Item::getImage<\/a>"],[0,1,"<a href=\"Item.php.html#123\">models\\Item::setImage<\/a>"],[100,1,"<a href=\"Item.php.html#131\">models\\Item::getHidden<\/a>"],[0,1,"<a href=\"Item.php.html#139\">models\\Item::setHidden<\/a>"],[0,1,"<a href=\"Transaction.php.html#19\">models\\Transaction::getId<\/a>"],[0,1,"<a href=\"Transaction.php.html#27\">models\\Transaction::setId<\/a>"],[100,1,"<a href=\"Transaction.php.html#35\">models\\Transaction::getClientId<\/a>"],[100,1,"<a href=\"Transaction.php.html#43\">models\\Transaction::setClientId<\/a>"],[100,1,"<a href=\"Transaction.php.html#51\">models\\Transaction::getItemId<\/a>"],[100,1,"<a href=\"Transaction.php.html#59\">models\\Transaction::setItemId<\/a>"],[100,1,"<a href=\"Transaction.php.html#67\">models\\Transaction::getVendorId<\/a>"],[100,1,"<a href=\"Transaction.php.html#75\">models\\Transaction::setVendorId<\/a>"],[100,1,"<a href=\"Transaction.php.html#83\">models\\Transaction::getPrice<\/a>"],[100,1,"<a href=\"Transaction.php.html#91\">models\\Transaction::setPrice<\/a>"],[0,1,"<a href=\"Transaction.php.html#99\">models\\Transaction::getStatus<\/a>"],[0,1,"<a href=\"Transaction.php.html#107\">models\\Transaction::setStatus<\/a>"],[100,1,"<a href=\"Transaction.php.html#115\">models\\Transaction::getDate<\/a>"],[100,1,"<a href=\"Transaction.php.html#123\">models\\Transaction::setDate<\/a>"],[100,1,"<a href=\"Transaction.php.html#131\">models\\Transaction::getStripeIntentId<\/a>"],[100,1,"<a href=\"Transaction.php.html#139\">models\\Transaction::setStripeIntentId<\/a>"],[0,1,"<a href=\"User.php.html#20\">models\\User::getAuthTimeout<\/a>"],[0,1,"<a href=\"User.php.html#28\">models\\User::setAuthTimeout<\/a>"],[100,1,"<a href=\"User.php.html#33\">models\\User::getId<\/a>"],[100,1,"<a href=\"User.php.html#38\">models\\User::setId<\/a>"],[100,1,"<a href=\"User.php.html#43\">models\\User::getUsername<\/a>"],[0,1,"<a href=\"User.php.html#48\">models\\User::setUsername<\/a>"],[0,1,"<a href=\"User.php.html#53\">models\\User::getEmail<\/a>"],[0,1,"<a href=\"User.php.html#58\">models\\User::setEmail<\/a>"],[100,1,"<a href=\"User.php.html#63\">models\\User::getPassword<\/a>"],[0,1,"<a href=\"User.php.html#68\">models\\User::setPassword<\/a>"],[100,1,"<a href=\"User.php.html#73\">models\\User::getVerifyToken<\/a>"],[0,1,"<a href=\"User.php.html#78\">models\\User::setVerifyToken<\/a>"],[0,1,"<a href=\"User.php.html#83\">models\\User::getTimeout<\/a>"],[0,1,"<a href=\"User.php.html#88\">models\\User::setTimeout<\/a>"],[0,1,"<a href=\"User.php.html#93\">models\\User::getAuthToken<\/a>"],[0,1,"<a href=\"User.php.html#98\">models\\User::setAuthToken<\/a>"],[0,1,"<a href=\"User.php.html#103\">models\\User::getResetToken<\/a>"],[0,1,"<a href=\"User.php.html#108\">models\\User::setResetToken<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

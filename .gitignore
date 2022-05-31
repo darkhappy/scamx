@@ -1,4 +1,4 @@
-### Docker ###
+### aaaaaa ###
 dbdata
 
 ### Composer ###
@@ -63,7 +63,6 @@ pids
 lib-cov
 
 # Coverage directory used by tools like istanbul
-coverage
 *.lcov
 
 # nyc test coverage

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /var/www/html/src</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="_css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="_css/nv.d3.min.css" rel="stylesheet" type="text/css">
+  <link href="_css/style.css" rel="stylesheet" type="text/css">
+  <link href="_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="index.html">/var/www/html/src</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="utils/Mail.php.html#7">utils\Mail</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/views/BoughtItemsBrowser.php.html#9">utils\views\BoughtItemsBrowser</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/views/SellerBrowser.php.html#9">utils\views\SellerBrowser</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/views/TransactionBrowser.php.html#9">utils\views\TransactionBrowser</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Image.php.html#8">utils\Image</a></td><td class="text-right">10%</td></tr>
+       <tr><td><a href="repositories/TransactionRepository.php.html#8">repositories\TransactionRepository</a></td><td class="text-right">20%</td></tr>
+       <tr><td><a href="repositories/UserRepository.php.html#8">repositories\UserRepository</a></td><td class="text-right">23%</td></tr>
+       <tr><td><a href="models/User.php.html#5">models\User</a></td><td class="text-right">27%</td></tr>
+       <tr><td><a href="utils/Security.php.html#9">utils\Security</a></td><td class="text-right">37%</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#15">controllers\UserController</a></td><td class="text-right">40%</td></tr>
+       <tr><td><a href="controllers/MarketController.php.html#18">controllers\MarketController</a></td><td class="text-right">41%</td></tr>
+       <tr><td><a href="repositories/ItemRepository.php.html#8">repositories\ItemRepository</a></td><td class="text-right">45%</td></tr>
+       <tr><td><a href="utils/Redirect.php.html#7">utils\Redirect</a></td><td class="text-right">56%</td></tr>
+       <tr><td><a href="utils/Market.php.html#10">utils\Market</a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="models/Item.php.html#5">models\Item</a></td><td class="text-right">66%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="controllers/MarketController.php.html#18">controllers\MarketController</a></td><td class="text-right">1063</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#15">controllers\UserController</a></td><td class="text-right">739</td></tr>
+       <tr><td><a href="utils/Security.php.html#9">utils\Security</a></td><td class="text-right">137</td></tr>
+       <tr><td><a href="utils/Image.php.html#8">utils\Image</a></td><td class="text-right">115</td></tr>
+       <tr><td><a href="utils/Mail.php.html#7">utils\Mail</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="repositories/ItemRepository.php.html#8">repositories\ItemRepository</a></td><td class="text-right">22</td></tr>
+       <tr><td><a href="utils/Market.php.html#10">utils\Market</a></td><td class="text-right">16</td></tr>
+       <tr><td><a href="utils/Redirect.php.html#7">utils\Redirect</a></td><td class="text-right">15</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="controllers/MarketController.php.html#27"><abbr title="controllers\MarketController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="controllers/MarketController.php.html#364"><abbr title="controllers\MarketController::delete">delete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="controllers/MarketController.php.html#389"><abbr title="controllers\MarketController::confirm">confirm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="controllers/MarketController.php.html#426"><abbr title="controllers\MarketController::refund">refund</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#24"><abbr title="controllers\UserController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#258"><abbr title="controllers\UserController::reset">reset</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#279"><abbr title="controllers\UserController::handleReset">handleReset</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#340"><abbr title="controllers\UserController::verifyReset">verifyReset</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#365"><abbr title="controllers\UserController::logout">logout</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#371"><abbr title="controllers\UserController::verify">verify</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/Item.php.html#35"><abbr title="models\Item::getCreationDate">getCreationDate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/Item.php.html#43"><abbr title="models\Item::setCreationDate">setCreationDate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/Item.php.html#59"><abbr title="models\Item::setId">setId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/Item.php.html#123"><abbr title="models\Item::setImage">setImage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/Item.php.html#139"><abbr title="models\Item::setHidden">setHidden</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/Transaction.php.html#19"><abbr title="models\Transaction::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/Transaction.php.html#27"><abbr title="models\Transaction::setId">setId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/Transaction.php.html#99"><abbr title="models\Transaction::getStatus">getStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/Transaction.php.html#107"><abbr title="models\Transaction::setStatus">setStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/User.php.html#20"><abbr title="models\User::getAuthTimeout">getAuthTimeout</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/User.php.html#28"><abbr title="models\User::setAuthTimeout">setAuthTimeout</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/User.php.html#48"><abbr title="models\User::setUsername">setUsername</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/User.php.html#53"><abbr title="models\User::getEmail">getEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/User.php.html#58"><abbr title="models\User::setEmail">setEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/User.php.html#68"><abbr title="models\User::setPassword">setPassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/User.php.html#78"><abbr title="models\User::setVerifyToken">setVerifyToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/User.php.html#83"><abbr title="models\User::getTimeout">getTimeout</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/User.php.html#88"><abbr title="models\User::setTimeout">setTimeout</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/User.php.html#93"><abbr title="models\User::getAuthToken">getAuthToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/User.php.html#98"><abbr title="models\User::setAuthToken">setAuthToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/User.php.html#103"><abbr title="models\User::getResetToken">getResetToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="models/User.php.html#108"><abbr title="models\User::setResetToken">setResetToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/ItemRepository.php.html#34"><abbr title="repositories\ItemRepository::getItemsFromVendor">getItemsFromVendor</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/ItemRepository.php.html#44"><abbr title="repositories\ItemRepository::getItemCountFromVendor">getItemCountFromVendor</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/ItemRepository.php.html#52"><abbr title="repositories\ItemRepository::insert">insert</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/ItemRepository.php.html#77"><abbr title="repositories\ItemRepository::delete">delete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/TransactionRepository.php.html#24"><abbr title="repositories\TransactionRepository::getById">getById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/TransactionRepository.php.html#33"><abbr title="repositories\TransactionRepository::getVendorTransactionsCount">getVendorTransactionsCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/TransactionRepository.php.html#41"><abbr title="repositories\TransactionRepository::getVendorTransactions">getVendorTransactions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/TransactionRepository.php.html#52"><abbr title="repositories\TransactionRepository::getClientTransactionsCount">getClientTransactionsCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/TransactionRepository.php.html#60"><abbr title="repositories\TransactionRepository::getClientTransactions">getClientTransactions</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/TransactionRepository.php.html#71"><abbr title="repositories\TransactionRepository::updateStatus">updateStatus</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/UserRepository.php.html#10"><abbr title="repositories\UserRepository::insert">insert</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/UserRepository.php.html#23"><abbr title="repositories\UserRepository::getByVerifyToken">getByVerifyToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/UserRepository.php.html#47"><abbr title="repositories\UserRepository::getByResetToken">getByResetToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/UserRepository.php.html#55"><abbr title="repositories\UserRepository::setResetToken">setResetToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/UserRepository.php.html#64"><abbr title="repositories\UserRepository::changePassword">changePassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/UserRepository.php.html#80"><abbr title="repositories\UserRepository::getByAuthToken">getByAuthToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/UserRepository.php.html#88"><abbr title="repositories\UserRepository::setAuthToken">setAuthToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/UserRepository.php.html#97"><abbr title="repositories\UserRepository::resetAuthToken">resetAuthToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="repositories/UserRepository.php.html#104"><abbr title="repositories\UserRepository::setVerified">setVerified</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Image.php.html#10"><abbr title="utils\Image::upload">upload</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Image.php.html#42"><abbr title="utils\Image::watermark">watermark</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Image.php.html#91"><abbr title="utils\Image::delete">delete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Log.php.html#16"><abbr title="utils\Log::severe">severe</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Log.php.html#36"><abbr title="utils\Log::error">error</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Mail.php.html#9"><abbr title="utils\Mail::sendVerifyEmail">sendVerifyEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Mail.php.html#37"><abbr title="utils\Mail::sendEmail">sendEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Mail.php.html#56"><abbr title="utils\Mail::sendResetEmail">sendResetEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Market.php.html#74"><abbr title="utils\Market::refund">refund</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Message.php.html#23"><abbr title="utils\Message::warning">warning</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Security.php.html#11"><abbr title="utils\Security::generateVerifyToken">generateVerifyToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Security.php.html#19"><abbr title="utils\Security::generateResetToken">generateResetToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Security.php.html#106"><abbr title="utils\Security::generateAuthToken">generateAuthToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Security.php.html#145"><abbr title="utils\Security::addAuthCookie">addAuthCookie</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Session.php.html#99"><abbr title="utils\Session::logout">logout</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/views/BoughtItemsBrowser.php.html#13"><abbr title="utils\views\BoughtItemsBrowser::getCount">getCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/views/BoughtItemsBrowser.php.html#22"><abbr title="utils\views\BoughtItemsBrowser::getItems">getItems</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/views/SellerBrowser.php.html#11"><abbr title="utils\views\SellerBrowser::getCount">getCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/views/SellerBrowser.php.html#20"><abbr title="utils\views\SellerBrowser::getItems">getItems</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/views/TransactionBrowser.php.html#12"><abbr title="utils\views\TransactionBrowser::getCount">getCount</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/views/TransactionBrowser.php.html#22"><abbr title="utils\views\TransactionBrowser::getItems">getItems</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="utils/Security.php.html#114"><abbr title="utils\Security::logFromCookie">logFromCookie</abbr></a></td><td class="text-right">12%</td></tr>
+       <tr><td><a href="controllers/MarketController.php.html#119"><abbr title="controllers\MarketController::info">info</abbr></a></td><td class="text-right">18%</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#98"><abbr title="controllers\UserController::handleRememberMe">handleRememberMe</abbr></a></td><td class="text-right">20%</td></tr>
+       <tr><td><a href="utils/Redirect.php.html#9"><abbr title="utils\Redirect::ifNotAuthenticated">ifNotAuthenticated</abbr></a></td><td class="text-right">33%</td></tr>
+       <tr><td><a href="utils/Redirect.php.html#27"><abbr title="utils\Redirect::ifAuthenticated">ifAuthenticated</abbr></a></td><td class="text-right">33%</td></tr>
+       <tr><td><a href="controllers/MarketController.php.html#274"><abbr title="controllers\MarketController::handleBuy">handleBuy</abbr></a></td><td class="text-right">33%</td></tr>
+       <tr><td><a href="utils/Security.php.html#62"><abbr title="utils\Security::redirectToHTTPS">redirectToHTTPS</abbr></a></td><td class="text-right">40%</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#215"><abbr title="controllers\UserController::handleForgot">handleForgot</abbr></a></td><td class="text-right">44%</td></tr>
+       <tr><td><a href="controllers/MarketController.php.html#57"><abbr title="controllers\MarketController::handleAdd">handleAdd</abbr></a></td><td class="text-right">46%</td></tr>
+       <tr><td><a href="controllers/MarketController.php.html#22"><abbr title="controllers\MarketController::__construct">__construct</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#19"><abbr title="controllers\UserController::__construct">__construct</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="models/Item.php.html#27"><abbr title="models\Item::setVendorId">setVendorId</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="utils/Redirect.php.html#35"><abbr title="utils\Redirect::back">back</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="utils/Image.php.html#99"><abbr title="utils\Image::isValidImage">isValidImage</abbr></a></td><td class="text-right">57%</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#121"><abbr title="controllers\UserController::handleRegister">handleRegister</abbr></a></td><td class="text-right">59%</td></tr>
+       <tr><td><a href="controllers/MarketController.php.html#33"><abbr title="controllers\MarketController::dashboard">dashboard</abbr></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="utils/Market.php.html#41"><abbr title="utils\Market::buy">buy</abbr></a></td><td class="text-right">63%</td></tr>
+       <tr><td><a href="utils/Session.php.html#52"><abbr title="utils\Session::getCSRF">getCSRF</abbr></a></td><td class="text-right">66%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="controllers/MarketController.php.html#274"><abbr title="controllers\MarketController::handleBuy">handleBuy</abbr></a></td><td class="text-right">162</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#279"><abbr title="controllers\UserController::handleReset">handleReset</abbr></a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="controllers/MarketController.php.html#426"><abbr title="controllers\MarketController::refund">refund</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="controllers/MarketController.php.html#389"><abbr title="controllers\MarketController::confirm">confirm</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#340"><abbr title="controllers\UserController::verifyReset">verifyReset</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#371"><abbr title="controllers\UserController::verify">verify</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="controllers/MarketController.php.html#57"><abbr title="controllers\MarketController::handleAdd">handleAdd</abbr></a></td><td class="text-right">21</td></tr>
+       <tr><td><a href="utils/Image.php.html#10"><abbr title="utils\Image::upload">upload</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#121"><abbr title="controllers\UserController::handleRegister">handleRegister</abbr></a></td><td class="text-right">19</td></tr>
+       <tr><td><a href="utils/Security.php.html#114"><abbr title="utils\Security::logFromCookie">logFromCookie</abbr></a></td><td class="text-right">14</td></tr>
+       <tr><td><a href="controllers/MarketController.php.html#364"><abbr title="controllers\MarketController::delete">delete</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#258"><abbr title="controllers\UserController::reset">reset</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="utils/Image.php.html#42"><abbr title="utils\Image::watermark">watermark</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="utils/Mail.php.html#37"><abbr title="utils\Mail::sendEmail">sendEmail</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="utils/Session.php.html#99"><abbr title="utils\Session::logout">logout</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="utils/Security.php.html#62"><abbr title="utils\Security::redirectToHTTPS">redirectToHTTPS</abbr></a></td><td class="text-right">10</td></tr>
+       <tr><td><a href="controllers/UserController.php.html#215"><abbr title="controllers\UserController::handleForgot">handleForgot</abbr></a></td><td class="text-right">9</td></tr>
+       <tr><td><a href="repositories/ItemRepository.php.html#77"><abbr title="repositories\ItemRepository::delete">delete</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="utils/Image.php.html#91"><abbr title="utils\Image::delete">delete</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="utils/Market.php.html#74"><abbr title="utils\Market::refund">refund</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="controllers/MarketController.php.html#119"><abbr title="controllers\MarketController::info">info</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="utils/Redirect.php.html#35"><abbr title="utils\Redirect::back">back</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="utils/Image.php.html#99"><abbr title="utils\Image::isValidImage">isValidImage</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="utils/Redirect.php.html#9"><abbr title="utils\Redirect::ifNotAuthenticated">ifNotAuthenticated</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="utils/Redirect.php.html#27"><abbr title="utils\Redirect::ifAuthenticated">ifAuthenticated</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="utils/Market.php.html#41"><abbr title="utils\Market::buy">buy</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="utils/Session.php.html#52"><abbr title="utils\Session::getCSRF">getCSRF</abbr></a></td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.15</a> using <a href="https://secure.php.net/" target="_top">PHP 8.1.5</a>, <a href="http://codeception.com">Codeception</a> and <a href="http://phpunit.de/">PHPUnit 9.5.20</a> at Tue May 31 2:01:13 UTC 2022.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="_js/jquery.min.js" type="text/javascript"></script>
+  <script src="_js/d3.min.js" type="text/javascript"></script>
+  <script src="_js/nv.d3.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([4,0,1,3,1,3,1,2,3,3,0,1], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([72,0,2,1,3,3,6,3,3,4,3,75], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[87.5,2,"<a href=\"controllers\/Controller.php.html#5\">controllers\\Controller<\/a>"],[100,1,"<a href=\"controllers\/HomeController.php.html#5\">controllers\\HomeController<\/a>"],[41.833810888252145,71,"<a href=\"controllers\/MarketController.php.html#18\">controllers\\MarketController<\/a>"],[40.549828178694156,57,"<a href=\"controllers\/UserController.php.html#15\">controllers\\UserController<\/a>"],[66.66666666666666,16,"<a href=\"models\/Item.php.html#5\">models\\Item<\/a>"],[75,16,"<a href=\"models\/Transaction.php.html#5\">models\\Transaction<\/a>"],[27.77777777777778,18,"<a href=\"models\/User.php.html#5\">models\\User<\/a>"],[45.23809523809524,9,"<a href=\"repositories\/ItemRepository.php.html#8\">repositories\\ItemRepository<\/a>"],[20,8,"<a href=\"repositories\/TransactionRepository.php.html#8\">repositories\\TransactionRepository<\/a>"],[23.52941176470588,12,"<a href=\"repositories\/UserRepository.php.html#8\">repositories\\UserRepository<\/a>"],[10.526315789473683,12,"<a href=\"utils\/Image.php.html#8\">utils\\Image<\/a>"],[80,6,"<a href=\"utils\/Log.php.html#5\">utils\\Log<\/a>"],[0,5,"<a href=\"utils\/Mail.php.html#7\">utils\\Mail<\/a>"],[60,10,"<a href=\"utils\/Market.php.html#10\">utils\\Market<\/a>"],[87.5,6,"<a href=\"utils\/Message.php.html#5\">utils\\Message<\/a>"],[56.25,9,"<a href=\"utils\/Redirect.php.html#7\">utils\\Redirect<\/a>"],[37.93103448275862,22,"<a href=\"utils\/Security.php.html#9\">utils\\Security<\/a>"],[79.36507936507937,29,"<a href=\"utils\/Session.php.html#8\">utils\\Session<\/a>"],[0,2,"<a href=\"utils\/views\/BoughtItemsBrowser.php.html#9\">utils\\views\\BoughtItemsBrowser<\/a>"],[78.57142857142857,6,"<a href=\"utils\/views\/ItemBrowser.php.html#9\">utils\\views\\ItemBrowser<\/a>"],[0,2,"<a href=\"utils\/views\/SellerBrowser.php.html#9\">utils\\views\\SellerBrowser<\/a>"],[0,2,"<a href=\"utils\/views\/TransactionBrowser.php.html#9\">utils\\views\\TransactionBrowser<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[100,0,"<a href=\"controllers\/Controller.php.html#7\">controllers\\Controller::index<\/a>"],[87.5,2,"<a href=\"controllers\/Controller.php.html#9\">controllers\\Controller::render<\/a>"],[100,1,"<a href=\"controllers\/HomeController.php.html#7\">controllers\\HomeController::index<\/a>"],[50,1,"<a href=\"controllers\/MarketController.php.html#22\">controllers\\MarketController::__construct<\/a>"],[0,1,"<a href=\"controllers\/MarketController.php.html#27\">controllers\\MarketController::index<\/a>"],[60,1,"<a href=\"controllers\/MarketController.php.html#33\">controllers\\MarketController::dashboard<\/a>"],[100,2,"<a href=\"controllers\/MarketController.php.html#45\">controllers\\MarketController::add<\/a>"],[46.42857142857143,9,"<a href=\"controllers\/MarketController.php.html#57\">controllers\\MarketController::handleAdd<\/a>"],[18.75,2,"<a href=\"controllers\/MarketController.php.html#119\">controllers\\MarketController::info<\/a>"],[88.88888888888889,4,"<a href=\"controllers\/MarketController.php.html#140\">controllers\\MarketController::edit<\/a>"],[70.58823529411765,9,"<a href=\"controllers\/MarketController.php.html#173\">controllers\\MarketController::handleEdit<\/a>"],[88.46153846153845,5,"<a href=\"controllers\/MarketController.php.html#238\">controllers\\MarketController::buy<\/a>"],[33.82352941176471,22,"<a href=\"controllers\/MarketController.php.html#274\">controllers\\MarketController::handleBuy<\/a>"],[0,3,"<a href=\"controllers\/MarketController.php.html#364\">controllers\\MarketController::delete<\/a>"],[0,5,"<a href=\"controllers\/MarketController.php.html#389\">controllers\\MarketController::confirm<\/a>"],[0,7,"<a href=\"controllers\/MarketController.php.html#426\">controllers\\MarketController::refund<\/a>"],[50,1,"<a href=\"controllers\/UserController.php.html#19\">controllers\\UserController::__construct<\/a>"],[0,1,"<a href=\"controllers\/UserController.php.html#24\">controllers\\UserController::index<\/a>"],[100,1,"<a href=\"controllers\/UserController.php.html#30\">controllers\\UserController::profile<\/a>"],[100,2,"<a href=\"controllers\/UserController.php.html#37\">controllers\\UserController::login<\/a>"],[74.4186046511628,8,"<a href=\"controllers\/UserController.php.html#48\">controllers\\UserController::handleLogin<\/a>"],[20,1,"<a href=\"controllers\/UserController.php.html#98\">controllers\\UserController::handleRememberMe<\/a>"],[100,2,"<a href=\"controllers\/UserController.php.html#108\">controllers\\UserController::register<\/a>"],[59.154929577464785,11,"<a href=\"controllers\/UserController.php.html#121\">controllers\\UserController::handleRegister<\/a>"],[100,2,"<a href=\"controllers\/UserController.php.html#202\">controllers\\UserController::forgot<\/a>"],[44.44444444444444,5,"<a href=\"controllers\/UserController.php.html#215\">controllers\\UserController::handleForgot<\/a>"],[0,3,"<a href=\"controllers\/UserController.php.html#258\">controllers\\UserController::reset<\/a>"],[0,9,"<a href=\"controllers\/UserController.php.html#279\">controllers\\UserController::handleReset<\/a>"],[0,5,"<a href=\"controllers\/UserController.php.html#340\">controllers\\UserController::verifyReset<\/a>"],[0,1,"<a href=\"controllers\/UserController.php.html#365\">controllers\\UserController::logout<\/a>"],[0,5,"<a href=\"controllers\/UserController.php.html#371\">controllers\\UserController::verify<\/a>"],[100,1,"<a href=\"models\/Item.php.html#19\">models\\Item::getVendorId<\/a>"],[50,1,"<a href=\"models\/Item.php.html#27\">models\\Item::setVendorId<\/a>"],[0,1,"<a href=\"models\/Item.php.html#35\">models\\Item::getCreationDate<\/a>"],[0,1,"<a href=\"models\/Item.php.html#43\">models\\Item::setCreationDate<\/a>"],[100,1,"<a href=\"models\/Item.php.html#51\">models\\Item::getId<\/a>"],[0,1,"<a href=\"models\/Item.php.html#59\">models\\Item::setId<\/a>"],[100,1,"<a href=\"models\/Item.php.html#67\">models\\Item::getName<\/a>"],[100,1,"<a href=\"models\/Item.php.html#75\">models\\Item::setName<\/a>"],[100,1,"<a href=\"models\/Item.php.html#83\">models\\Item::getDescription<\/a>"],[100,1,"<a href=\"models\/Item.php.html#91\">models\\Item::setDescription<\/a>"],[100,1,"<a href=\"models\/Item.php.html#99\">models\\Item::getPrice<\/a>"],[100,1,"<a href=\"models\/Item.php.html#107\">models\\Item::setPrice<\/a>"],[100,1,"<a href=\"models\/Item.php.html#115\">models\\Item::getImage<\/a>"],[0,1,"<a href=\"models\/Item.php.html#123\">models\\Item::setImage<\/a>"],[100,1,"<a href=\"models\/Item.php.html#131\">models\\Item::getHidden<\/a>"],[0,1,"<a href=\"models\/Item.php.html#139\">models\\Item::setHidden<\/a>"],[0,1,"<a href=\"models\/Transaction.php.html#19\">models\\Transaction::getId<\/a>"],[0,1,"<a href=\"models\/Transaction.php.html#27\">models\\Transaction::setId<\/a>"],[100,1,"<a href=\"models\/Transaction.php.html#35\">models\\Transaction::getClientId<\/a>"],[100,1,"<a href=\"models\/Transaction.php.html#43\">models\\Transaction::setClientId<\/a>"],[100,1,"<a href=\"models\/Transaction.php.html#51\">models\\Transaction::getItemId<\/a>"],[100,1,"<a href=\"models\/Transaction.php.html#59\">models\\Transaction::setItemId<\/a>"],[100,1,"<a href=\"models\/Transaction.php.html#67\">models\\Transaction::getVendorId<\/a>"],[100,1,"<a href=\"models\/Transaction.php.html#75\">models\\Transaction::setVendorId<\/a>"],[100,1,"<a href=\"models\/Transaction.php.html#83\">models\\Transaction::getPrice<\/a>"],[100,1,"<a href=\"models\/Transaction.php.html#91\">models\\Transaction::setPrice<\/a>"],[0,1,"<a href=\"models\/Transaction.php.html#99\">models\\Transaction::getStatus<\/a>"],[0,1,"<a href=\"models\/Transaction.php.html#107\">models\\Transaction::setStatus<\/a>"],[100,1,"<a href=\"models\/Transaction.php.html#115\">models\\Transaction::getDate<\/a>"],[100,1,"<a href=\"models\/Transaction.php.html#123\">models\\Transaction::setDate<\/a>"],[100,1,"<a href=\"models\/Transaction.php.html#131\">models\\Transaction::getStripeIntentId<\/a>"],[100,1,"<a href=\"models\/Transaction.php.html#139\">models\\Transaction::setStripeIntentId<\/a>"],[0,1,"<a href=\"models\/User.php.html#20\">models\\User::getAuthTimeout<\/a>"],[0,1,"<a href=\"models\/User.php.html#28\">models\\User::setAuthTimeout<\/a>"],[100,1,"<a href=\"models\/User.php.html#33\">models\\User::getId<\/a>"],[100,1,"<a href=\"models\/User.php.html#38\">models\\User::setId<\/a>"],[100,1,"<a href=\"models\/User.php.html#43\">models\\User::getUsername<\/a>"],[0,1,"<a href=\"models\/User.php.html#48\">models\\User::setUsername<\/a>"],[0,1,"<a href=\"models\/User.php.html#53\">models\\User::getEmail<\/a>"],[0,1,"<a href=\"models\/User.php.html#58\">models\\User::setEmail<\/a>"],[100,1,"<a href=\"models\/User.php.html#63\">models\\User::getPassword<\/a>"],[0,1,"<a href=\"models\/User.php.html#68\">models\\User::setPassword<\/a>"],[100,1,"<a href=\"models\/User.php.html#73\">models\\User::getVerifyToken<\/a>"],[0,1,"<a href=\"models\/User.php.html#78\">models\\User::setVerifyToken<\/a>"],[0,1,"<a href=\"models\/User.php.html#83\">models\\User::getTimeout<\/a>"],[0,1,"<a href=\"models\/User.php.html#88\">models\\User::setTimeout<\/a>"],[0,1,"<a href=\"models\/User.php.html#93\">models\\User::getAuthToken<\/a>"],[0,1,"<a href=\"models\/User.php.html#98\">models\\User::setAuthToken<\/a>"],[0,1,"<a href=\"models\/User.php.html#103\">models\\User::getResetToken<\/a>"],[0,1,"<a href=\"models\/User.php.html#108\">models\\User::setResetToken<\/a>"],[100,1,"<a href=\"repositories\/ItemRepository.php.html#10\">repositories\\ItemRepository::getById<\/a>"],[100,1,"<a href=\"repositories\/ItemRepository.php.html#18\">repositories\\ItemRepository::getItems<\/a>"],[100,1,"<a href=\"repositories\/ItemRepository.php.html#27\">repositories\\ItemRepository::getItemCount<\/a>"],[0,1,"<a href=\"repositories\/ItemRepository.php.html#34\">repositories\\ItemRepository::getItemsFromVendor<\/a>"],[0,1,"<a href=\"repositories\/ItemRepository.php.html#44\">repositories\\ItemRepository::getItemCountFromVendor<\/a>"],[0,1,"<a href=\"repositories\/ItemRepository.php.html#52\">repositories\\ItemRepository::insert<\/a>"],[100,1,"<a href=\"repositories\/ItemRepository.php.html#66\">repositories\\ItemRepository::edit<\/a>"],[0,2,"<a href=\"repositories\/ItemRepository.php.html#77\">repositories\\ItemRepository::delete<\/a>"],[100,1,"<a href=\"repositories\/TransactionRepository.php.html#10\">repositories\\TransactionRepository::insert<\/a>"],[0,1,"<a href=\"repositories\/TransactionRepository.php.html#24\">repositories\\TransactionRepository::getById<\/a>"],[0,1,"<a href=\"repositories\/TransactionRepository.php.html#33\">repositories\\TransactionRepository::getVendorTransactionsCount<\/a>"],[0,1,"<a href=\"repositories\/TransactionRepository.php.html#41\">repositories\\TransactionRepository::getVendorTransactions<\/a>"],[0,1,"<a href=\"repositories\/TransactionRepository.php.html#52\">repositories\\TransactionRepository::getClientTransactionsCount<\/a>"],[0,1,"<a href=\"repositories\/TransactionRepository.php.html#60\">repositories\\TransactionRepository::getClientTransactions<\/a>"],[0,1,"<a href=\"repositories\/TransactionRepository.php.html#71\">repositories\\TransactionRepository::updateStatus<\/a>"],[100,1,"<a href=\"repositories\/TransactionRepository.php.html#80\">repositories\\TransactionRepository::getByItemId<\/a>"],[0,1,"<a href=\"repositories\/UserRepository.php.html#10\">repositories\\UserRepository::insert<\/a>"],[0,1,"<a href=\"repositories\/UserRepository.php.html#23\">repositories\\UserRepository::getByVerifyToken<\/a>"],[100,1,"<a href=\"repositories\/UserRepository.php.html#31\">repositories\\UserRepository::getByUsername<\/a>"],[100,1,"<a href=\"repositories\/UserRepository.php.html#39\">repositories\\UserRepository::getByEmail<\/a>"],[0,1,"<a href=\"repositories\/UserRepository.php.html#47\">repositories\\UserRepository::getByResetToken<\/a>"],[0,1,"<a href=\"repositories\/UserRepository.php.html#55\">repositories\\UserRepository::setResetToken<\/a>"],[0,1,"<a href=\"repositories\/UserRepository.php.html#64\">repositories\\UserRepository::changePassword<\/a>"],[100,1,"<a href=\"repositories\/UserRepository.php.html#72\">repositories\\UserRepository::getById<\/a>"],[0,1,"<a href=\"repositories\/UserRepository.php.html#80\">repositories\\UserRepository::getByAuthToken<\/a>"],[0,1,"<a href=\"repositories\/UserRepository.php.html#88\">repositories\\UserRepository::setAuthToken<\/a>"],[0,1,"<a href=\"repositories\/UserRepository.php.html#97\">repositories\\UserRepository::resetAuthToken<\/a>"],[0,1,"<a href=\"repositories\/UserRepository.php.html#104\">repositories\\UserRepository::setVerified<\/a>"],[0,4,"<a href=\"utils\/Image.php.html#10\">utils\\Image::upload<\/a>"],[0,3,"<a href=\"utils\/Image.php.html#42\">utils\\Image::watermark<\/a>"],[0,2,"<a href=\"utils\/Image.php.html#91\">utils\\Image::delete<\/a>"],[57.14285714285714,3,"<a href=\"utils\/Image.php.html#99\">utils\\Image::isValidImage<\/a>"],[100,1,"<a href=\"utils\/Log.php.html#7\">utils\\Log::log<\/a>"],[0,1,"<a href=\"utils\/Log.php.html#16\">utils\\Log::severe<\/a>"],[100,1,"<a href=\"utils\/Log.php.html#21\">utils\\Log::warning<\/a>"],[100,1,"<a href=\"utils\/Log.php.html#26\">utils\\Log::info<\/a>"],[100,1,"<a href=\"utils\/Log.php.html#31\">utils\\Log::debug<\/a>"],[0,1,"<a href=\"utils\/Log.php.html#36\">utils\\Log::error<\/a>"],[0,1,"<a href=\"utils\/Mail.php.html#9\">utils\\Mail::sendVerifyEmail<\/a>"],[0,3,"<a href=\"utils\/Mail.php.html#37\">utils\\Mail::sendEmail<\/a>"],[0,1,"<a href=\"utils\/Mail.php.html#56\">utils\\Mail::sendResetEmail<\/a>"],[100,1,"<a href=\"utils\/Market.php.html#12\">utils\\Market::calculateTotal<\/a>"],[100,1,"<a href=\"utils\/Market.php.html#20\">utils\\Market::calculateTPS<\/a>"],[100,1,"<a href=\"utils\/Market.php.html#25\">utils\\Market::calculateTVQ<\/a>"],[100,1,"<a href=\"utils\/Market.php.html#30\">utils\\Market::calculateShipping<\/a>"],[100,1,"<a href=\"utils\/Market.php.html#35\">utils\\Market::calculateProfit<\/a>"],[63.63636363636363,2,"<a href=\"utils\/Market.php.html#41\">utils\\Market::buy<\/a>"],[0,2,"<a href=\"utils\/Market.php.html#74\">utils\\Market::refund<\/a>"],[100,1,"<a href=\"utils\/Market.php.html#85\">utils\\Market::convertPriceToFloat<\/a>"],[100,1,"<a href=\"utils\/Message.php.html#8\">utils\\Message::error<\/a>"],[100,1,"<a href=\"utils\/Message.php.html#13\">utils\\Message::success<\/a>"],[100,1,"<a href=\"utils\/Message.php.html#18\">utils\\Message::info<\/a>"],[0,1,"<a href=\"utils\/Message.php.html#23\">utils\\Message::warning<\/a>"],[100,1,"<a href=\"utils\/Message.php.html#28\">utils\\Message::set<\/a>"],[100,1,"<a href=\"utils\/Message.php.html#33\">utils\\Message::get<\/a>"],[33.33333333333333,2,"<a href=\"utils\/Redirect.php.html#9\">utils\\Redirect::ifNotAuthenticated<\/a>"],[100,2,"<a href=\"utils\/Redirect.php.html#17\">utils\\Redirect::to<\/a>"],[33.33333333333333,2,"<a href=\"utils\/Redirect.php.html#27\">utils\\Redirect::ifAuthenticated<\/a>"],[50,3,"<a href=\"utils\/Redirect.php.html#35\">utils\\Redirect::back<\/a>"],[0,1,"<a href=\"utils\/Security.php.html#11\">utils\\Security::generateVerifyToken<\/a>"],[0,1,"<a href=\"utils\/Security.php.html#19\">utils\\Security::generateResetToken<\/a>"],[100,1,"<a href=\"utils\/Security.php.html#27\">utils\\Security::isValidUsername<\/a>"],[80,2,"<a href=\"utils\/Security.php.html#40\">utils\\Security::generateCSRFToken<\/a>"],[100,1,"<a href=\"utils\/Security.php.html#57\">utils\\Security::verifyCSRF<\/a>"],[40,5,"<a href=\"utils\/Security.php.html#62\">utils\\Security::redirectToHTTPS<\/a>"],[100,1,"<a href=\"utils\/Security.php.html#75\">utils\\Security::sanitize<\/a>"],[90,4,"<a href=\"utils\/Security.php.html#80\">utils\\Security::ownsItem<\/a>"],[0,1,"<a href=\"utils\/Security.php.html#106\">utils\\Security::generateAuthToken<\/a>"],[12.5,4,"<a href=\"utils\/Security.php.html#114\">utils\\Security::logFromCookie<\/a>"],[0,1,"<a href=\"utils\/Security.php.html#145\">utils\\Security::addAuthCookie<\/a>"],[100,2,"<a href=\"utils\/Session.php.html#10\">utils\\Session::init<\/a>"],[100,2,"<a href=\"utils\/Session.php.html#24\">utils\\Session::resetSessionId<\/a>"],[100,2,"<a href=\"utils\/Session.php.html#34\">utils\\Session::getUser<\/a>"],[100,1,"<a href=\"utils\/Session.php.html#42\">utils\\Session::setUser<\/a>"],[100,1,"<a href=\"utils\/Session.php.html#47\">utils\\Session::isLogged<\/a>"],[66.66666666666666,2,"<a href=\"utils\/Session.php.html#52\">utils\\Session::getCSRF<\/a>"],[100,2,"<a href=\"utils\/Session.php.html#61\">utils\\Session::setCSRF<\/a>"],[100,2,"<a href=\"utils\/Session.php.html#68\">utils\\Session::getMessage<\/a>"],[100,1,"<a href=\"utils\/Session.php.html#76\">utils\\Session::unsetMessage<\/a>"],[100,1,"<a href=\"utils\/Session.php.html#81\">utils\\Session::setMessage<\/a>"],[100,2,"<a href=\"utils\/Session.php.html#86\">utils\\Session::getTimeout<\/a>"],[100,1,"<a href=\"utils\/Session.php.html#94\">utils\\Session::setTimeout<\/a>"],[0,3,"<a href=\"utils\/Session.php.html#99\">utils\\Session::logout<\/a>"],[90.9090909090909,3,"<a href=\"utils\/Session.php.html#115\">utils\\Session::getBack<\/a>"],[90.9090909090909,4,"<a href=\"utils\/Session.php.html#135\">utils\\Session::setBack<\/a>"],[0,1,"<a href=\"utils\/views\/BoughtItemsBrowser.php.html#13\">utils\\views\\BoughtItemsBrowser::getCount<\/a>"],[0,1,"<a href=\"utils\/views\/BoughtItemsBrowser.php.html#22\">utils\\views\\BoughtItemsBrowser::getItems<\/a>"],[75,4,"<a href=\"utils\/views\/ItemBrowser.php.html#11\">utils\\views\\ItemBrowser::showList<\/a>"],[100,1,"<a href=\"utils\/views\/ItemBrowser.php.html#63\">utils\\views\\ItemBrowser::getCount<\/a>"],[100,1,"<a href=\"utils\/views\/ItemBrowser.php.html#71\">utils\\views\\ItemBrowser::getItems<\/a>"],[0,1,"<a href=\"utils\/views\/SellerBrowser.php.html#11\">utils\\views\\SellerBrowser::getCount<\/a>"],[0,1,"<a href=\"utils\/views\/SellerBrowser.php.html#20\">utils\\views\\SellerBrowser::getItems<\/a>"],[0,1,"<a href=\"utils\/views\/TransactionBrowser.php.html#12\">utils\\views\\TransactionBrowser::getCount<\/a>"],[0,1,"<a href=\"utils\/views\/TransactionBrowser.php.html#22\">utils\\views\\TransactionBrowser::getItems<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>
