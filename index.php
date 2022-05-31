@@ -11,6 +11,10 @@ ini_set("display_errors", 1);
 ini_set("display_startup_errors", 1);
 error_reporting(E_ALL);
 
+header("X-Frame-Options: DENY");
+header_remove("x-powered-by");
+header("Content-Security-Policy: frame-ancestors 'none'", false);
+
 if (!file_exists(__DIR__ . "/config/config.ini")) {
   die("Config file not found");
 }
@@ -36,10 +40,7 @@ spl_autoload_register(function ($className) {
   }
 });
 
-define(
-  "DATABASE",
-  new PDO("mysql:host=$host;dbname=$name;port=$port", $user, $pass)
-);
+define("DATABASE", new PDO("mysql:host=$host;dbname=$name;port=$port", $user, $pass));
 define("HOME_PATH", $config["root"]);
 define("DEBUG", $debug);
 define("STRIPE_PUBLIC_KEY", $stripe_public_key);
