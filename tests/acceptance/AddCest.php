@@ -9,8 +9,8 @@ class AddCest
   public function _before(AcceptanceTester $I)
   {
     $I->amOnPage("/user/login");
-    $I->fillField("username", "admin");
-    $I->fillField("password", "admin");
+    $I->fillField("email", "vim@darkh.app");
+    $I->fillField("password", "vim-my-beloved");
     $I->click("button");
   }
 
@@ -27,7 +27,7 @@ class AddCest
     $I->click("button");
 
     // Assert
-    $I->see("Please upload a valid image");
+    $I->see("Veuillez entrer une image valide");
   }
 
   public function addingAProductWithoutAnyFields(AcceptanceTester $I)
@@ -39,6 +39,6 @@ class AddCest
     $I->click("button");
 
     // Assert
-    $I->see("Please fill in all fields");
+    $I->see("Veuillez remplir tous les champs");
   }
 }

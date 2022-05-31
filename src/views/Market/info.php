@@ -51,12 +51,15 @@ require __DIR__ . "/../components/Message.php";
         class="text-4xl md:text-6xl font-medium"><?= $price ?></span></p>
     <div class="flex flex-row gap-8">
       <?php if ($ownItem) { ?>
-        <a href="<?= HOME_PATH ?>market/edit?id=<?= $id ?>" class="text-yellow-300 font-bold text-xl">Modifier</a>
-        <a href="<?= HOME_PATH ?>market/delete?id=<?= $id ?>" class="text-yellow-300 font-bold text-xl">Supprimer</a>
+        <a href="<?= HOME_PATH ?>market/edit?id=<?= $id ?>"
+           class="text-yellow-400 text-xl font-medium hover:text-yellow-600 transition-colors">Modifier</a>
+        <a href="<?= HOME_PATH ?>market/delete?id=<?= $id ?>"
+           class="text-yellow-400 text-xl font-medium hover:text-red-600 transition-colors">Supprimer</a>
       <?php } else { ?>
-        <a href="<?= HOME_PATH ?>market/buy?id=<?= $id ?>" class="text-yellow-300 font-bold text-xl">Acheter</a>
+        <a href="<?= HOME_PATH ?>market/buy?id=<?= $id ?>"
+           class="text-yellow-400 text-xl font-medium hover:text-yellow-600 transition-colors">Acheter</a>
       <?php } ?>
-      <a href="<?= HOME_PATH ?>" class="text-yellow-300 font-bold text-xl">Retour</a>
+      <a href="<?= HOME_PATH ?>" class="text-yellow-400 text-xl font-medium hover:text-yellow-600 transition-colors">Retour</a>
     </div>
   </div>
 </div>

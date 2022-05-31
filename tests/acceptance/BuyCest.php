@@ -9,15 +9,15 @@ class BuyCest
   public function _before(AcceptanceTester $I)
   {
     $I->amOnPage("/user/login");
-    $I->fillField("username", "admin");
-    $I->fillField("password", "admin");
+    $I->fillField("username", "vim@darkh.app");
+    $I->fillField("password", "vim-my-beloved");
     $I->click("button");
   }
 
   public function buyingAProduct(AcceptanceTester $I)
   {
     // Arrange
-    $I->amOnPage("/market/buy?id=1");
+    $I->amOnPage("/market/buy?id=2");
     $I->fillField("name", "John");
     $I->fillField("address", "123 Main St");
     $I->fillField("city", "Anytown");
@@ -29,7 +29,7 @@ class BuyCest
     $I->fillField("cvc2", "123");
 
     // Act
-    $I->click("button");
+    $I->click("acheter");
 
     // Assert
     $I->see("Transaction complete");
@@ -41,15 +41,15 @@ class BuyCest
     $I->amOnPage("/market/buy?id=0");
 
     // Assert
-    $I->see("Item not found");
+    $I->see("Cet objet n'existe pas");
   }
 
   public function buyingAProductThatIsMine(AcceptanceTester $I)
   {
     // Act
-    $I->amOnPage("/market/buy?id=22");
+    $I->amOnPage("/market/buy?id=1");
 
     // Assert
-    $I->see("You cannot buy your own item");
+    $I->see("Cet objet n'est plus disponible");
   }
 }

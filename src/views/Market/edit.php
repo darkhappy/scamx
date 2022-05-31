@@ -11,6 +11,9 @@ $name = $item->getName();
 $description = $item->getDescription();
 $price = $item->getPrice();
 
+$name = Security::sanitize($name);
+$description = Security::sanitize($description);
+
 /**
  * @var string $pagetitle
  * @var string $pagesub

@@ -120,7 +120,7 @@ class MarketController extends Controller
   {
     $item = $this->itemRepo->getById($_GET["id"]);
     if (!$item) {
-      Message::error("Item not found.");
+      Message::error("Cet objet n'existe pas.");
       Log::info("Trying to view non-existing item.");
       Redirect::back();
     }
@@ -143,13 +143,13 @@ class MarketController extends Controller
 
     $item = $this->itemRepo->getById($_GET["id"]);
     if (!$item) {
-      Message::error("Item not found.");
+      Message::error("Cet objet n'existe pas.");
       Log::info("Trying to view non-existing item.");
       Redirect::back();
     }
 
     if ($item->getVendorId() != Session::getUser()->getId()) {
-      Message::error("You are not allowed to edit this item.");
+      Message::error("Vous n'avez pas les droits pour modifier cet objet.");
       Log::info("Trying to edit item that is not owned by user.");
       Redirect::back();
     }
@@ -180,14 +180,14 @@ class MarketController extends Controller
 
     // Verify CSRF
     if (!Security::verifyCSRF($csrf, "add")) {
-      Message::error("There was a problem, please try again.");
+      Message::error("Il y a eu un problème avec votre requête. Veuillez réessayer.");
       Log::severe("Possible CSRF attempt");
       return;
     }
 
     // Verify if all fields are filled
     if (empty($name) || empty($description) || empty($price)) {
-      Message::error("Please fill in all fields.");
+      Message::error("Veuillez remplir tous les champs.");
       Log::info("Empty login attempt");
       return;
     }
@@ -195,7 +195,7 @@ class MarketController extends Controller
     // Format the price
     $price = Market::convertPriceToFloat($price);
     if (!$price) {
-      Message::error("Please enter a valid price.");
+      Message::error("Veuillez entrer un prix valide.");
       Log::info("Invalid price attempt");
       return;
     }
@@ -204,7 +204,7 @@ class MarketController extends Controller
     if (!empty($image["name"])) {
       // Verify if the image is a valid image
       if (!Image::isValidImage($image)) {
-        Message::error("Please upload a valid image.");
+        Message::error("Veuillez entrer une image valide.");
         Log::info("Invalid image upload attempt");
         return;
       }
@@ -216,7 +216,7 @@ class MarketController extends Controller
       // Upload the image
       $path = Image::upload($image);
       if (!$path) {
-        Message::error("There was a problem uploading the image.");
+        Message::error("Une erreur est survenue lors du téléversement de l'image.");
         Log::info("Image upload attempt failed");
         return;
       }
@@ -230,7 +230,7 @@ class MarketController extends Controller
     $user = Session::getUser();
 
     $this->itemRepo->edit($item);
-    Message::success("Item edited successfully.");
+    Message::success("Modifications enregistrées.");
     Log::info("Item '$name' was edited by " . $user->getUsername() . " successfully.");
     Redirect::back();
   }
@@ -241,19 +241,19 @@ class MarketController extends Controller
 
     $item = $this->itemRepo->getById($_GET["id"]);
     if (!$item) {
-      Message::error("Item not found.");
+      Message::error("Cet objet n'existe pas.");
       Log::info("Trying to view non-existing item.");
       Redirect::back();
     }
 
     if ($item->getHidden()) {
-      Message::error("You can no longer buy this item.");
+      Message::error("Cet objet n'est plus disponible.");
       Log::info("Trying to buy hidden item.");
       Redirect::back();
     }
 
     if ($item->getVendorId() == Session::getUser()->getId()) {
-      Message::error("You can't buy your own item.");
+      Message::error("Vous ne pouvez pas acheter votre propre objet.");
       Log::info("Trying to buy item that is owned by user.");
       Redirect::back();
     }
@@ -287,7 +287,7 @@ class MarketController extends Controller
 
     // Verify CSRF
     if (!Security::verifyCSRF($csrf, "buy")) {
-      Message::error("There was a problem, please try again.");
+      Message::error("Il y a eu un problème avec votre requête. Veuillez réessayer.");
       Log::severe("Possible CSRF attempt");
       return;
     }
@@ -305,7 +305,7 @@ class MarketController extends Controller
       empty($expyear) ||
       empty($cvc)
     ) {
-      Message::error("Please fill in all fields.");
+      Message::error("Veuillez remplir tous les champs.");
       Log::info("Empty buy attempt");
       return;
     }
@@ -331,7 +331,7 @@ class MarketController extends Controller
       strlen($expyear) != 4 ||
       strlen($cvc) != 3
     ) {
-      Message::error("Please make sure that all payment details are correct.");
+      Message::error("Veuillez vérifier les informations de votre carte.");
       Log::info("Invalid card number attempt");
       return;
     }
@@ -339,7 +339,7 @@ class MarketController extends Controller
     // Ask Stripe to verify the card
     $intent = Market::buy($price, $cardnumber, $expmonth, $expyear, $cvc);
     if (!$intent) {
-      Message::error("There was a problem, please verify your card details.");
+      Message::error("Votre carte n'a pas pu être validée. Veuillez réessayer.");
       Log::severe("Stripe error");
       return;
     }
@@ -356,8 +356,15 @@ class MarketController extends Controller
 
     TransactionRepository::insert($transaction);
 
-    Message::success("Transaction completed successfully.");
-    Log::info("Transaction completed successfully.");
+    Message::success("Votre achat a été effectué avec succès.");
+    Log::info(
+      "New transaction. Stripe intent id: " .
+        $intent->id .
+        ", Vendor: " .
+        $item->getVendorId() .
+        "Client: " .
+        Session::getUser()->getId()
+    );
     Redirect::back();
   }
 
@@ -368,21 +375,21 @@ class MarketController extends Controller
 
     $item = $this->itemRepo->getById($_GET["id"]);
     if (!$item) {
-      Message::error("Item not found.");
+      Message::error("Cet objet n'existe pas.");
       Log::info("Trying to view non-existing item.");
       Redirect::back();
     }
 
     if ($item->getVendorId() != Session::getUser()->getId()) {
-      Message::error("You are not allowed to delete this item.");
+      Message::error("Vous n'avez pas le droit d'effectuer cette action.");
       Log::info("Trying to edit item that is not owned by user.");
       Redirect::back();
     }
 
     $this->itemRepo->delete($item);
     Image::delete($item->getImage());
-    Message::success("Item deleted successfully.");
-    Log::info("Item '" . $item->getName() . "' was deleted by " . Session::getUser()->getUsername() . " successfully.");
+    Message::success("L'objet a été supprimé avec succès.");
+    Log::info("Item '" . $item->getId() . "' was deleted by " . Session::getUser()->getId() . " successfully.");
     Redirect::back();
   }
 
@@ -392,14 +399,14 @@ class MarketController extends Controller
     Redirect::ifNotAuthenticated();
     $transaction = TransactionRepository::getById($_GET["id"]);
     if (!$transaction) {
-      Message::error("Transaction not found.");
+      Message::error("Cette transaction n'existe pas.");
       Log::info("Trying to view non-existing transaction.");
       Redirect::back();
     }
 
     // Check if we are the vendor
     if ($transaction->getVendorId() != Session::getUser()->getId()) {
-      Message::error("You are not allowed to confirm this transaction.");
+      Message::error("Vous n'avez pas le droit d'effectuer cette action.");
       Log::info("Trying to refund transaction that is not owned by user.");
       Redirect::back();
     }
@@ -407,18 +414,18 @@ class MarketController extends Controller
     $status = $transaction->getStatus();
 
     if ($status == "refunded") {
-      Message::error("This transaction has already been refunded.");
+      Message::error("Cette transaction a déjà été remboursée.");
       Log::info("Trying to refund transaction that has already been refunded.");
       Redirect::back();
     } elseif ($status == "confirmed") {
-      Message::error("This transaction has already been confirmed.");
+      Message::error("Cette transaction a déjà été confirmée.");
       Log::info("Trying to refund transaction that has already been confirmed.");
       Redirect::back();
     }
 
     $transaction->setStatus("confirmed");
     TransactionRepository::updateStatus($transaction);
-    Message::success("Transaction confirmed successfully.");
+    Message::success("La transaction a été confirmée avec succès.");
     Log::info("Transaction confirmed successfully.");
     Redirect::back();
   }
@@ -429,7 +436,7 @@ class MarketController extends Controller
     Redirect::ifNotAuthenticated();
     $transaction = TransactionRepository::getById($_GET["id"]);
     if (!$transaction) {
-      Message::error("Transaction not found.");
+      Message::error("Cette transaction n'existe pas.");
       Log::info("Trying to view non-existing transaction.");
       Redirect::back();
     }
@@ -439,7 +446,7 @@ class MarketController extends Controller
       $transaction->getClientId() != Session::getUser()->getId() &&
       $transaction->getVendorId() != Session::getUser()->getId()
     ) {
-      Message::error("You are not allowed to refund this transaction.");
+      Message::error("Vous n'avez pas le droit d'effectuer cette action.");
       Log::info("Trying to refund transaction that is not owned by user.");
       Redirect::back();
     }
@@ -447,13 +454,11 @@ class MarketController extends Controller
     $status = $transaction->getStatus();
 
     if ($status == "refunded") {
-      Message::error("This transaction has already been refunded.");
+      Message::error("Cette transaction a déjà été remboursée.");
       Log::info("Trying to refund transaction that has already been refunded.");
       Redirect::back();
-    }
-
-    if ($status == "confirmed") {
-      Message::error("This transaction has already been confirmed.");
+    } elseif ($status == "confirmed") {
+      Message::error("Cette transaction a déjà été confirmée.");
       Log::info("Trying to refund transaction that has already been confirmed.");
       Redirect::back();
     }
@@ -461,14 +466,14 @@ class MarketController extends Controller
     $intent = Market::refund($transaction->getStripeIntentId());
 
     if (!$intent) {
-      Message::error("There was a problem issuing a refund, please try again later.");
+      Message::error("Une erreur est survenue lors de la remboursement de la transaction. Veuillez réessayer.");
       Log::severe("Stripe error");
       Redirect::back();
     }
 
     $transaction->setStatus("refunded");
     TransactionRepository::updateStatus($transaction);
-    Message::success("Transaction refunded successfully.");
+    Message::success("La transaction a été remboursée avec succès.");
     Log::info("Transaction refunded successfully.");
     Redirect::back();
   }

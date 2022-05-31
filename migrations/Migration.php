@@ -1,7 +1,11 @@
 <?php
 
-// Users table
-DATABASE->query("create table if not exists users
+// Verify if tables exist
+$query = DATABASE->query("SHOW TABLES LIKE 'users'");
+
+if ($query === false || $query->rowCount() === 0) {
+  // Users table
+  DATABASE->query("create table users
 (
     id          int auto_increment
         primary key,
@@ -17,8 +21,17 @@ DATABASE->query("create table if not exists users
         unique (id)
 );");
 
-// Items table
-DATABASE->query("create table if not exists items
+  // Set basic users
+  $basicPassword = password_hash("vim-my-beloved", PASSWORD_DEFAULT);
+  $query = DATABASE->prepare("insert into users (username, email, password) values ('vim', 'vim@darkh.app', ? )");
+  $query->execute([$basicPassword]);
+
+  $basicPassword = password_hash("bs-my-beloved", PASSWORD_DEFAULT);
+  $query = DATABASE->prepare("insert into users (username, email, password) values ('bs', 'bs@darkh.app', ? )");
+  $query->execute([$basicPassword]);
+
+  // Items table
+  DATABASE->query("create table items
 (
     id           int auto_increment
         primary key,
@@ -36,8 +49,20 @@ DATABASE->query("create table if not exists items
             on delete cascade
 );");
 
-// Transactions table
-DATABASE->query("create table if not exists transactions
+  // Set basic items
+  $date = date("Y-m-d H:i:s");
+  $query = DATABASE->prepare(
+    "insert into items (name, description, price, image, creationDate, vendorId) values ('Vim', 'Vim is a text editor for programmers', 42.0, 'yuki.jpeg', ?, 1);"
+  );
+  $query->execute([$date]);
+
+  $query = DATABASE->prepare(
+    "insert into items (name, description, price, image, creationDate, vendorId) values ('Bash', 'Bash is a shell for programmers', 42.0, 'yuki.jpeg', ?, 2);"
+  );
+  $query->execute([$date]);
+
+  // Transactions table
+  DATABASE->query("create table transactions
 (
     id               int auto_increment
         primary key,
@@ -57,3 +82,4 @@ DATABASE->query("create table if not exists transactions
     constraint transactions_users_id_fk_2
         foreign key (vendor_id) references users (id)
 );");
+}

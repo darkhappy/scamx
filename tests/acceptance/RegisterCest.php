@@ -23,7 +23,7 @@ class RegisterCest
     $I->click("button");
 
     // Assert
-    $I->see("Username is already taken");
+    $I->see("Le nom d'utilisateur est déjà pris");
   }
 
   public function registerWithEmptyFields(AcceptanceTester $I)
@@ -34,7 +34,7 @@ class RegisterCest
     $I->click("button");
 
     // Assert
-    $I->see("Fill in all fields");
+    $I->see("Veuillez remplir tous les champs");
   }
 
   public function registerWithInvalidEmail(AcceptanceTester $I)
@@ -49,7 +49,7 @@ class RegisterCest
     $I->click("button");
 
     // Assert
-    $I->see("Please enter a valid email");
+    $I->see("L'adresse email est invalide");
   }
 
   public function registerWithInvalidPassword(AcceptanceTester $I)
@@ -64,6 +64,6 @@ class RegisterCest
     $I->click("button");
 
     // Assert
-    $I->see("Passwords do not match");
+    $I->see("Les mots de passe ne correspondent pas");
   }
 }

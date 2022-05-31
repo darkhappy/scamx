@@ -138,7 +138,8 @@ class Security
 
     // Set the user as logged in
     Session::setUser($user);
-    Message::info("Welcome back, " . $user->getUsername() . "!");
+    $username = self::sanitize($user->getUsername());
+    Message::info("Bon matin " . $username . "!");
   }
 
   public static function addAuthCookie(User $user): void

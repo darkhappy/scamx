@@ -20,6 +20,6 @@ class ForgotCest
     $I->click("Button");
 
     // Assert
-    $I->see("We've sent an email");
+    $I->see("Un email");
   }
 }

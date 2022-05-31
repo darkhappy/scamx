@@ -15,42 +15,42 @@ class LoginCest
   public function loginWithValidCredentials(AcceptanceTester $I)
   {
     // Arrange
-    $I->fillField("username", "admin");
-    $I->fillField("password", "admin");
+    $I->fillField("username", "vim@darkh.app");
+    $I->fillField("password", "vim-my-beloved");
 
     // Act
     $I->click("Button");
 
     // Assert
-    $I->see("Welcome back, admin!");
+    $I->see("Bonjour admin !");
   }
 
   // Login with invalid credentials
   public function loginWithInvalidCredentials(AcceptanceTester $I)
   {
     // Arrange
-    $I->fillField("username", "admin");
-    $I->fillField("password", "wrong");
+    $I->fillField("username", "vim@darkh.app");
+    $I->fillField("password", "vim-is-not-my-beloved");
 
     // Act
     $I->click("Button");
 
     // Assert
-    $I->see("Invalid username or password.");
+    $I->see("Le nom d'utilisateur ou le mot de passe est incorrect.");
   }
 
   // Login with incorrect username
   public function loginWithIncorrectUsername(AcceptanceTester $I)
   {
     // Arrange
-    $I->fillField("username", "wrong");
-    $I->fillField("password", "admin");
+    $I->fillField("username", "vim");
+    $I->fillField("password", "vim-my-beloved");
 
     // Act
     $I->click("Button");
 
     // Assert
-    $I->see("Invalid username or password.");
+    $I->see("Le nom d'utilisateur ou le mot de passe est incorrect.");
   }
 
   // Login with empty fields
@@ -64,6 +64,6 @@ class LoginCest
     $I->click("Button");
 
     // Assert
-    $I->see("Please fill in all fields.");
+    $I->see("Veuillez remplir tous les champs.");
   }
 }

@@ -1,14 +1,10 @@
-<Files *.php>
-    Order Deny,Allow
-    Deny from all
-</Files>
-
-<Files index.php>
-    Order Allow,Deny
-    Allow from all
-</Files>
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+
 RedirectMatch 403 ^/logs/.*$
+RedirectMatch 403 ^/config/.*$
+RedirectMatch 403 ^/migrations/.*$
+RedirectMatch 403 ^/vendor/.*$
+
 RewriteRule . /index.php [L]

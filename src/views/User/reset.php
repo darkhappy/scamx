@@ -5,30 +5,38 @@
     <input type="hidden" hidden name="csrf" value="<?= Security::generateCSRFToken("reset") ?>">
     <div class="mb-6">
       <div class="mb-3">
-        <label class="block mb-1 font-medium" for="old">Ancien mot de passe</label>
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="old">Ancien mot de
+                                                                                                    passe</label>
         <input
-          class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="old" name="old" type="password">
+          class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-gray-100 transition-colors"
+          id="old" name="old" type="password" required>
       </div>
       <div class="mb-3">
-        <label class="block mb-1 font-medium" for="new">Nouveau mot de passe</label>
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="new">Nouveau mot de
+                                                                                                    passe</label>
         <input
-          class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="new" name="new" type="password">
+          class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-gray-100 transition-colors"
+          id="new" name="new" type="password" required>
       </div>
       <div class="mb-3">
-        <label class="block mb-1 font-medium" for="confirm">Confirmation du nouveau mot de passe</label>
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="confirm">Confirmation du
+                                                                                                        nouveau mot de
+                                                                                                        passe</label>
         <input
-          class="shadow appearance-none border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="confirm" name="confirm" type="password">
+          class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-gray-100 transition-colors"
+          id="confirm" name="confirm" type="password" required>
       </div>
     </div>
     <div class="flex items-center gap-8">
-      <button class="bg-slate-50 hover:bg-amber-300 text-black px-5 py-2 rounded font-medium" type="submit">
+      <button
+        class="bg-blue-500 hover:bg-blue-700 transition-colors text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        type="submit">
         Réinitialiser
       </button>
-      <a class="text-slate-300 hover:text-amber-400 font-medium"
-         href="<?= HOME_PATH ?>user/login">Retour</a>
+      <a class="inline-block align-baseline transition-colors font-bold text-sm text-blue-500 hover:text-blue-800"
+         href="<?= HOME_PATH ?>user/login">
+        Retour
+      </a>
     </div>
   </form>
 </div>

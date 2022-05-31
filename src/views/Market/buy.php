@@ -42,14 +42,14 @@ require __DIR__ . "/../components/Message.php";
                                                                                                        complet</label>
           <input type="text"
                  class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                 name="name" id="name" required="" autocomplete="name" placeholder="François Legault">
+                 name="name" id="name" required autocomplete="name" placeholder="François Legault">
         </div>
         <div>
           <label for="address"
                  class="block uppercase tracking-wide text-gray-100 text-xs font-bold mb-2">Adresse</label>
           <input type="text"
                  class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                 name="address" id="address" required="" autocomplete="street-address"
+                 name="address" id="address" required autocomplete="street-address"
                  placeholder="1045 Rue des Parlementaires">
         </div>
         <div class="flex flex-row lg:flex-col xl:flex-row gap-4">
@@ -57,21 +57,21 @@ require __DIR__ . "/../components/Message.php";
             <label for="city" class="block uppercase tracking-wide text-gray-100 text-xs font-bold mb-2">Ville</label>
             <input type="text"
                    class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                   name="city" id="city" required="" autocomplete="address-level2" placeholder="Québec">
+                   name="city" id="city" required autocomplete="address-level2" placeholder="Québec">
           </div>
           <div>
             <label for="postal" class="block uppercase tracking-wide text-gray-100 text-xs font-bold mb-2">Code
                                                                                                            postal</label>
             <input type="text"
                    class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                   name="postal" id="postal" required="" autocomplete="postal-code" placeholder="G1A 1A3">
+                   name="postal" id="postal" required autocomplete="postal-code" placeholder="G1A 1A3">
           </div>
           <div class="relative">
             <label for="province"
                    class="block uppercase tracking-wide text-gray-100 text-xs font-bold mb-2">Province</label>
             <select
               class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              name="province" id="province" required="" autocomplete="address-level1">
+              name="province" id="province" required autocomplete="address-level1">
               <option value="AB">Alberta</option>
               <option value="BC">British Columbia</option>
               <option value="MB">Manitoba</option>
@@ -104,7 +104,7 @@ require __DIR__ . "/../components/Message.php";
           </label>
           <input type="text"
                  class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                 name="ccname" id="ccname" required="" autocomplete="cc-name">
+                 name="ccname" id="ccname" required autocomplete="cc-name">
         </div>
         <div>
           <label for="cardnumber" class="block uppercase tracking-wide text-gray-100 text-xs font-bold mb-2">
@@ -112,8 +112,7 @@ require __DIR__ . "/../components/Message.php";
           </label>
           <input type="text"
                  class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                 name="cardnumber" id="cardnumber" required=""
-                 autocomplete="cc-number">
+                 name="cardnumber" id="cardnumber" required autocomplete="cc-number">
         </div>
         <div class="grid grid-cols-3 gap-4 items-end">
           <div>
@@ -122,7 +121,7 @@ require __DIR__ . "/../components/Message.php";
             </label>
             <input type="text"
                    class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                   name="expmonth" id="expmonth" required="" autocomplete="cc-expmonth">
+                   name="expmonth" id="expmonth" required autocomplete="cc-expmonth">
           </div>
           <div>
             <label for="expyear" class="block uppercase tracking-wide text-gray-100 text-xs font-bold mb-2">
@@ -130,7 +129,7 @@ require __DIR__ . "/../components/Message.php";
             </label>
             <input type="text"
                    class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                   name="expyear" id="expyear" required="" autocomplete="cc-expyear">
+                   name="expyear" id="expyear" required autocomplete="cc-expyear">
           </div>
           <div>
             <label for="cvc2" class="block uppercase tracking-wide text-gray-100 text-xs font-bold mb-2">
@@ -138,7 +137,7 @@ require __DIR__ . "/../components/Message.php";
             </label>
             <input type="text"
                    class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                   name="cvc2" id="cvc2" required="" autocomplete="cc-csc">
+                   name="cvc2" id="cvc2" required autocomplete="cc-csc">
           </div>
         </div>
       </div>
@@ -152,13 +151,13 @@ require __DIR__ . "/../components/Message.php";
       </div>
       <div>
         <h1 class="font-bold text-6xl text-white"><?= $name ?></h1>
-        <p class="text-white text-3xl">Sold by <?= $username ?></p>
+        <p class="text-white text-3xl">Vendu par <?= $username ?></p>
       </div>
     </div>
     <div class="flex flex-col justify-between rounded-3xl p-8 text-white gap-4 h-full">
       <div>
         <div class="flex flex-row justify-between items-end gap-2">
-          <span>Subtotal:</span>
+          <span>Sous-total:</span>
           <span class="font-mono">CAD$ <?= number_format($subtotal, 2) ?></span>
         </div>
         <div class="flex flex-row justify-between items-end gap-2">
@@ -170,7 +169,7 @@ require __DIR__ . "/../components/Message.php";
           <span class="font-mono">CAD$ <?= number_format($tvq, 2) ?></span>
         </div>
         <div class="flex flex-row justify-between items-end gap-2">
-          <span>Shipping:</span>
+          <span>Livraison:</span>
           <span class="font-mono">CAD$ <?= number_format($shipping, 2) ?></span>
         </div>
         <div class="flex flex-row justify-between items-end gap-2">
@@ -181,6 +180,7 @@ require __DIR__ . "/../components/Message.php";
       </div>
       <div class="focus:outline-none focus:shadow-outline text-center flex flex-col gap-4">
         <button
+          form="buy"
           class="bg-blue-500 hover:bg-blue-700 transition-colors text-white font-bold py-2 px-4 rounded"
           type="submit">
           Acheter

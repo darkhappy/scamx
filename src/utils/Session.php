@@ -105,7 +105,6 @@ class Session
       unset($_SESSION);
       session_destroy();
 
-      Message::info("Successfully logged out.");
       Log::info("Logged out.");
     }
     if ($redirect) {

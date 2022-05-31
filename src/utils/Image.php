@@ -42,9 +42,6 @@ class Image
   public static function watermark(array $image): GdImage
   {
     $img = imagecreatefromstring(file_get_contents($image["tmp_name"]));
-    if ($img === false) {
-      throw new Exception("Could not create image from file");
-    }
 
     // Set image size to 500x500
     $size = 500;

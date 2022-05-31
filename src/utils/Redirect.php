@@ -9,7 +9,7 @@ class Redirect
   public static function ifNotAuthenticated(): void
   {
     if (!Session::isLogged()) {
-      Message::error("Please login to access this page.");
+      Message::error("Veuillez vous connecter pour accéder à cette page");
       self::to("/user/login");
     }
   }
@@ -27,7 +27,7 @@ class Redirect
   public static function ifAuthenticated(): void
   {
     if (Session::isLogged()) {
-      Message::error("You are already logged in.");
+      Message::error("Vous êtes déjà connecté");
       self::back();
     }
   }

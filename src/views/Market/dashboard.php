@@ -9,7 +9,8 @@ use utils\views\TransactionBrowser;
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
   <div class="bg-blue-600 p-8 text-white rounded-3xl">
     <h1 class="text-3xl font-bold">Produits en ventes</h1>
-    <a href="<?= HOME_PATH ?>market/add" class="text-yellow-300 font-medium">Add Item</a>
+    <a href="<?= HOME_PATH ?>market/add"
+       class="text-yellow-400 text-xl font-medium hover:text-yellow-600 transition-colors">Ajouter un produit</a>
     
     <?php
     $getParam = "items";

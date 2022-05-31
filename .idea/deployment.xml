@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="Cegep" exclude=".svn;.cvs;.idea;.DS_Store;.git;.hg;*.hprof;*.pyc;tests;dbdata;node_modules;vendor;" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" serverName="Cegep" exclude=".svn;.cvs;.idea;.DS_Store;.git;.hg;*.hprof;*.pyc;tests;dbdata;node_modules;vendor;" remoteFilesAllowedToDisappearOnAutoupload="false" showNewOnSourceInSync="false" showNewOnTargetInSync="false">
     <serverData>
       <paths name="Cegep">
         <serverdata>
