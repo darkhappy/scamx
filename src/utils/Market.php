@@ -39,6 +39,7 @@ class Market
   }
 
   public static function buy(
+    string $description,
     float $price,
     string $cardNumber,
     string $month,
@@ -62,6 +63,8 @@ class Market
       $intent = $stripe->paymentIntents->create([
         "amount" => $price * 100,
         "currency" => "cad",
+        "description" => "Purchase",
+        "confirm" => true,
         "payment_method" => $paymentMethod->id,
       ]);
     } catch (ApiErrorException) {

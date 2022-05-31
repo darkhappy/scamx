@@ -1,0 +1,3 @@
+# Any files here is accessible via the browser, so there's no point to hide it
+# Plus the browser needs images and what not
+Allow from all

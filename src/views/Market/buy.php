@@ -154,7 +154,7 @@ require __DIR__ . "/../components/Message.php";
         <p class="text-white text-3xl">Vendu par <?= $username ?></p>
       </div>
     </div>
-    <div class="flex flex-col justify-between rounded-3xl p-8 text-white gap-4 h-full">
+    <div class="flex flex-col justify-between rounded-3xl p-8 text-white gap-4">
       <div>
         <div class="flex flex-row justify-between items-end gap-2">
           <span>Sous-total:</span>

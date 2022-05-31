@@ -337,7 +337,7 @@ class MarketController extends Controller
     }
 
     // Ask Stripe to verify the card
-    $intent = Market::buy($price, $cardnumber, $expmonth, $expyear, $cvc);
+    $intent = Market::buy($name, $price, $cardnumber, $expmonth, $expyear, $cvc);
     if (!$intent) {
       Message::error("Votre carte n'a pas pu être validée. Veuillez réessayer.");
       Log::severe("Stripe error");
