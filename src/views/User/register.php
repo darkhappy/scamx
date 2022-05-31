@@ -10,6 +10,8 @@
         <input
           class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-gray-100 transition-colors"
           id="username" name="username" type="text" required>
+        <p class="text-gray-600 text-xs italic">Un nom d'utilisateur valide est entre 3 et 20 caractères, et contient
+                                                seulement des lettres, des chiffres et des tirets.</p>
       </div>
       <div class="mb-3">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="email">Courriel</label>
