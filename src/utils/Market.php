@@ -87,6 +87,15 @@ class Market
 
   public static function convertPriceToFloat(string $input): float|bool
   {
-    return filter_var($input, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    $output = filter_var($input, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    if ($output === false) {
+      return false;
+    }
+
+    if ($output < 2 || $output > 100000) {
+      return false;
+    }
+
+    return $output;
   }
 }
